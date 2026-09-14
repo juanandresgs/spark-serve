@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-08",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "Do not promote from historical separate-pair qualification.",
+    "This SGLang/RadixArk TP2 stack differs from the working Mia/vLLM TP1 workers.",
+    "No throughput number is reported for the failed ring attempt."
+  ],
+  "observations": {
+    "context_limit_configured": 262144,
+    "latest_ring_attempt": "CUDA illegal address and Xid31 on both nodes after startup",
+    "valid_throughput_result": false
+  },
+  "original_evidence_sha256": "a30ee2b10e49d4288c909c1fb1af04f6086ad9852678f8b561acb3ad1d033c4a",
+  "recipe_id": "qwen38-flash-2spark",
+  "status": "experimental"
+}

@@ -1,0 +1,13 @@
+diff --git a/start.sh b/start.sh
+index fd5d170..343e43a 100755
+--- a/start.sh
++++ b/start.sh
+@@ -749,7 +749,7 @@ docker run \\
+     $IMAGE \\
+     $MODEL_ID \\
+     $VLLM_ARGS_STR \\
+-    --host 0.0.0.0 \\
++    --host ${HOST_BIND:-127.0.0.1} \\
+     --port $PORT
+ LAUNCH_EOF
+ chmod +x "$LAUNCH_SCRIPT"

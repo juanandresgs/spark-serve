@@ -1,0 +1,171 @@
+{
+  "aliases": [
+    "glm53-exl3",
+    "glm-exl3",
+    "glm53-ablit",
+    "glm53-uncensored",
+    "dgx-orchestrator"
+  ],
+  "artifacts": [
+    {
+      "kind": "git_checkout",
+      "node": "head",
+      "revision": "688b7ab61d549f0f6450981b1f1afbda16c5142f",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-0"
+    },
+    {
+      "kind": "file",
+      "node": "head",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-1"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 170000000000,
+      "node": "head",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-2"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 2000000000,
+      "node": "head",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-3"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 2000000000,
+      "node": "head",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-4"
+    },
+    {
+      "kind": "docker_image",
+      "node": "head",
+      "value": "dgx-local/glm53-exl3:688b7ab-9bb1557a"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 170000000000,
+      "node": "worker",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-6"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 2000000000,
+      "node": "worker",
+      "value": "/srv/spark/UNBOUND/glm-5.3-flash-exl3-ablit/artifact-7"
+    },
+    {
+      "kind": "docker_image",
+      "node": "worker",
+      "value": "dgx-local/glm53-exl3:688b7ab-9bb1557a"
+    }
+  ],
+  "description": "Reference configuration; install and qualify a site adapter before serving.",
+  "id": "glm-5.3-flash-exl3-ablit",
+  "model": {
+    "context_tokens": 262144,
+    "input_modalities": [
+      "text"
+    ],
+    "quantization": "EXL3/TR3 4bpw plus pinned dealign o_proj transplant on all target layers L15-L44; FP8 target KV",
+    "repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+    "revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "served_name": "GLM-5.3-Flash-EXL3-Ablit"
+  },
+  "name": "GLM-5.3-Flash-EXL3-Ablit (glm-5.3-flash-exl3-ablit)",
+  "operator": {
+    "exposure": "maintenance-only",
+    "readiness": "experimental",
+    "use_cases": [
+      "configuration reference"
+    ],
+    "warnings": [
+      "GPU launch adapters are not included in this reference kit."
+    ]
+  },
+  "resources": {
+    "claims": [
+      "gpu:head",
+      "gpu:worker",
+      "fabric:head-worker"
+    ],
+    "nodes": {
+      "head": {
+        "min_disk_free_gib": 190,
+        "min_memory_available_gib": 100,
+        "swap_policy": "off_during_run"
+      },
+      "worker": {
+        "min_disk_free_gib": 190,
+        "min_memory_available_gib": 100,
+        "swap_policy": "off_during_run"
+      }
+    }
+  },
+  "runtime": {
+    "backend": {
+      "health_path": "/health",
+      "models_path": "/v1/models",
+      "node": "head",
+      "port": 8893
+    },
+    "engine": "vLLM native multiprocess TP2 with EXL3 fused MoE and DFlash2 TP2",
+    "image": "dgx-local/glm53-exl3:688b7ab-9bb1557a",
+    "launch": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "glm-5.3-flash-exl3-ablit",
+        "launch"
+      ],
+      "environment": {
+        "DGX_SPARK_SERVE_MANAGED": "1",
+        "GLM53_MIXED_PREFILL_CHUNK": "512",
+        "GPU_MEM_UTIL": "0.84",
+        "KV_CACHE_MEMORY": "11811160064",
+        "LANGUAGE_MODEL_ONLY": "1"
+      },
+      "mode": "detached",
+      "node": "head",
+      "timeout_seconds": 9000
+    },
+    "stop": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "glm-5.3-flash-exl3-ablit",
+        "stop"
+      ],
+      "mode": "detached",
+      "node": "head",
+      "timeout_seconds": 900
+    }
+  },
+  "schema_version": 1,
+  "serving": {
+    "concurrency_limit": 16,
+    "eviction_cost": 140,
+    "reasoning": true,
+    "request_filters": {
+      "setParamsByID": {
+        "dgx-orchestrator": {
+          "priority": 0
+        }
+      }
+    },
+    "scheduler": {
+      "engine": "vllm",
+      "max_num_batched_tokens": 2048,
+      "max_running_requests": 8,
+      "policy": "priority",
+      "priority_order": "lower-first"
+    },
+    "tools": true,
+    "ttl_seconds": 0
+  },
+  "topology": {
+    "fabric_required": true,
+    "mode": "tensor-parallel",
+    "nodes": [
+      "head",
+      "worker"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "assets": {
+    "clients/pi/install.py": "e155fd13b5cfcc56cb20b6861c2e1220a351b273849497c9f2dc848a1f5aadd4",
+    "cluster/agent-fleet/pi/agents/Explore.md": "761e5521fa0fe0eed0cbca45cf312b7c172c924fe629871564ac69689ea6e4f1",
+    "cluster/agent-fleet/pi/agents/Plan.md": "6b4ffe1d625b0a49a0011444d7f380cd311bcfeff7bfe631248da74b6805354a",
+    "cluster/agent-fleet/pi/agents/dgx-reviewer.md": "56073cc07a242c3cd4337c8ebc9c7d2a24b634e0c38fff2e2f01e6f02add2c1f",
+    "cluster/agent-fleet/pi/agents/dgx-worker-a.md": "2dc286931018f852681eaf77562ee501448ad4ec97e6c83b81b8f356860176bd",
+    "cluster/agent-fleet/pi/agents/dgx-worker-b.md": "6f5d8cd50fc0ca4f7cf85fcfd4916f4f90515e4dac5fd6300ba6b5a4394571c8",
+    "cluster/agent-fleet/pi/agents/general-purpose.md": "86dca1c21b7e69f4c13c5295994b73184dc7d0faa04bb44cef8abd983b1021d0",
+    "cluster/agent-fleet/pi/dgx-fleet.ts": "337517ce9d546975ed3140ccb3f3a48b05319e1049b95740649c6bfe988eb39a",
+    "cluster/agent-fleet/pi/subagents.json": "818d92e7745c17cb05d0517aaeced680d884e8a9dcd6ed97def004780c868acf",
+    "recipes/glm53-flash-2spark/README.md": "da44d9c7a2457cd1502344847c72ed07424ccb6b2b8aaa02737cbddeb0db0e3a",
+    "recipes/glm53-flash-2spark/profile-0.json": "ef1c14b07a2b7ddcc0f50c528abd4a0e4385673d52bdb15f3f21041faf9b8307",
+    "recipes/glm53-flash-2spark/results.json": "15d7d4478f7de7a2c6ae364ed2ef82d9c8f98dfc6dd8c7e431b42fd11d68cce3"
+  },
+  "configuration": {
+    "default_model": "glm-5.3-flash-exl3-ablit",
+    "preload_models": [
+      "glm-5.3-flash-exl3-ablit"
+    ]
+  },
+  "configuration_role": "historical",
+  "deployment_scope": "Historical or experimental reference; no supported portable deployment.",
+  "evidence": "recipes/glm53-flash-2spark/results.json",
+  "gpu_nodes": 2,
+  "guide": "recipes/glm53-flash-2spark/README.md",
+  "id": "glm53-flash-2spark",
+  "management_nodes": [
+    "head",
+    "worker"
+  ],
+  "pi": {
+    "installer": "clients/pi/install.py",
+    "recipe": "glm53-flash-2spark"
+  },
+  "portable_adapter": false,
+  "profile_pins": {
+    "glm-5.3-flash-exl3-ablit": {
+      "context_tokens": 262144,
+      "image": "dgx-local/glm53-exl3:688b7ab-9bb1557a",
+      "repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+      "revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f"
+    }
+  },
+  "profiles": [
+    "recipes/glm53-flash-2spark/profile-0.json"
+  ],
+  "qualification_date": "2026-09-08",
+  "schema_version": 1,
+  "source_recipe_sha256": "419a2416154d7029e2b1e68acccef362fecea472fdcdeade28fad78fb57a90fd",
+  "status": "recommended-with-caveats",
+  "superseded_by": "glm53-flash-adaptive-2spark",
+  "title": "GLM-5.3-Flash on two Sparks"
+}

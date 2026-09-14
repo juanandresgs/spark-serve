@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/mostlygeek/llama-swap",
+  "revision": "60226b6",
+  "release": "v250",
+  "patch_sha256": "82dfce2e148576c726f0acb0a83ea74d8a73b02d79d66001185388545ea320ff",
+  "go": "go1.26.5 darwin/arm64",
+  "target": "linux/arm64",
+  "embedded_ui": "unmodified ui-svelte package-lock npm ci then npm run build",
+  "archive_sha256": "f4ea8c75516d9ea4d5de36783af18e708ca2bbf2be0771004870a62ae449985e",
+  "binary_sha256": "9e64362834166c6fcfd74a455bb89286a9d3b485108b944e07ecb1833cc840b2",
+  "verification": [
+    "router-ready-final.log",
+    "router-test-all-unsandboxed.log",
+    "preflight/result.json",
+    "python-full-feature.log"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "assets": {
+    ".github/workflows/check.yml": "af3043328892cbcb3315ebd502c9174186725c4153fb0fca24dfa68859e9b1a4",
+    ".gitignore": "e17991e401ad330b600ef1af7f8396bfd7dcd0648017fe8dd9a11443de438ac3",
+    "MASTER_PLAN.md": "0a1d995be59f963fcc60c75ba5c6ac48fb93ce614063d4087ddb54efced6eb16",
+    "README.md": "1edb156611f702aa7e72e200317bcb68b313588310241681de8c3933116d82ae",
+    "REPRODUCTION.md": "71d2d6c3de3a7c5b5df8710f233edd0a288e5684a6f72c854a38fcbb98a426af",
+    "clients/pi/install.py": "e155fd13b5cfcc56cb20b6861c2e1220a351b273849497c9f2dc848a1f5aadd4",
+    "cluster/agent-fleet/pi/agents/Explore.md": "761e5521fa0fe0eed0cbca45cf312b7c172c924fe629871564ac69689ea6e4f1",
+    "cluster/agent-fleet/pi/agents/Plan.md": "6b4ffe1d625b0a49a0011444d7f380cd311bcfeff7bfe631248da74b6805354a",
+    "cluster/agent-fleet/pi/agents/dgx-reviewer.md": "56073cc07a242c3cd4337c8ebc9c7d2a24b634e0c38fff2e2f01e6f02add2c1f",
+    "cluster/agent-fleet/pi/agents/dgx-worker-a.md": "2dc286931018f852681eaf77562ee501448ad4ec97e6c83b81b8f356860176bd",
+    "cluster/agent-fleet/pi/agents/dgx-worker-b.md": "6f5d8cd50fc0ca4f7cf85fcfd4916f4f90515e4dac5fd6300ba6b5a4394571c8",
+    "cluster/agent-fleet/pi/agents/general-purpose.md": "86dca1c21b7e69f4c13c5295994b73184dc7d0faa04bb44cef8abd983b1021d0",
+    "cluster/agent-fleet/pi/dgx-fleet.ts": "337517ce9d546975ed3140ccb3f3a48b05319e1049b95740649c6bfe988eb39a",
+    "cluster/agent-fleet/pi/subagents.json": "818d92e7745c17cb05d0517aaeced680d884e8a9dcd6ed97def004780c868acf",
+    "cluster/glm-throughput/Dockerfile": "6cb1fc91cbb181ca5c1983bf25a3fef52fa464f4475e25fa1670b5c4c4e788a8",
+    "cluster/glm-throughput/overlay/patch_adaptive_k.py": "153db545d414cad2556220e844fa90f04cc34bff0f1107e1f3dedb4072616d6f",
+    "cluster/glm-throughput/router/provenance.json": "9fd1ab6ddf6a46e99736fc999fc7c34a9aa29371bfbc7d2c8a3a09348918ae68",
+    "cluster/glm-throughput/router/ready-strategy.patch": "82dfce2e148576c726f0acb0a83ea74d8a73b02d79d66001185388545ea320ff",
+    "cluster/glm-throughput/tests/test_adaptive_k_patch.py": "86f6b28bfd1de212221fb87dd6a40277a53a4dafe7643f9db3ee8ae69c11b1fc",
+    "cluster/glm53-full-tp4/patch-swa-under-mla.py": "903282f363389e32e49806e278bd72b247588848c8dbc35a2088283d7a9efef1",
+    "cluster/glm53-full-tp4/prepare-chat-template.py": "5629cad5555bfd38ece649e13ba7b52abc05eafa30d5ab4cbadde72bac11a9e4",
+    "deploy/adapter.py": "116f67cea71c8b1c546d0a39358cc874aaae4908e0f6e3df84d74b8ef922c2c8",
+    "deploy/build_images.py": "fa4c76a09ff7383b00819c5232368bdb2cf34cba0a78af5a14a9c6923b5ebe5a",
+    "deploy/build_router.py": "ac2d85e89165cb7a7aa83037c4e60b26da9bb7b981855cfe5d890f60fc7dbb2f",
+    "deploy/check.py": "3440c3d3267fffb3188fafbb32a934dbf5c1e0f3b1854cd2a610831901a347ef",
+    "deploy/install.py": "c112fccef8755aa8eed696899467c5b7b80bd44896b72ec283ce44703af1b92c",
+    "deploy/prepare_full.py": "bec2afdb6e56864592add98506453ad62650772b7d3544797bd6c23b7cccce88",
+    "deploy/prepare_runtime.py": "38ba114edbf13592406025dc264f38d3366d19ad17bb6fd4e500d8d3776a83a7",
+    "deploy/render_site.py": "8cefe16e37956e8cfa3b754e9e2f4153580ef14e36ab06405a7cc10ee507cd6b",
+    "deploy/smoke.py": "0bfc2d222c62b9237e433760efb4a47dc6c41c8ca3162a5d9ba05ee5b37c5773",
+    "deploy/stage.py": "a1918c60e6e1e79f7547cd2ad57b6326d389c1802ff21cc1a4bd7de7c0ac71c0",
+    "deploy/verify_artifacts.py": "cbe59c46c25f4b466df41d3516153056e6ce50a38e44d10482c44c4a1b3164a3",
+    "examples/deployment-site.json": "32b79ea4d368f3cc3d25c3174fc130acf7771b7b139b9be775a3935239ae696f",
+    "licenses/GLM-adaptive-LICENSE.txt": "8d56b405468aad11f87ab5763f901e276e08d9646ff5c8481b1762b6b789e9ed",
+    "recipes/glm53-full-4spark/README.md": "ea53eb0dcf0f894525db80edbcf57413822002b8e3f3fbbeba66b3a74be43b23",
+    "recipes/glm53-full-4spark/profile-0.json": "c12eea72b6f482acceba51e50bfabfab376dd26358133712732dab90facc7d8f",
+    "recipes/glm53-full-4spark/results.json": "f01f99e0c283111c4aec1c1095b1d8d7d7708dbd412009ca5dd698263ea32e21"
+  },
+  "configuration": {
+    "default_model": "glm-5.3-full-tp4",
+    "preload_models": [
+      "glm-5.3-full-tp4"
+    ]
+  },
+  "deployment_scope": "Use deploy/render_site.py and the staged source/build/install workflow; destination acceptance required.",
+  "evidence": "recipes/glm53-full-4spark/results.json",
+  "gpu_nodes": 4,
+  "guide": "recipes/glm53-full-4spark/README.md",
+  "id": "glm53-full-4spark",
+  "management_nodes": [
+    "head",
+    "worker",
+    "rank2",
+    "rank3"
+  ],
+  "pi": {
+    "installer": "clients/pi/install.py",
+    "recipe": "glm53-full-4spark"
+  },
+  "portable_adapter": true,
+  "profile_pins": {
+    "glm-5.3-full-tp4": {
+      "context_tokens": 307200,
+      "image": "vllm-glm52-b12x:dflash2-port2",
+      "repository": "Tech2wild/GLM-5.3-Int4-Int8Mix",
+      "revision": "206507bbb047d8223964a0414cd83230c59428f9"
+    }
+  },
+  "profiles": [
+    "recipes/glm53-full-4spark/profile-0.json"
+  ],
+  "qualification_date": "2026-09-08",
+  "schema_version": 1,
+  "source_recipe_sha256": "c8c0ef5c5d70ddd3d588d8857d48f344f96d2dba18ce9c66f5567e61b7068883",
+  "status": "bounded-qualification",
+  "title": "Full GLM-5.3 on four Sparks"
+}

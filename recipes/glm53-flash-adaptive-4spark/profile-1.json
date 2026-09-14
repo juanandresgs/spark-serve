@@ -1,0 +1,150 @@
+{
+  "aliases": [
+    "glm-ab"
+  ],
+  "artifacts": [
+    {
+      "kind": "docker_image",
+      "node": "rank3",
+      "value": "dgx-local/glm53-exl3-e2:eb0469f-905c0293-c5d9c657"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "dgx-local/glm53-exl3-e2:eb0469f-905c0293-c5d9c657"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank3",
+      "value": "dgx-local/glm53-e3-only:20260909-cap128"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "dgx-local/glm53-e3-only:20260909-cap128"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank3",
+      "value": "dgx-local/glm53-e3-adaptive:issue106"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "dgx-local/glm53-e3-adaptive:issue106"
+    }
+  ],
+  "description": "Serving settings template for deploy/render_site.py.",
+  "id": "glm-ab-baseline",
+  "model": {
+    "context_tokens": 850000,
+    "input_modalities": [
+      "text",
+      "image"
+    ],
+    "quantization": "EXL3/TR3 4bpw plus pinned dealign o_proj transplant on all target layers L15-L44; FP8 target KV",
+    "repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+    "revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "served_name": "GLM-5.3-Flash-EXL3-Ablit"
+  },
+  "name": "GLM-5.3-Flash-EXL3-Ablit (glm-ab-baseline)",
+  "operator": {
+    "exposure": "maintenance-only",
+    "readiness": "experimental",
+    "use_cases": [
+      "configuration reference"
+    ],
+    "warnings": [
+      "Bind this template with deploy/render_site.py before serving."
+    ]
+  },
+  "resources": {
+    "claims": [
+      "gpu:rank3",
+      "gpu:rank2",
+      "fabric:rank2-rank3"
+    ],
+    "nodes": {
+      "rank2": {
+        "min_disk_free_gib": 190,
+        "min_memory_available_gib": 100,
+        "swap_policy": "off_during_run"
+      },
+      "rank3": {
+        "min_disk_free_gib": 190,
+        "min_memory_available_gib": 100,
+        "swap_policy": "off_during_run"
+      }
+    }
+  },
+  "runtime": {
+    "backend": {
+      "health_path": "/health",
+      "models_path": "/v1/models",
+      "node": "rank3",
+      "port": 8893
+    },
+    "engine": "vLLM native TP2, E3 grouped EXL3, adaptive DFlash2 TP2; issue106",
+    "image": "dgx-local/glm53-e3-adaptive:issue106",
+    "launch": {
+      "argv": [
+        "/usr/bin/false"
+      ],
+      "environment": {
+        "DGX_ORCHESTRATOR_E2": "1",
+        "DGX_SPARK_SERVE_MANAGED": "1",
+        "GLM53_MIXED_PREFILL_CHUNK": "512",
+        "GPU_MEM_UTIL": "0.84",
+        "KV_CACHE_MEMORY": "11811160064",
+        "LANGUAGE_MODEL_ONLY": "1",
+        "ORCH_CONTEXT": "850000",
+        "ORCH_KV_GIB": "11",
+        "ORCH_MIXED": "512",
+        "ORCH_SEQS": "8",
+        "ORCH_VISION": "1",
+        "ORCH_WORKSPACE": "rightsize"
+      },
+      "mode": "detached",
+      "node": "rank3",
+      "timeout_seconds": 2100
+    },
+    "stop": {
+      "argv": [
+        "/usr/bin/false"
+      ],
+      "mode": "detached",
+      "node": "rank3",
+      "timeout_seconds": 900
+    }
+  },
+  "schema_version": 1,
+  "serving": {
+    "concurrency_limit": 16,
+    "eviction_cost": 140,
+    "reasoning": true,
+    "request_filters": {
+      "setParamsByID": {
+        "glm-ab": {
+          "priority": 0
+        }
+      }
+    },
+    "scheduler": {
+      "engine": "vllm",
+      "max_num_batched_tokens": 2048,
+      "max_running_requests": 8,
+      "policy": "priority",
+      "priority_order": "lower-first"
+    },
+    "tools": true,
+    "ttl_seconds": 0
+  },
+  "topology": {
+    "fabric_required": true,
+    "mode": "tensor-parallel",
+    "nodes": [
+      "rank3",
+      "rank2"
+    ]
+  }
+}

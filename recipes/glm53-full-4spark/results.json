@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-08",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "Synthetic throughput is not an intelligence comparison with Flash.",
+    "Earlier API/client proofs used smaller context configurations; do not attribute all evidence to the final 307200 ceiling.",
+    "Cold four-node reboot and arbitrary near-ceiling reasoning are not qualified.",
+    "All four nodes form one failure domain."
+  ],
+  "observations": {
+    "configured_context_tokens": 307200,
+    "decode_context_parallel": 4,
+    "mixed_prefill": "balanced; optional port reverted after measurements",
+    "nvme_kv_offload": false,
+    "parameters": "743B",
+    "speculation": "DFlash2 k7",
+    "synthetic_prose_c4": {
+      "passed": 4,
+      "seconds": 56.927,
+      "tokens_per_second": 35.976
+    },
+    "tensor_parallel": 4
+  },
+  "original_evidence_sha256": "bba911665e038571a99fbbf08c3f306ac0c418627cd488d1e3e632b16d55d2a1",
+  "recipe_id": "glm53-full-4spark",
+  "status": "bounded-qualification"
+}

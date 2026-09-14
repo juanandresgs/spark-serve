@@ -1,0 +1,50 @@
+{
+  "cluster": {
+    "cli_path": "/usr/local/bin/spark-serve",
+    "cluster_id": "example-ring",
+    "default_model": "dgx-orchestrator",
+    "gateway": {
+      "api_key_file": null,
+      "base_url": "http://127.0.0.1:9292",
+      "binary": "/usr/local/libexec/llama-swap",
+      "client_base_url": "http://127.0.0.1:9292",
+      "config_path": "/etc/dgx-spark-serve/llama-swap.json",
+      "listen": "127.0.0.1:9292",
+      "ssh_tunnel_host": "spark-head",
+      "ssh_tunnel_port": 9292
+    },
+    "nodes": {
+      "head": {
+        "host": "local",
+        "model_root": "/home/spark/models",
+        "swap_devices": [],
+        "user": "spark"
+      },
+      "rank2": {
+        "host": "spark-rank2",
+        "model_root": "/home/spark/models",
+        "swap_devices": [],
+        "user": "spark"
+      },
+      "rank3": {
+        "host": "spark-rank3",
+        "model_root": "/home/spark/models",
+        "swap_devices": [],
+        "user": "spark"
+      },
+      "worker": {
+        "host": "spark-worker",
+        "model_root": "/home/spark/models",
+        "swap_devices": [],
+        "user": "spark"
+      }
+    },
+    "profiles_dir": "/etc/dgx-spark-serve/profiles",
+    "runtime_dir": "/run/dgx-spark-serve",
+    "schema_version": 1,
+    "service_user": "spark",
+    "state_dir": "/var/lib/dgx-spark-serve"
+  },
+  "path_replacements": {},
+  "profile_overrides": {}
+}

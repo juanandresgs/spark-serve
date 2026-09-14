@@ -1,0 +1,131 @@
+{
+  "id": "spark-lab",
+  "user": "spark",
+  "release_root": "/opt/spark-serve/releases/20260914",
+  "state_root": "/var/lib/spark-serve",
+  "image_references": {},
+  "cluster": {
+    "gateway": {
+      "listen": "127.0.0.1:9292",
+      "base_url": "http://127.0.0.1:9292",
+      "client_base_url": "http://127.0.0.1:9292",
+      "api_key_file": null,
+      "ssh_tunnel_host": "spark-head",
+      "ssh_tunnel_port": 9292
+    }
+  },
+  "nodes": {
+    "head": {
+      "host": "local",
+      "home": "/home/spark",
+      "hf_home": "/srv/spark/huggingface",
+      "runtime_root": "/srv/spark/runtime",
+      "cache_root": "/srv/spark/cache",
+      "model_root": "/srv/spark",
+      "swap_devices": [
+        "/swap.img"
+      ],
+      "fabric": {
+        "ip": "192.0.2.1",
+        "interface": "enp1s0f1np1",
+        "hca": "rocep1s0f1",
+        "gid": 3
+      },
+      "ring": {
+        "ip": "198.51.100.1",
+        "interface": "enp2s0",
+        "hcas": "=rocep1s0f0,rocep1s0f1",
+        "gid": 3
+      },
+      "images": {
+        "glm-adaptive": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "qwen-single": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "glm-full": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID"
+      }
+    },
+    "worker": {
+      "host": "spark-worker",
+      "home": "/home/spark",
+      "hf_home": "/srv/spark/huggingface",
+      "runtime_root": "/srv/spark/runtime",
+      "cache_root": "/srv/spark/cache",
+      "model_root": "/srv/spark",
+      "swap_devices": [
+        "/swap.img"
+      ],
+      "fabric": {
+        "ip": "192.0.2.2",
+        "interface": "enp1s0f1np1",
+        "hca": "rocep1s0f1",
+        "gid": 3
+      },
+      "ring": {
+        "ip": "198.51.100.2",
+        "interface": "enp2s0",
+        "hcas": "=rocep1s0f0,rocep1s0f1",
+        "gid": 3
+      },
+      "images": {
+        "glm-adaptive": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "qwen-single": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "glm-full": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID"
+      }
+    },
+    "rank2": {
+      "host": "spark-rank2",
+      "home": "/home/spark",
+      "hf_home": "/srv/spark/huggingface",
+      "runtime_root": "/srv/spark/runtime",
+      "cache_root": "/srv/spark/cache",
+      "model_root": "/srv/spark",
+      "swap_devices": [
+        "/swap.img"
+      ],
+      "fabric": {
+        "ip": "192.0.2.3",
+        "interface": "enp1s0f1np1",
+        "hca": "rocep1s0f1",
+        "gid": 3
+      },
+      "ring": {
+        "ip": "198.51.100.3",
+        "interface": "enp2s0",
+        "hcas": "=rocep1s0f0,rocep1s0f1",
+        "gid": 3
+      },
+      "images": {
+        "glm-adaptive": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "qwen-single": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "glm-full": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID"
+      }
+    },
+    "rank3": {
+      "host": "spark-rank3",
+      "home": "/home/spark",
+      "hf_home": "/srv/spark/huggingface",
+      "runtime_root": "/srv/spark/runtime",
+      "cache_root": "/srv/spark/cache",
+      "model_root": "/srv/spark",
+      "swap_devices": [
+        "/swap.img"
+      ],
+      "fabric": {
+        "ip": "192.0.2.4",
+        "interface": "enp1s0f1np1",
+        "hca": "rocep1s0f1",
+        "gid": 3
+      },
+      "ring": {
+        "ip": "198.51.100.4",
+        "interface": "enp2s0",
+        "hcas": "=rocep1s0f0,rocep1s0f1",
+        "gid": 3
+      },
+      "images": {
+        "glm-adaptive": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "qwen-single": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID",
+        "glm-full": "REPLACE_WITH_VERIFIED_LOCAL_IMAGE_ID"
+      }
+    }
+  }
+}

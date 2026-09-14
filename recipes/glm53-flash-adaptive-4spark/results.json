@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-11",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "Historical GPU qualification of exact serving inputs; portable adapters require a new deployment smoke test.",
+    "No broad model-quality or endurance claim.",
+    "Recoverable startup allocation warnings remain unresolved.",
+    "Worker-heavy 291.212 tokens/s is a different historical GLM/Qwen fleet workload."
+  ],
+  "observations": {
+    "dual_replica_prose": {
+      "output_tokens": 8192,
+      "requests": 16,
+      "seconds": 50.39,
+      "tokens_per_second": 162.59
+    },
+    "functional_checks": {
+      "largest_fixture_tokens": 800665,
+      "max_context": "8/8",
+      "structured_tools_mixed": "5/5"
+    },
+    "matched_pair_b_output_tokens_per_second": {
+      "adaptive_full_graph": {
+        "code_c1": 56.04,
+        "count_c1": 60.73,
+        "prose_c1": 24.98,
+        "prose_c8": 88.57
+      },
+      "fixed_k_full_graph": {
+        "code_c1": 55.95,
+        "count_c1": 61.62,
+        "prose_c1": 22.22,
+        "prose_c8": 72.25
+      }
+    }
+  },
+  "original_evidence_sha256": "ab6107759b2e456402aaa507e58fb79d991a741698d83086a746097ef3b56fd2",
+  "recipe_id": "glm53-flash-adaptive-4spark",
+  "status": "recommended-with-caveats"
+}

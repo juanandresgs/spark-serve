@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-08",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "Text-only; vision warmup caused host OOM in an earlier configuration.",
+    "11 GiB KV is not eight simultaneous full-length contexts.",
+    "Startup allocation warning remained; no post-ready failure observed in final window.",
+    "No general model intelligence comparison or cold-reboot qualification."
+  ],
+  "observations": {
+    "admission": 16,
+    "batch_tokens": 2048,
+    "context_tokens": 262144,
+    "kv_bytes": 11811160064,
+    "max_running": 8,
+    "mixed_prefill_chunk": 512,
+    "synthetic_prose_tps": {
+      "c1": 20.305,
+      "c4": 40.29,
+      "c8": 57.86
+    }
+  },
+  "original_evidence_sha256": "8f1bd015f6df7819fcbd9cbab05e714dc74df580003a72a7c2e3e897a13dcaf4",
+  "recipe_id": "glm53-flash-2spark",
+  "status": "recommended-with-caveats"
+}

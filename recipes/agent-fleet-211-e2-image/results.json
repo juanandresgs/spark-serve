@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-09",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "An 850K per-request limit is not eight simultaneous full histories; allocator capacity is 991666 cached tokens.",
+    "Image fixtures and positional retrieval do not establish broad visual or reasoning quality.",
+    "13 GiB KV image trials logged startup allocation failures; the 11 GiB long-context trials have clean recorded kernel checks.",
+    "Original Qwen profiles and configuration are unchanged; historical worker throughput was not remeasured in this screen.",
+    "Cold 800K prefill takes nearly fourteen minutes; cached follow-up latency assumes reusable prefixes.",
+    "At 800K history, three new 16K arrivals lowered the long generation from 18.85 to 5.77 output tokens/s, while all retrieval checks passed."
+  ],
+  "original_evidence_sha256": "a9e4d468b1191def0740ea7775e26841eee57e821269f066ecd253e4d7ed8b32",
+  "recipe_id": "agent-fleet-211-e2-image",
+  "scope": "Bounded synthetic qualification on original installation; not a new-site or broad model-quality qualification.",
+  "status": "recommended-with-caveats",
+  "timing_method": "Actual server completion usage divided by request or batch wall time, including first-token latency. Three batches per concurrency. Baseline timing retains all transport-valid samples despite one identifier failure."
+}

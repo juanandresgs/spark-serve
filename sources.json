@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "glm-flash": {
+      "url": "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks",
+      "revision": "688b7ab61d549f0f6450981b1f1afbda16c5142f"
+    },
+    "glm-e2": {
+      "url": "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks",
+      "revision": "eb0469fbb2b49fd7c025f594a3339a121e58f7a9",
+      "files": {
+        "Dockerfile": "09719588e70c45849726e2d952362a50ee8212c4c19b535e8c6d3dbd49b2a63b",
+        "overlay/exl3.py": "c9e765e13747cde82840c7af44945b7f06a1dee176df472dcebd1d858f9a5843",
+        "tests/test_exl3_overlay.py": "21af9e305adcfc0ad991ce82f5c7b4e23e8b59903e2a28b4956c1ef08065abe2",
+        "LICENSE": "2e5336cb270776d13538f8da3cfefef4d8c53ad5cdf5c211a085e62cdc095c0a"
+      },
+      "license_at_pin": "MIT",
+      "patched_files": {
+        "start.sh": "c7bc7d5857c0383aceeae7fd633a440abf0d3ad80bcdd06572e155df2fc0a4bb"
+      }
+    },
+    "glm-e3": {
+      "url": "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks",
+      "revision": "dc6936cea8fd7b2e7ee5b7a48a5aa193857ca489",
+      "files": {
+        "overlay/build_exl3_fat_moe_ext.py": "730b591c9d7982d0a5f1f20506ce9d8b6e6258f7e8a24e874c11fb60626057a4",
+        "overlay/exl3_fat_moe.cu": "21e625aa439367ed13feb88bbb55b72a06f2e5ce56d3615b3d4e1a28cb231e44",
+        "overlay/exl3_fat_moe.cuh": "0b3ae15e9d42a582c32368ec4f36e386580d4207408cedb0cd44784ee85a8e0e"
+      },
+      "license_at_pin": "AGPL-3.0"
+    },
+    "qwen-single": {
+      "url": "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark",
+      "revision": "78b0675e4469a19befaa9c84a41662b671d4185e",
+      "license_at_pin": "AGPL-3.0"
+    },
+    "qwen-pair": {
+      "url": "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Dual-DGX-Sparks",
+      "revision": "02cd6d9050b386644c65ebf2396324da9575e5ee"
+    },
+    "glm-full-dcp": {
+      "url": "https://github.com/ajclark/GLM-5.3-DCP4-DFlash2-NVMe-KV-Offload-4x-DGX-Spark",
+      "revision": "9d88b50ee3ecbcbfc2774aab00ba708688b2a123"
+    },
+    "glm-full-kernels": {
+      "url": "https://github.com/tonyd2wild/GLM-5.2-QuantTrio-200K-4x-DGX-Spark--36tok-s",
+      "revision": "162d7a766e4bc9de1809ff724339538380c43b0c"
+    },
+    "glm-full-port": {
+      "url": "https://github.com/tonyd2wild/GLM-5.3-Int4-Int8Mix-TP4-4x-DGX-Spark",
+      "revision": "a1806cb82493aa6f28709f77acf59c1937bdf756"
+    },
+    "deepseek": {
+      "url": "https://github.com/MiaAI-Lab/DeepSeek-v4.1-Flash-EXL3-2x-DGX-Sparks",
+      "revision": "85305680fb0f8ebc72b7b8ebf49ba54471019285"
+    },
+    "glm-full-base": {
+      "url": "https://github.com/eugr/spark-vllm-docker",
+      "revision": "4ed3ebf71453cd3a19b5d3b49c8f841ca7d514bf"
+    },
+    "glm-adaptive": {
+      "url": "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks",
+      "revision": "d5bf08a5f97062c3d1809bacc18af655ceec5120",
+      "scope": "Scheduler and graph patch only; full upstream configuration not adopted",
+      "license_at_pin": "AGPL-3.0"
+    },
+    "llama-swap": {
+      "url": "https://github.com/mostlygeek/llama-swap",
+      "revision": "60226b63776efac11e15828abe0bb302ec259699"
+    }
+  },
+  "glm_draft": {
+    "repository": "incoai/GLM-5.3-Flash-DFlash2",
+    "revision": "dc77ff1c99eeb2df044ee3d4f0094eb033fee410"
+  },
+  "glm_donor": {
+    "repository": "dealignai/GLM-5.3-Flash-UNCENSORED-NVFP4",
+    "revision": "e90ef415a2bf1274f848965a61144eca1e99eabf",
+    "applied_target_layers": "L15-L44"
+  },
+  "glm_full_draft": {
+    "revision": "425aa615ce320caac34400208b30808c8f14f76c",
+    "repository": "incoai/GLM-5.3-DFlash2",
+    "weights": {
+      "rfilename": "model.safetensors",
+      "blobId": "d5b224b035e38775ab29bc45ff5d1d87cd023794",
+      "size": 4918859112,
+      "lfs": {
+        "sha256": "3105f14043bef642baa49a7d533fdf0b8b2895737ec84b6305601da662656161",
+        "size": 4918859112,
+        "pointerSize": 135
+      }
+    }
+  },
+  "image_reproduction": {
+    "E2_base": "vllm/vllm-openai:glm53-flash-arm64-cu130@sha256:905c02933be6021301db2dc284e24e3727467aa3a0f63b41d609885778a07bce",
+    "exllamav3_revision": "c5d9c657966ffeeaa9353f0cc899f18629da4a13",
+    "E2_observed_image_id": "sha256:31090a8fab07066198337845786330e1396590dce54870c4df5aec9bb6ee7c4e",
+    "E3_extension_sha256": "b0596c342e7f57142784292aa3d060d49f419419cf99b0a21a2926e61d4ca0c9",
+    "E3_observed_image_ids": {
+      "head": "sha256:6fd85d771882e560e37667bf4dd7da5fa9b00518cffbc05027780019ed4f4a78",
+      "worker": "sha256:c3b9cf578665d69a6cb3ea1520c6bf68dc80eeca36abc18456062e1ead7131b3"
+    },
+    "fresh_build_verified": false,
+    "adaptive_observed_image_ids": {
+      "pair_a_head": "sha256:5070d91bb7dad77244ad0bc527d2e2e716a0f589262ee78c0cb772b911e74075",
+      "pair_a_worker": "sha256:19de3230b563d854ec8e14f7b7a4957bc9e100392914f9610bce9ca5f29b6519",
+      "pair_b_head": "sha256:4f81a2a26b3543d97c7c7036d6780b68f17b9d24a2e1bc7fab6dbe3e29475b5c",
+      "pair_b_worker": "sha256:b9fd4359cfb0314988694b4d558e46b383ca4d01d083bc7c7c69ff1932e6920e"
+    },
+    "full_base": {
+      "build_source": "4ed3ebf71453cd3a19b5d3b49c8f841ca7d514bf",
+      "vllm": "ab666069935c1f23e8ef56038b4659ac9e8f19f8",
+      "flashinfer": "19f1a41e6b21f0c422d775e377b6fdf9a1fc9d23",
+      "deepgemm": "2642b3261572627911f7eecf19aee0f32b8b3890",
+      "cuda_base": "nvidia/cuda@sha256:5dc1bca23d05bd37b011be68ec470c03b403a5da07ec3a86e41af9470e9d0cc6",
+      "preset_prs": false,
+      "architecture": "12.1a",
+      "build_jobs": 16,
+      "base_digest_at_original_build": "not recorded; resolve and record for fresh build",
+      "cuda_digest_resolved_at": "2026-09-14"
+    }
+  }
+}

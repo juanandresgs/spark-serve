@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-13",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "Recovered allocation failures during loading at 128K and loading/prefill at 600K.",
+    "No boot or endurance qualification; no broad intelligence ranking.",
+    "Text only; two sequences, not two full-length 600K histories."
+  ],
+  "observations": {
+    "batch_tokens": 1024,
+    "c1_decode_tps": [
+      29.34,
+      29.39
+    ],
+    "c2_aggregate_tps": [
+      39.71,
+      42.09
+    ],
+    "context_tokens": 131072,
+    "glm_matched_c1_decode_tps": 26.3256,
+    "glm_matched_c2_aggregate_tps": 38.8546,
+    "kv_bytes": 1073741824,
+    "kv_dtype": "fp8_ds_mla",
+    "largest_actual_prompt_tested": 599000,
+    "largest_prompt_config": {
+      "context_tokens": 600000,
+      "kv_bytes": 2684354560,
+      "retained": false
+    },
+    "max_running": 2
+  },
+  "original_evidence_sha256": "cca531767bd0c2b82776ff38a60997a93485e8f5af1069d3b31bdcd6083f9ada",
+  "recipe_id": "deepseek-v41-flash-2spark",
+  "status": "experimental"
+}

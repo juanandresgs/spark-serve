@@ -1,0 +1,273 @@
+diff --git a/ablit/fetch_transplant.py b/ablit/fetch_transplant.py
+index 54b2681..8799bb3 100644
+--- a/ablit/fetch_transplant.py
++++ b/ablit/fetch_transplant.py
+@@ -32,7 +32,10 @@ OUT_DIR = REPO_ROOT / "ablit" / "transplant"
+ LAYER_MAP_PATH = REPO_ROOT / "ablit" / "LAYER_MAP.json"
+ 
+ DONOR = os.environ.get("ABLIT_DONOR", "dealignai/GLM-5.3-Flash-UNCENSORED-NVFP4")
+-BASE = f"https://huggingface.co/{DONOR}/resolve/main"
++DONOR_REVISION = os.environ.get(
++    "ABLIT_DONOR_REVISION", "e90ef415a2bf1274f848965a61144eca1e99eabf"
++)
++BASE = f"https://huggingface.co/{DONOR}/resolve/{DONOR_REVISION}"
+ TOKEN = os.environ.get("HF_TOKEN") or ""
+ if not TOKEN:
+     tok_file = Path.home() / ".cache/huggingface/token"
+@@ -107,6 +110,7 @@ def main() -> None:
+     layers = sorted(e["layer"] for e in lmap["layers"]
+                     if e["role"] in ("edit", "mtp-edit"))
+     print(f"donor : {DONOR}")
++    print(f"commit: {DONOR_REVISION}")
+     print(f"layers: {layers[0]}..{layers[-1]} ({len(layers)} tensors)")
+ 
+     # authoritative shard map from the donor's own index
+@@ -125,16 +129,16 @@ def main() -> None:
+     manifest_path = OUT_DIR / "MANIFEST.json"
+     manifest = {
+         "donor": DONOR,
+-        "donor_sha": None,
++        "donor_sha": DONOR_REVISION,
+         "method": "dealign-oproj-transplant (byte-copy, o_proj L15-45 incl. MTP)",
+-        "tensors": {},
++        "layers": {},
+     }
+     if manifest_path.exists():
+         old = json.loads(manifest_path.read_text())
+-        if old.get("donor") == DONOR:
++        if old.get("donor") == DONOR and old.get("donor_sha") == DONOR_REVISION:
+             manifest = old
+             print("resuming: existing manifest found")
+-    manifest["layers"] = manifest.get("tensors", {})
++    manifest.setdefault("layers", {})
+ 
+     for L in layers:
+         key = f"model.language_model.layers.{L}.self_attn.o_proj.weight"
+@@ -145,8 +149,9 @@ def main() -> None:
+         if lmap_shard and lmap_shard != shard:
+             print(f"  note: L{L} shard differs from LAYER_MAP ({shard} vs {lmap_shard}) — using donor index")
+         out = OUT_DIR / f"L{L}.bin"
+-        if out.is_file() and L in manifest.get("layers", {}) \
+-                and manifest["layers"][L].get("sha256") == sha256(out.read_bytes()):
++        layer_key = str(L)
++        if out.is_file() and layer_key in manifest.get("layers", {}) \
++                and manifest["layers"][layer_key].get("sha256") == sha256(out.read_bytes()):
+             print(f"L{L}: already fetched ({out.stat().st_size / 1e6:.0f} MB)")
+             continue
+ 
+@@ -162,7 +167,7 @@ def main() -> None:
+         tmp = out.with_suffix(".tmp")
+         tmp.write_bytes(data)
+         tmp.replace(out)
+-        manifest.setdefault("layers", {})[L] = {
++        manifest.setdefault("layers", {})[layer_key] = {
+             "shard": shard,
+             "key": key,
+             "dtype": meta["dtype"],
+@@ -172,7 +177,7 @@ def main() -> None:
+         }
+         manifest_path.write_text(json.dumps(manifest, indent=2))
+ 
+-    ok = sum(1 for L in layers if L in manifest.get("layers", {}))
++    ok = sum(1 for L in layers if str(L) in manifest.get("layers", {}))
+     total = sum(m["nbytes"] for m in manifest.get("layers", {}).values())
+     print(f"done: {ok}/{len(layers)} tensors, {total / 1e9:.2f} GB -> {OUT_DIR}")
+ 
+diff --git a/start.sh b/start.sh
+index e36284c..f5c73fb 100755
+--- a/start.sh
++++ b/start.sh
+@@ -49,7 +49,12 @@ set -euo pipefail
+ 
+ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+ 
+-if [ ! -f "$SCRIPT_DIR/.env" ]; then
++_env_file="$SCRIPT_DIR/.env"
++if [ "${DGX_SPARK_SERVE_MANAGED:-0}" = 1 ]; then
++    # The broker exports the experiment. Never let an ignored, mutable .env
++    # become a second authority for a managed candidate.
++    _env_file="$SCRIPT_DIR/.env.example"
++elif [ ! -f "$SCRIPT_DIR/.env" ]; then
+     [ -f "$SCRIPT_DIR/.env.example" ] || {
+         echo "ERROR: missing .env.example" >&2
+         exit 1
+@@ -72,6 +77,31 @@ _cli_image="${IMAGE-}"
+ _cli_util="${GPU_MEM_UTIL-}"
+ _cli_lm="${LANGUAGE_MODEL_ONLY-}"
+ _cli_max_num_seqs="${MAX_NUM_SEQS-}"
++_cli_max_model_len="${MAX_MODEL_LEN-}"
++_cli_dflash_draft_tp="${DFLASH_DRAFT_TP-}"
++_cli_dflash_tokens="${DFLASH_TOKENS-}"
++_cli_kv_cache_dtype="${KV_CACHE_DTYPE-}"
++_cli_tp="${TP-}"
++_cli_nnodes="${NNODES-}"
++_cli_host_bind="${HOST_BIND-}"
++_cli_head_ip="${HEAD_IP-}"
++_cli_worker_ip="${WORKER_IP-}"
++_cli_worker_ssh="${WORKER_SSH-}"
++_cli_worker_home="${WORKER_HOME-}"
++_cli_head_if="${HEAD_CX7_IF-}"
++_cli_worker_if="${WORKER_CX7_IF-}"
++_cli_head_ib="${HEAD_CX7_IB-}"
++_cli_worker_ib="${WORKER_CX7_IB-}"
++_cli_head_gid="${HEAD_GID-}"
++_cli_worker_gid="${WORKER_GID-}"
++_cli_port="${PORT-}"
++_cli_master_port="${MASTER_PORT-}"
++_cli_model="${MODEL-}"
++_cli_model_fallback="${MODEL_FALLBACK-}"
++_cli_model_revision="${MODEL_REVISION-}"
++_cli_dflash_model="${DFLASH_MODEL-}"
++_cli_dflash_revision="${DFLASH_REVISION-}"
++_cli_served_model_name="${SERVED_MODEL_NAME-}"
+ _cli_ablit="${ABLIT-}"
+ _cli_ablit_method="${ABLIT_METHOD-}"
+ _cli_ablit_direction="${ABLIT_DIRECTION-}"
+@@ -86,7 +116,7 @@ _cli_spinwait_ms_set="${GLM53_SPINWAIT_MS+1}"
+ _cli_spinwait_ms="${GLM53_SPINWAIT_MS-}"
+ set -a
+ # shellcheck disable=SC1091
+-source "$SCRIPT_DIR/.env"
++source "$_env_file"
+ set +a
+ [ -n "${_cli_mtp}" ] && MTP_TOKENS="$_cli_mtp"
+ [ -n "${_cli_spec}" ] && SPEC_METHOD="$_cli_spec"
+@@ -102,6 +132,31 @@ set +a
+ [ -n "${_cli_util}" ] && GPU_MEM_UTIL="$_cli_util"
+ [ -n "${_cli_lm}" ] && LANGUAGE_MODEL_ONLY="$_cli_lm"
+ [ -n "${_cli_max_num_seqs}" ] && MAX_NUM_SEQS="$_cli_max_num_seqs"
++[ -n "${_cli_max_model_len}" ] && MAX_MODEL_LEN="$_cli_max_model_len"
++[ -n "${_cli_dflash_draft_tp}" ] && DFLASH_DRAFT_TP="$_cli_dflash_draft_tp"
++[ -n "${_cli_dflash_tokens}" ] && DFLASH_TOKENS="$_cli_dflash_tokens"
++[ -n "${_cli_kv_cache_dtype}" ] && KV_CACHE_DTYPE="$_cli_kv_cache_dtype"
++[ -n "${_cli_tp}" ] && TP="$_cli_tp"
++[ -n "${_cli_nnodes}" ] && NNODES="$_cli_nnodes"
++[ -n "${_cli_host_bind}" ] && HOST_BIND="$_cli_host_bind"
++[ -n "${_cli_head_ip}" ] && HEAD_IP="$_cli_head_ip"
++[ -n "${_cli_worker_ip}" ] && WORKER_IP="$_cli_worker_ip"
++[ -n "${_cli_worker_ssh}" ] && WORKER_SSH="$_cli_worker_ssh"
++[ -n "${_cli_worker_home}" ] && WORKER_HOME="$_cli_worker_home"
++[ -n "${_cli_head_if}" ] && HEAD_CX7_IF="$_cli_head_if"
++[ -n "${_cli_worker_if}" ] && WORKER_CX7_IF="$_cli_worker_if"
++[ -n "${_cli_head_ib}" ] && HEAD_CX7_IB="$_cli_head_ib"
++[ -n "${_cli_worker_ib}" ] && WORKER_CX7_IB="$_cli_worker_ib"
++[ -n "${_cli_head_gid}" ] && HEAD_GID="$_cli_head_gid"
++[ -n "${_cli_worker_gid}" ] && WORKER_GID="$_cli_worker_gid"
++[ -n "${_cli_port}" ] && PORT="$_cli_port"
++[ -n "${_cli_master_port}" ] && MASTER_PORT="$_cli_master_port"
++[ -n "${_cli_model}" ] && MODEL="$_cli_model"
++[ -n "${_cli_model_fallback}" ] && MODEL_FALLBACK="$_cli_model_fallback"
++[ -n "${_cli_model_revision}" ] && MODEL_REVISION="$_cli_model_revision"
++[ -n "${_cli_dflash_model}" ] && DFLASH_MODEL="$_cli_dflash_model"
++[ -n "${_cli_dflash_revision}" ] && DFLASH_REVISION="$_cli_dflash_revision"
++[ -n "${_cli_served_model_name}" ] && SERVED_MODEL_NAME="$_cli_served_model_name"
+ [ -n "${_cli_ablit}" ] && ABLIT="$_cli_ablit"
+ [ -n "${_cli_ablit_method}" ] && ABLIT_METHOD="$_cli_ablit_method"
+ [ -n "${_cli_ablit_direction}" ] && ABLIT_DIRECTION="$_cli_ablit_direction"
+@@ -168,6 +223,7 @@ MTP_TOKENS="${MTP_TOKENS:-2}"
+ # dflash (default, incoai/GLM-5.3-Flash-DFlash2, k=7) | mtp | none
+ SPEC_METHOD="${SPEC_METHOD:-dflash}"
+ DFLASH_MODEL="${DFLASH_MODEL:-incoai/GLM-5.3-Flash-DFlash2}"
++DFLASH_REVISION="${DFLASH_REVISION:-dc77ff1c99eeb2df044ee3d4f0094eb033fee410}"
+ DFLASH_CACHE_NAME="${DFLASH_CACHE_NAME:-models--${DFLASH_MODEL//\//--}}"
+ DFLASH_TOKENS="${DFLASH_TOKENS:-7}"
+ # 2 = shard the ~2.3 GiB DFlash2 drafter across TP (C4 keep, 2026-08-30:
+@@ -386,6 +442,11 @@ count_shards() {
+ 
+ ensure_refs_main() {
+     local ref="$MODEL_PATH/refs/main" snap
++    if [ -n "${MODEL_REVISION:-}" ] && [ -f "$MODEL_PATH/snapshots/$MODEL_REVISION/config.json" ]; then
++        mkdir -p "$MODEL_PATH/refs"
++        printf '%s' "$MODEL_REVISION" >"$ref"
++        return 0
++    fi
+     [ -f "$ref" ] && [ -n "$(<"$ref")" ] && return 0
+     snap="$(ls -1t "$MODEL_PATH/snapshots" 2>/dev/null | head -n 1 || true)"
+     [ -n "$snap" ] || die "no snapshots under $MODEL_PATH — re-run download"
+@@ -397,7 +458,7 @@ ensure_refs_main() {
+ resolve_model_dir() {
+     local ref="$MODEL_PATH/refs/main" hash dir
+     ensure_refs_main
+-    hash="$(<"$ref")"
++    hash="${MODEL_REVISION:-$(<"$ref")}"
+     dir="$MODEL_PATH/snapshots/$hash"
+     [ -f "$dir/config.json" ] || die "config.json missing in $dir — re-run with REFRESH_WEIGHTS=1"
+     printf '/root/.cache/huggingface/hub/%s/snapshots/%s' "$MODEL_CACHE_NAME" "$hash"
+@@ -405,6 +466,11 @@ resolve_model_dir() {
+ 
+ ensure_dflash_refs_main() {
+     local ref="$DFLASH_PATH/refs/main" snap
++    if [ -n "${DFLASH_REVISION:-}" ] && [ -f "$DFLASH_PATH/snapshots/$DFLASH_REVISION/config.json" ]; then
++        mkdir -p "$DFLASH_PATH/refs"
++        printf '%s' "$DFLASH_REVISION" >"$ref"
++        return 0
++    fi
+     [ -f "$ref" ] && [ -n "$(<"$ref")" ] && return 0
+     snap="$(ls -1t "$DFLASH_PATH/snapshots" 2>/dev/null | head -n 1 || true)"
+     [ -n "$snap" ] || die "no snapshots under $DFLASH_PATH — re-run download"
+@@ -416,7 +482,7 @@ ensure_dflash_refs_main() {
+ resolve_dflash_dir() {
+     local ref="$DFLASH_PATH/refs/main" hash dir
+     ensure_dflash_refs_main
+-    hash="$(<"$ref")"
++    hash="${DFLASH_REVISION:-$(<"$ref")}"
+     dir="$DFLASH_PATH/snapshots/$hash"
+     [ -f "$dir/config.json" ] || die "DFlash2 config.json missing in $dir"
+     printf '/root/.cache/huggingface/hub/%s/snapshots/%s' "$DFLASH_CACHE_NAME" "$hash"
+@@ -843,7 +909,9 @@ download_dflash() {
+     resolve_hf_bin || die "no 'hf' / 'huggingface-cli' on PATH and no python huggingface_hub — pip install --user -U 'huggingface_hub[cli]' (or set HF_BIN=/path/to/hf)"
+     mkdir -p "$HF_CACHE_DIR"
+     log "downloading ${DFLASH_MODEL} (~2.3 GiB) into ${HF_CACHE_DIR} ..."
+-    HF_HOME="$HF_CACHE_DIR" "${HF_BIN_CMD[@]}" download "$DFLASH_MODEL"
++    local -a args=("$DFLASH_MODEL")
++    [ -n "${DFLASH_REVISION:-}" ] && args+=(--revision "$DFLASH_REVISION")
++    HF_HOME="$HF_CACHE_DIR" "${HF_BIN_CMD[@]}" download "${args[@]}"
+     ensure_dflash_refs_main
+     have="$(find "$DFLASH_PATH/snapshots" -name 'model.safetensors' 2>/dev/null | wc -l | tr -d '[:space:]' || true)"
+     [ "${have:-0}" -ge 1 ] || die "DFlash2 download finished without model.safetensors"
+@@ -933,7 +1001,7 @@ say() { echo "[glm53-exl3-head] $*"; }
+ 
+ ARGS=(
+     --served-model-name "${SERVED_MODEL_NAME}"
+-    --host 0.0.0.0
++    --host "${HOST_BIND:-127.0.0.1}"
+     --port "${PORT}"
+     --tensor-parallel-size "${TP}"
+     --nnodes "${NNODES}"
+@@ -1030,7 +1098,7 @@ say() { echo "[glm53-exl3-worker] $*"; }
+ 
+ ARGS=(
+     --served-model-name "${SERVED_MODEL_NAME}"
+-    --host 0.0.0.0
++    --host "${HOST_BIND:-127.0.0.1}"
+     --port "${PORT}"
+     --tensor-parallel-size "${TP}"
+     --nnodes "${NNODES}"
+@@ -1210,7 +1278,7 @@ launch_cluster() {
+ 
+     local serve_env=""
+     local v
+-    for v in SERVED_MODEL_NAME PORT TP NNODES HEAD_IP MASTER_PORT QUANTIZATION \
++    for v in SERVED_MODEL_NAME HOST_BIND PORT TP NNODES HEAD_IP MASTER_PORT QUANTIZATION \
+              MAX_MODEL_LEN GPU_MEM_UTIL MAX_NUM_SEQS MAX_NUM_BATCHED_TOKENS \
+              KV_CACHE_DTYPE MTP_TOKENS SPEC_METHOD DFLASH_TOKENS DFLASH_MODEL_DIR \
+              DFLASH_DRAFT_TP \
+@@ -1288,6 +1356,7 @@ launch_cluster() {
+         -e NCCL_IB_GID_INDEX="$HEAD_GID" \
+         -e VLLM_HOST_IP="$HEAD_IP" \
+         -e SERVED_MODEL_NAME="$SERVED_MODEL_NAME" \
++        -e HOST_BIND="${HOST_BIND:-127.0.0.1}" \
+         -e PORT="$PORT" -e TP="$TP" -e NNODES="$NNODES" \
+         -e HEAD_IP="$HEAD_IP" -e MASTER_PORT="$MASTER_PORT" \
+         -e QUANTIZATION="$QUANTIZATION" \
+@@ -1514,6 +1583,10 @@ logs() {
+ # ------------------------------- main --------------------------------------
+ main() {
+     local cmd="${1:-start}"
++    case "$cmd" in
++        start|restart) [ "${DGX_SPARK_SERVE_MANAGED:-0}" = 1 ] \
++            || die "start/restart is restricted to the spark-serve broker" ;;
++    esac
+     case "$cmd" in
+         start|restart) validate_numeric_config ;;
+     esac

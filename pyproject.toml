@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dgx-spark-serve"
+version = "0.1.0"
+description = "Resource-aware model service broker for NVIDIA DGX Spark systems"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "DGX Spark Serve contributors"}]
+dependencies = []
+
+[project.scripts]
+spark-serve = "spark_serve.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+spark_serve = ["py.typed"]

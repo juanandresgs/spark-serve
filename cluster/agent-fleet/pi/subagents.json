@@ -1,0 +1,12 @@
+{
+  "maxConcurrent": 4,
+  "maxConcurrentForeground": 4,
+  "defaultMaxTurns": 24,
+  "backgroundByDefault": false,
+  "scopeModels": true,
+  "strictAgentFiles": true,
+  "disableDefaultAgents": true,
+  "toolDescriptionMode": "compact",
+  "showModel": true,
+  "workflowsEnabled": true
+}

@@ -1,0 +1,47 @@
+{
+  "caveats": [
+    "No demonstrated decode speedup.",
+    "Recoverable startup allocation messages seen on both E3 and E2 return control; root cause unresolved.",
+    "991666 cache tokens are shared across requests.",
+    "One cold sample per size; synthetic retrieval and images do not establish broad accuracy."
+  ],
+  "checks": {
+    "E2": {
+      "passed": 27,
+      "total": 27
+    },
+    "E3": {
+      "passed": 27,
+      "total": 27
+    }
+  },
+  "cold_ttft_seconds": {
+    "100K": {
+      "E2": 96.989151,
+      "E3": 79.275087
+    },
+    "800K": {
+      "E2": 832.226706,
+      "E3": 690.708334
+    }
+  },
+  "date": "2026-09-10",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "original_evidence_sha256": "bf401baf3685ab2ab724878d3f6569dc0ee982432063284a671fa070ea087d19",
+  "output_tokens_per_second": {
+    "E2": {
+      "C1": 24.0916552,
+      "C4": 44.317137,
+      "C8": 64.014032
+    },
+    "E3": {
+      "C1": 23.4840192,
+      "C4": 43.902013,
+      "C8": 64.591971
+    },
+    "method": "Whole request/batch wall time; C1 median of two samples, C4/C8 one batch each."
+  },
+  "recipe_id": "agent-fleet-211-e3-image",
+  "scope": "Original-site bounded whole-model qualification of exact pinned images; no broad quality equivalence or endurance claim.",
+  "status": "recommended-with-caveats"
+}

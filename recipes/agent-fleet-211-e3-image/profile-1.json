@@ -1,0 +1,112 @@
+{
+  "aliases": [],
+  "artifacts": [
+    {
+      "kind": "file",
+      "node": "rank2",
+      "value": "/srv/spark/UNBOUND/qwen-worker-a/artifact-0"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "vllm/vllm-openai@sha256:3b0e188ffceb3d07e09c3cb5215433a0020eacf02d7f882ed3a8bfd15454477e"
+    }
+  ],
+  "description": "Reference configuration; install and qualify a site adapter before serving.",
+  "id": "qwen-worker-a",
+  "model": {
+    "context_tokens": 262144,
+    "input_modalities": [
+      "text"
+    ],
+    "quantization": "NVFP4, FP8 KV, BF16 SSM, CPU PLE offload",
+    "repository": "Mia-AiLab/Qwen3.8-Flash-Next-NVFP4",
+    "revision": "925d7be6c14c6c9442ef83e8f05b5a3c39304f69",
+    "served_name": "qwen3.8-flash-next"
+  },
+  "name": "qwen3.8-flash-next (qwen-worker-a)",
+  "operator": {
+    "exposure": "maintenance-only",
+    "readiness": "experimental",
+    "use_cases": [
+      "configuration reference"
+    ],
+    "warnings": [
+      "GPU launch adapters are not included in this reference kit."
+    ]
+  },
+  "resources": {
+    "claims": [
+      "gpu:rank2"
+    ],
+    "nodes": {
+      "rank2": {
+        "min_disk_free_gib": 40,
+        "min_memory_available_gib": 105,
+        "swap_policy": "off_during_run"
+      }
+    }
+  },
+  "runtime": {
+    "backend": {
+      "health_path": "/health",
+      "models_path": "/v1/models",
+      "node": "rank2",
+      "port": 8896
+    },
+    "engine": "vLLM TP1 with CPU PLE offload",
+    "image": "vllm/vllm-openai@sha256:3b0e188ffceb3d07e09c3cb5215433a0020eacf02d7f882ed3a8bfd15454477e",
+    "launch": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "qwen-worker-a",
+        "launch"
+      ],
+      "environment": {
+        "DGX_SPARK_SERVE_MANAGED": "1"
+      },
+      "mode": "detached",
+      "node": "rank2",
+      "timeout_seconds": 5400
+    },
+    "stop": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "qwen-worker-a",
+        "stop"
+      ],
+      "mode": "detached",
+      "node": "rank2",
+      "timeout_seconds": 180
+    }
+  },
+  "schema_version": 1,
+  "serving": {
+    "concurrency_limit": 32,
+    "eviction_cost": 100,
+    "reasoning": false,
+    "request_filters": {
+      "setParams": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    "scheduler": {
+      "engine": "vllm",
+      "max_num_batched_tokens": 2048,
+      "max_running_requests": 8,
+      "policy": "priority",
+      "priority_order": "lower-first"
+    },
+    "tools": true,
+    "ttl_seconds": 0
+  },
+  "topology": {
+    "fabric_required": false,
+    "mode": "single",
+    "nodes": [
+      "rank2"
+    ]
+  }
+}

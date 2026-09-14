@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-08",
+  "evidence_kind": "Historical original-site observations; public templates are not hardware-qualified.",
+  "limits": [
+    "Pi runs overlapped other work; routing specialization did not prove a speedup.",
+    "The last worker-tool restriction had a real tool probe but no repeated full coding fixture.",
+    "Native policy blocked unwanted actions; prompts and tool lists are not an OS sandbox.",
+    "Hermes delegation failed scope/stop qualification and remains disabled.",
+    "The tested Pi installation had a separately configured frontier approval reviewer; the shared installer preserves but does not supply that private reviewer.",
+    "Final stability observation was 76 minutes, not a five-hour soak."
+  ],
+  "observations": {
+    "aggregate_worker_heavy": {
+      "completion_tokens": 36864,
+      "passed": 72,
+      "requests": 72,
+      "seconds": 126.588,
+      "tokens_per_second": 291.212
+    },
+    "final_metrics": {
+      "observed_minutes": 76,
+      "preemptions": 0,
+      "readiness_losses": 0,
+      "samples": 2182
+    },
+    "final_soak": {
+      "passed": 42,
+      "seconds": 840,
+      "total": 42
+    },
+    "mixed_load": {
+      "coordinator_checks_passed": 17,
+      "coordinator_first_max_ttft_seconds": 19.28,
+      "coordinator_median_ttft_seconds": 0.66,
+      "worker_retrievals_passed": 8
+    },
+    "pi_coding": [
+      {
+        "checks_passed": 85,
+        "checks_total": 85,
+        "seconds": 734.815
+      },
+      {
+        "checks_passed": 85,
+        "checks_total": 85,
+        "seconds": 780.452
+      }
+    ],
+    "qwen_pool_c16_tps": 256.914
+  },
+  "original_evidence_sha256": "5b2310afe862c1e7ca9a4a2f8157ed146e132b5db446d5b0762017c91ff70a8b",
+  "recipe_id": "agent-fleet-211",
+  "status": "recommended-with-caveats"
+}

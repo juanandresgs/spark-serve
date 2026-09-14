@@ -1,0 +1,145 @@
+{
+  "aliases": [
+    "deepseek-v41-trial"
+  ],
+  "artifacts": [
+    {
+      "kind": "git_checkout",
+      "node": "rank3",
+      "revision": "85305680fb0f8ebc72b7b8ebf49ba54471019285",
+      "value": "/srv/spark/UNBOUND/deepseek-v41-flash-exl3-tp2-trial/artifact-0"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 210000000000,
+      "node": "rank3",
+      "value": "/srv/spark/UNBOUND/deepseek-v41-flash-exl3-tp2-trial/artifact-1"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 203000000000,
+      "node": "rank3",
+      "value": "/srv/spark/UNBOUND/deepseek-v41-flash-exl3-tp2-trial/artifact-2"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 210000000000,
+      "node": "rank2",
+      "value": "/srv/spark/UNBOUND/deepseek-v41-flash-exl3-tp2-trial/artifact-3"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 203000000000,
+      "node": "rank2",
+      "value": "/srv/spark/UNBOUND/deepseek-v41-flash-exl3-tp2-trial/artifact-4"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank3",
+      "value": "ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks@sha256:2f0cf3adc0f989c1d446be274df864eb799630175f604c3b22b71b7205971dce"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks@sha256:2f0cf3adc0f989c1d446be274df864eb799630175f604c3b22b71b7205971dce"
+    }
+  ],
+  "description": "Reference configuration; install and qualify a site adapter before serving.",
+  "id": "deepseek-v41-flash-exl3-tp2-trial",
+  "model": {
+    "context_tokens": 131072,
+    "input_modalities": [
+      "text"
+    ],
+    "quantization": "EXL3 mul1 2.9bpw; native file-backed FP8 Engram",
+    "repository": "Mia-AiLab/DeepSeek-V4.1-Flash-EXL3-2.9bpw",
+    "revision": "64ba41b6c916a587db06eae2e19b7845f7be6e6b",
+    "served_name": "DeepSeek-v4.1-Flash-EXL3"
+  },
+  "name": "DeepSeek-v4.1-Flash-EXL3 (deepseek-v41-flash-exl3-tp2-trial)",
+  "operator": {
+    "exposure": "maintenance-only",
+    "readiness": "experimental",
+    "use_cases": [
+      "configuration reference"
+    ],
+    "warnings": [
+      "GPU launch adapters are not included in this reference kit."
+    ]
+  },
+  "resources": {
+    "claims": [
+      "gpu:rank3",
+      "gpu:rank2",
+      "fabric:rank2-rank3"
+    ],
+    "nodes": {
+      "rank2": {
+        "min_disk_free_gib": 25,
+        "min_memory_available_gib": 112,
+        "swap_policy": "off_during_run"
+      },
+      "rank3": {
+        "min_disk_free_gib": 25,
+        "min_memory_available_gib": 112,
+        "swap_policy": "off_during_run"
+      }
+    }
+  },
+  "runtime": {
+    "backend": {
+      "health_path": "/health",
+      "models_path": "/v1/models",
+      "node": "rank3",
+      "port": 8894
+    },
+    "engine": "vLLM DeepSeek V4.1 with MiaAI EXL3 overlay, DSpark k3",
+    "image": "ghcr.io/miaai-lab/deepseek-v4.1-flash-exl3-2x-dgx-sparks@sha256:2f0cf3adc0f989c1d446be274df864eb799630175f604c3b22b71b7205971dce",
+    "launch": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "deepseek-v41-flash-exl3-tp2-trial",
+        "launch"
+      ],
+      "environment": {
+        "DGX_SPARK_SERVE_MANAGED": "1"
+      },
+      "mode": "detached",
+      "node": "rank3",
+      "timeout_seconds": 4200
+    },
+    "stop": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "deepseek-v41-flash-exl3-tp2-trial",
+        "stop"
+      ],
+      "mode": "detached",
+      "node": "rank3",
+      "timeout_seconds": 180
+    }
+  },
+  "schema_version": 1,
+  "serving": {
+    "concurrency_limit": 2,
+    "eviction_cost": 140,
+    "reasoning": true,
+    "scheduler": {
+      "engine": "vllm",
+      "max_num_batched_tokens": 1024,
+      "max_running_requests": 2,
+      "policy": "fcfs",
+      "priority_order": "lower-first"
+    },
+    "tools": true,
+    "ttl_seconds": 0
+  },
+  "topology": {
+    "fabric_required": true,
+    "mode": "tensor-parallel",
+    "nodes": [
+      "rank3",
+      "rank2"
+    ]
+  }
+}

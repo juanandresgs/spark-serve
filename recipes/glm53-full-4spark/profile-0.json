@@ -1,0 +1,135 @@
+{
+  "$schema": "../schema/model-profile-v1.schema.json",
+  "aliases": [
+    "glm53-big",
+    "glm53-full",
+    "glm-5.3"
+  ],
+  "artifacts": [
+    {
+      "kind": "docker_image",
+      "node": "head",
+      "value": "vllm-glm52-b12x:dflash2-port2"
+    },
+    {
+      "kind": "docker_image",
+      "node": "worker",
+      "value": "vllm-glm52-b12x:dflash2-port2"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "vllm-glm52-b12x:dflash2-port2"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank3",
+      "value": "vllm-glm52-b12x:dflash2-port2"
+    }
+  ],
+  "description": "Serving settings template for deploy/render_site.py.",
+  "id": "glm-5.3-full-tp4",
+  "model": {
+    "context_tokens": 307200,
+    "input_modalities": [
+      "text"
+    ],
+    "quantization": "Int4 experts, Int8 attention/shared paths, protected BF16 routing/indexer/head",
+    "repository": "Tech2wild/GLM-5.3-Int4-Int8Mix",
+    "revision": "206507bbb047d8223964a0414cd83230c59428f9",
+    "served_name": "glm-5.3"
+  },
+  "name": "glm-5.3 (glm-5.3-full-tp4)",
+  "operator": {
+    "exposure": "maintenance-only",
+    "readiness": "experimental",
+    "use_cases": [
+      "configuration reference"
+    ],
+    "warnings": [
+      "Bind this template with deploy/render_site.py before serving."
+    ]
+  },
+  "resources": {
+    "claims": [
+      "gpu:head",
+      "gpu:worker",
+      "gpu:rank2",
+      "gpu:rank3",
+      "fabric:connectx",
+      "recipe:glm53-full-tp4"
+    ],
+    "nodes": {
+      "head": {
+        "min_disk_free_gib": 500,
+        "min_memory_available_gib": 100,
+        "swap_policy": "unchanged"
+      },
+      "rank2": {
+        "min_disk_free_gib": 500,
+        "min_memory_available_gib": 100,
+        "swap_policy": "unchanged"
+      },
+      "rank3": {
+        "min_disk_free_gib": 500,
+        "min_memory_available_gib": 100,
+        "swap_policy": "unchanged"
+      },
+      "worker": {
+        "min_disk_free_gib": 500,
+        "min_memory_available_gib": 100,
+        "swap_policy": "unchanged"
+      }
+    }
+  },
+  "runtime": {
+    "backend": {
+      "health_path": "/health",
+      "models_path": "/v1/models",
+      "node": "head",
+      "port": 8895
+    },
+    "engine": "Pinned vLLM ab666069 and FlashInfer 19f1a41e with GB10 sm121 overlays, DFlash2 port, and DCP4 patch set 9d88b50",
+    "image": "vllm-glm52-b12x:dflash2-port2",
+    "launch": {
+      "argv": [
+        "/usr/bin/false"
+      ],
+      "environment": {
+        "DCP_SIZE": "4",
+        "DGX_SPARK_SERVE_MANAGED": "1",
+        "KVTIER": "0",
+        "MAXLEN": "307200"
+      },
+      "mode": "detached",
+      "node": "head",
+      "timeout_seconds": 7200
+    },
+    "stop": {
+      "argv": [
+        "/usr/bin/false"
+      ],
+      "mode": "detached",
+      "node": "head",
+      "timeout_seconds": 900
+    }
+  },
+  "schema_version": 1,
+  "serving": {
+    "concurrency_limit": 64,
+    "eviction_cost": 300,
+    "reasoning": true,
+    "tools": true,
+    "ttl_seconds": 0
+  },
+  "topology": {
+    "fabric_required": true,
+    "mode": "tensor-parallel",
+    "nodes": [
+      "head",
+      "worker",
+      "rank2",
+      "rank3"
+    ]
+  }
+}

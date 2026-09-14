@@ -1,0 +1,155 @@
+{
+  "aliases": [
+    "qwen-worker-a",
+    "qwen-worker-b"
+  ],
+  "artifacts": [
+    {
+      "kind": "git_checkout",
+      "node": "rank3",
+      "revision": "02cd6d9050b386644c65ebf2396324da9575e5ee",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-0"
+    },
+    {
+      "kind": "file",
+      "node": "rank3",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-1"
+    },
+    {
+      "kind": "file",
+      "node": "rank3",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-2"
+    },
+    {
+      "kind": "file",
+      "node": "rank3",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-3"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 125000000000,
+      "node": "rank3",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-4"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank3",
+      "value": "dgx-local/qwen38-flash-next:02cd6d9-14ed5825"
+    },
+    {
+      "kind": "file",
+      "node": "rank2",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-6"
+    },
+    {
+      "kind": "directory",
+      "min_size_bytes": 125000000000,
+      "node": "rank2",
+      "value": "/srv/spark/UNBOUND/qwen-worker-pair/artifact-7"
+    },
+    {
+      "kind": "docker_image",
+      "node": "rank2",
+      "value": "dgx-local/qwen38-flash-next:02cd6d9-14ed5825"
+    }
+  ],
+  "description": "Reference configuration; install and qualify a site adapter before serving.",
+  "id": "qwen-worker-pair",
+  "model": {
+    "context_tokens": 262144,
+    "input_modalities": [
+      "text",
+      "image"
+    ],
+    "quantization": "ModelOpt NVFP4 with FP8 PLE and in-checkpoint NEXTN",
+    "repository": "RadixArk/Qwen3.8-Flash-Next-NVFP4",
+    "revision": "7b719225242aacd3dbd3f9407468c2ee9a9d2594",
+    "served_name": "qwen3.8-flash-next"
+  },
+  "name": "qwen3.8-flash-next (qwen-worker-pair)",
+  "operator": {
+    "exposure": "maintenance-only",
+    "readiness": "experimental",
+    "use_cases": [
+      "configuration reference"
+    ],
+    "warnings": [
+      "GPU launch adapters are not included in this reference kit."
+    ]
+  },
+  "resources": {
+    "claims": [
+      "gpu:rank2",
+      "gpu:rank3",
+      "fabric:rank2-rank3"
+    ],
+    "nodes": {
+      "rank2": {
+        "min_disk_free_gib": 100,
+        "min_memory_available_gib": 100,
+        "swap_policy": "off_during_run"
+      },
+      "rank3": {
+        "min_disk_free_gib": 100,
+        "min_memory_available_gib": 100,
+        "swap_policy": "off_during_run"
+      }
+    }
+  },
+  "runtime": {
+    "backend": {
+      "health_path": "/health",
+      "models_path": "/v1/models",
+      "node": "rank3",
+      "port": 8891
+    },
+    "engine": "SGLang Qwen4Exp with MiaAI SM121 QSA patch",
+    "image": "dgx-local/qwen38-flash-next:02cd6d9-14ed5825",
+    "launch": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "qwen-worker-pair",
+        "launch"
+      ],
+      "environment": {
+        "DGX_SPARK_SERVE_MANAGED": "1"
+      },
+      "mode": "detached",
+      "node": "head",
+      "timeout_seconds": 3600
+    },
+    "stop": {
+      "argv": [
+        "/srv/spark/UNBOUND/site-adapter",
+        "qwen-worker-pair",
+        "stop"
+      ],
+      "mode": "detached",
+      "node": "head",
+      "timeout_seconds": 300
+    }
+  },
+  "schema_version": 1,
+  "serving": {
+    "concurrency_limit": 64,
+    "eviction_cost": 110,
+    "reasoning": false,
+    "request_filters": {
+      "setParams": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      }
+    },
+    "tools": true,
+    "ttl_seconds": 0
+  },
+  "topology": {
+    "fabric_required": true,
+    "mode": "tensor-parallel",
+    "nodes": [
+      "rank3",
+      "rank2"
+    ]
+  }
+}

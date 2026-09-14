@@ -1,0 +1,304 @@
+--- a/internal/config/selectors.go
++++ b/internal/config/selectors.go
+@@ -11,6 +11,7 @@
+ 	SelectorStrategyWarm      = "warm"
+ 	SelectorStrategyPin       = "pin"
+ 	SelectorStrategySpillover = "spillover"
++	SelectorStrategyReady     = "ready"
+ )
+ 
+ // SelectorSettings contains strategy-specific selector settings.
+@@ -59,11 +60,11 @@
+ 		}
+ 
+ 		switch selector.Strategy {
+-		case SelectorStrategyPin, SelectorStrategyWarm, SelectorStrategySpillover:
++		case SelectorStrategyPin, SelectorStrategyWarm, SelectorStrategySpillover, SelectorStrategyReady:
+ 		case "":
+ 			return fmt.Errorf("selectors.%s.strategy is required", selectorID)
+ 		default:
+-			return fmt.Errorf("selectors.%s.strategy: unknown strategy %q (valid: warm, pin, spillover)", selectorID, selector.Strategy)
++			return fmt.Errorf("selectors.%s.strategy: unknown strategy %q (valid: warm, pin, spillover, ready)", selectorID, selector.Strategy)
+ 		}
+ 		if len(selector.Targets) == 0 {
+ 			return fmt.Errorf("selectors.%s.targets must contain at least one entry", selectorID)
+@@ -80,12 +81,15 @@
+ 			}
+ 
+ 			realName, local := config.RealModelName(target)
++			if selector.Strategy == SelectorStrategyReady && !local {
++				return fmt.Errorf("selectors.%s.strategy ready requires local targets", selectorID)
++			}
+ 			if selector.Strategy == SelectorStrategyWarm {
+ 				if !local {
+ 					return fmt.Errorf("selectors.%s.targets[%d] must resolve to a local model for strategy %q", selectorID, i, selector.Strategy)
+ 				}
+ 			}
+-			if selector.Strategy == SelectorStrategySpillover {
++			if selector.Strategy == SelectorStrategySpillover || selector.Strategy == SelectorStrategyReady {
+ 				if local {
+ 					localTargets = append(localTargets, realName)
+ 				} else {
+@@ -96,7 +100,7 @@
+ 			}
+ 		}
+ 
+-		if selector.Strategy != SelectorStrategySpillover {
++		if selector.Strategy != SelectorStrategySpillover && selector.Strategy != SelectorStrategyReady {
+ 			continue
+ 		}
+ 		if selector.Settings.Spillover < 1 {
+--- a/internal/server/selector.go
++++ b/internal/server/selector.go
+@@ -32,6 +32,7 @@
+ type selectorSpilloverState struct {
+ 	mu        sync.Mutex
+ 	spillover int
++	readyOnly bool
+ 	targets   []spilloverTarget
+ 	inflight  map[string]int
+ 	rr        uint64
+@@ -44,11 +45,12 @@
+ func newSelectorSpilloverTracker(cfg config.Config) *selectorSpilloverTracker {
+ 	tracker := &selectorSpilloverTracker{states: make(map[string]*selectorSpilloverState)}
+ 	for selectorID, selector := range cfg.Selectors {
+-		if selector.Strategy != config.SelectorStrategySpillover {
++		if selector.Strategy != config.SelectorStrategySpillover && selector.Strategy != config.SelectorStrategyReady {
+ 			continue
+ 		}
+ 		state := &selectorSpilloverState{
+ 			spillover: selector.Settings.Spillover,
++			readyOnly: selector.Strategy == config.SelectorStrategyReady,
+ 			targets:   make([]spilloverTarget, 0, len(selector.Targets)),
+ 			inflight:  make(map[string]int, len(selector.Targets)),
+ 		}
+@@ -115,7 +117,7 @@
+ 				target, err = strategyPin(selector)
+ 			case config.SelectorStrategyWarm:
+ 				target, err = strategyWarm(s.cfg, selector, s.local.RunningModels())
+-			case config.SelectorStrategySpillover:
++			case config.SelectorStrategySpillover, config.SelectorStrategyReady:
+ 				target, err = strategySpillover(model, spillovers, s.local.RunningModels())
+ 			default:
+ 				err = fmt.Errorf("unknown selector strategy %q", selector.Strategy)
+@@ -127,7 +129,7 @@
+ 
+ 			updated, err := swaputil.ReplaceRequestModel(r, model, target)
+ 			if err != nil {
+-				if selector.Strategy == config.SelectorStrategySpillover {
++				if selector.Strategy == config.SelectorStrategySpillover || selector.Strategy == config.SelectorStrategyReady {
+ 					spillovers.release(model, target)
+ 				}
+ 				swaputil.SendResponse(w, r, http.StatusBadRequest, err.Error())
+@@ -136,7 +138,7 @@
+ 
+ 			s.proxylog.Debugf("selector: id=%s target=%s", model, target)
+ 
+-			if selector.Strategy == config.SelectorStrategySpillover {
++			if selector.Strategy == config.SelectorStrategySpillover || selector.Strategy == config.SelectorStrategyReady {
+ 				modelConfig, _, local := s.cfg.FindConfig(target)
+ 				if local && modelConfig.Compat.IgnoreWebsockets && swaputil.IsWebSocketUpgrade(updated) {
+ 					// strategySpillover reserves while choosing. Release immediately
+@@ -189,6 +191,16 @@
+ 	active := make([]spilloverTarget, 0, len(state.targets))
+ 	cold := make([]spilloverTarget, 0, len(state.targets))
+ 	for _, target := range state.targets {
++		// Resident pools must never reserve a cold or starting target merely
++		// because it has fewer requests than a healthy, already-ready peer.
++		// Config validation restricts readyOnly to local targets whose lifecycle
++		// state is available here. Explicit physical routes remain unchanged.
++		if state.readyOnly {
++			if target.local && running[target.modelID] == process.StateReady {
++				active = append(active, target)
++			}
++			continue
++		}
+ 		if !target.local {
+ 			if state.inflight[target.modelID] > 0 {
+ 				active = append(active, target)
+--- a/config-schema.json
++++ b/config-schema.json
+@@ -361,7 +361,8 @@
+                         "enum": [
+                             "warm",
+                             "pin",
+-                            "spillover"
++                            "spillover",
++                            "ready"
+                         ],
+                         "description": "How a target is selected for each request."
+                     },
+--- /dev/null
++++ b/internal/config/selector_ready_only_test.go
+@@ -0,0 +1,41 @@
++package config
++
++import (
++	"fmt"
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++	"strings"
++	"testing"
++)
++
++func TestConfig_SelectorReadyOnly_Validation(t *testing.T) {
++	for _, tc := range []struct{ strategy, targets, wantErr string }{
++		{"ready", "a, b", ""},
++
++		{"ready", "a, remote/model", "requires local targets"},
++	} {
++		t.Run(tc.strategy+tc.targets, func(t *testing.T) {
++			cfg, err := LoadConfigFromReader(strings.NewReader(fmt.Sprintf(`
++models:
++  a: {cmd: "echo ${PORT}"}
++  b: {cmd: "echo ${PORT}"}
++groups:
++  pool: {swap: false, members: [a, b]}
++peers:
++  remote: {proxy: "http://example.com", models: [model]}
++selectors:
++  pool:
++    strategy: %s
++    targets: [%s]
++    settings: {spillover: 1}
++`, tc.strategy, tc.targets)))
++			if tc.wantErr != "" {
++				require.Error(t, err)
++				assert.Contains(t, err.Error(), tc.wantErr)
++			} else {
++				require.NoError(t, err)
++				assert.Equal(t, SelectorStrategyReady, cfg.Selectors["pool"].Strategy)
++			}
++		})
++	}
++}
+--- /dev/null
++++ b/internal/server/selector_ready_only_test.go
+@@ -0,0 +1,127 @@
++package server
++
++import (
++	"net/http"
++	"net/http/httptest"
++	"strconv"
++	"strings"
++	"testing"
++
++	"github.com/mostlygeek/llama-swap/internal/config"
++	"github.com/mostlygeek/llama-swap/internal/process"
++	"github.com/mostlygeek/llama-swap/internal/swaputil"
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++)
++
++func TestServer_SelectorReadyOnly_StartingPeerNeverTakesBusyReadyTraffic(t *testing.T) {
++	cfg := selectorTestConfig(t)
++	selector := cfg.Selectors["balanced"]
++	selector.Strategy = config.SelectorStrategyReady
++	cfg.Selectors["balanced"] = selector
++	tracker := newSelectorSpilloverTracker(cfg)
++	states := map[string]process.ProcessState{"a": process.StateReady, "b": process.StateStarting, "c": process.StateStopped}
++	for i := 0; i < 20; i++ {
++		target, err := strategySpillover("balanced", tracker, states)
++		require.NoError(t, err)
++		assert.Equal(t, "a", target)
++	}
++	// When B actually becomes ready it participates in least-inflight balance.
++	states["b"] = process.StateReady
++	target, err := strategySpillover("balanced", tracker, states)
++	require.NoError(t, err)
++	assert.Equal(t, "b", target)
++	// A returning to starting cannot be selected, even with old reservations.
++	states["a"] = process.StateStarting
++	target, err = strategySpillover("balanced", tracker, states)
++	require.NoError(t, err)
++	assert.Equal(t, "b", target)
++}
++
++func TestServer_SelectorReadyOnly_FailsBeforeDownstreamWhenNoneReady(t *testing.T) {
++	for _, state := range []process.ProcessState{process.StateStarting, process.StateStopped, process.StateStopping, process.StateShutdown} {
++		t.Run(string(state), func(t *testing.T) {
++			cfg := selectorTestConfig(t)
++			selector := cfg.Selectors["balanced"]
++			selector.Strategy = config.SelectorStrategyReady
++			cfg.Selectors["balanced"] = selector
++			local := newStubRouter([]string{"a", "b", "c"}, "")
++			local.running = map[string]process.ProcessState{"a": state, "b": state}
++			called := false
++			local.serveHTTP = func(w http.ResponseWriter, r *http.Request) { called = true }
++			s := selectorTestServer(t, cfg, local)
++			w := httptest.NewRecorder()
++			s.ServeHTTP(w, chatRequest("balanced"))
++			assert.Equal(t, http.StatusServiceUnavailable, w.Code)
++			assert.False(t, called, "must not enter a downstream path that could start a model")
++		})
++	}
++}
++
++func TestServer_SelectorReadyOnly_StreamsAndNonstreamsUseReadyPeer(t *testing.T) {
++	for _, stream := range []bool{false, true} {
++		cfg := selectorTestConfig(t)
++		selector := cfg.Selectors["balanced"]
++		selector.Strategy = config.SelectorStrategyReady
++		cfg.Selectors["balanced"] = selector
++		local := newStubRouter([]string{"a", "b", "c"}, "")
++		local.running = map[string]process.ProcessState{"a": process.StateStarting, "b": process.StateReady}
++		local.serveHTTP = func(w http.ResponseWriter, r *http.Request) {
++			data, _ := swaputil.ReadContext(r.Context())
++			assert.Equal(t, "b", data.ModelID)
++			if stream {
++				w.Header().Set("Content-Type", "text/event-stream")
++				_, _ = w.Write([]byte("data: {\"choices\":[{\"delta\":{\"content\":\"OK\"}}]}\n\ndata: [DONE]\n\n"))
++			} else {
++				w.Header().Set("Content-Type", "application/json")
++				_, _ = w.Write([]byte("{\"choices\":[{\"message\":{\"content\":\"OK\"}}]}"))
++			}
++		}
++		s := selectorTestServer(t, cfg, local)
++		w := httptest.NewRecorder()
++		req := httptest.NewRequest(http.MethodPost, "/v1/chat/completions", strings.NewReader(`{"model":"balanced","stream":`+strconv.FormatBool(stream)+`,"messages":[{"role":"user","content":"test"}]}`))
++		req.Header.Set("Content-Type", "application/json")
++		s.ServeHTTP(w, req)
++		assert.Equal(t, http.StatusOK, w.Code)
++		assert.Contains(t, w.Body.String(), "OK")
++	}
++}
++
++// Native maintenance profile changes affect new admission, not existing streams.
++func TestServer_SelectorReadyOnly_MaintenanceProfilePreservesActiveStream(t *testing.T) {
++	cfg := selectorTestConfig(t)
++	selector := cfg.Selectors["balanced"]
++	selector.Strategy = config.SelectorStrategyReady
++	cfg.Selectors["balanced"] = selector
++	selector.Targets = []string{"b"}
++	selector.Unlisted = true
++	cfg.Selectors["only-b"] = selector
++	cfg.Profiles["maintenance"] = config.ProfileConfig{Pins: map[string]string{"balanced": "only-b"}}
++	local := newStubRouter([]string{"a", "b", "c"}, "")
++	local.running = map[string]process.ProcessState{"a": process.StateReady, "b": process.StateReady}
++	started, release, done := make(chan struct{}), make(chan struct{}), make(chan struct{})
++	local.serveHTTP = func(w http.ResponseWriter, r *http.Request) {
++		data, _ := swaputil.ReadContext(r.Context())
++		if data.ModelID == "a" {
++			close(started)
++			<-release
++		}
++		_, _ = w.Write([]byte(data.ModelID))
++	}
++	s := selectorTestServer(t, cfg, local)
++	first := httptest.NewRecorder()
++	go func() { defer close(done); s.ServeHTTP(first, chatRequest("balanced")) }()
++	<-started
++	activation := httptest.NewRecorder()
++	s.ServeHTTP(activation, httptest.NewRequest(http.MethodPut, "/api/profiles/active", strings.NewReader(`{"name":"maintenance"}`)))
++	require.Equal(t, http.StatusOK, activation.Code)
++	next := httptest.NewRecorder()
++	s.ServeHTTP(next, chatRequest("balanced"))
++	assert.Equal(t, "b", next.Body.String())
++	close(release)
++	<-done
++	assert.Equal(t, http.StatusOK, first.Code)
++	assert.Equal(t, "a", first.Body.String())
++	assert.Equal(t, process.StateReady, local.running["a"])
++	assert.Equal(t, process.StateReady, local.running["b"])
++}

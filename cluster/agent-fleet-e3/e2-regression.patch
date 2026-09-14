@@ -1,0 +1,19 @@
+--- a/input.py
++++ b/input.py
+@@ -98,7 +98,7 @@
+     )
+ 
+     diag = exl3_fat_diag()
+-    assert diag["schema"] == EXL3_FAT_DIAG_SCHEMA == 1, diag["schema"]
++    assert diag["schema"] == EXL3_FAT_DIAG_SCHEMA == 2, diag["schema"]
+     assert tuple(sorted(diag)) == tuple(sorted(EXL3_FAT_DIAG_KEYS)), (
+         set(diag) ^ set(EXL3_FAT_DIAG_KEYS)
+     )
+@@ -620,6 +620,7 @@
+         assert diag["prefill_layer_calls"] == 1, diag["prefill_layer_calls"]
+         assert diag["thin_calls"] == 0 and diag["row_tile_calls"] == 0
+         assert diag["fallback_calls"] == {
++            "grouped": 0,
+             "kernel": 1,
+             "batched": 0,
+             "sorted": 0,
