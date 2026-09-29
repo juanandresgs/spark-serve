@@ -4,6 +4,15 @@ Pinned serving recipes and one model lifecycle broker for NVIDIA DGX Sparks.
 This distribution contains source, patches, build procedures and model-source
 revisions. It contains **no model weights**.
 
+New: [single-Spark Qwen TensorFold cooperative-prefill recipe](experiments/qwen-tensorfold-cooperative/README.md),
+with [measured improvements and tradeoffs](experiments/qwen-tensorfold-cooperative/METRICS.md)
+and [further optimization experiments](experiments/qwen-tensorfold-cooperative/IMPROVEMENTS.md).
+It reduced short-request p95 first-token latency from 356.36s to 2.73s in a bounded
+same-Spark mixed-load test. Cold near-limit prefill remains about nine minutes.
+This experimental source build is not yet independently GPU-qualified. Existing
+catalog entries below retain their historical qualification scope and are not a
+statement of any site's present deployment.
+
 This is a deployment candidate. Portable launchers and a fresh-site installer
 are included; clean GPU compilation and deployment acceptance are still pending.
 Do not interpret historical benchmark results as a completed test of this package.
