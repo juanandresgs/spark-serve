@@ -1,0 +1,44 @@
+name: Qwen cooperative source checks
+on:
+  push:
+    paths: ['experiments/qwen-tensorfold-cooperative/**', '.github/workflows/qwen-cooperative.yml']
+  pull_request:
+    paths: ['experiments/qwen-tensorfold-cooperative/**', '.github/workflows/qwen-cooperative.yml']
+permissions:
+  contents: read
+jobs:
+  source-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Install CPU audit dependencies
+        run: python -m pip install jsonschema==4.26.0 jinja2 tokenizers
+      - name: Fetch the exact runtime for parser boundary tests
+        run: |
+          git init "$RUNNER_TEMP/tensorfold"
+          git -C "$RUNNER_TEMP/tensorfold" remote add origin https://github.com/ashhart/TensorFold.git
+          git -C "$RUNNER_TEMP/tensorfold" fetch --depth 1 origin 34bae79ac97da6c3ab3fe10159cf49633ce8112a
+          git -C "$RUNNER_TEMP/tensorfold" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/tensorfold" rev-parse HEAD)" = 34bae79ac97da6c3ab3fe10159cf49633ce8112a
+      - name: Verify export integrity and syntax
+        working-directory: experiments/qwen-tensorfold-cooperative
+        run: |
+          python - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('.')
+          m=json.loads((root/'MANIFEST.json').read_text())
+          assert not m['public_build_gpu_qualified']
+          for n,h in m['files'].items():
+              assert hashlib.sha256((root/n).read_bytes()).hexdigest()==h,n
+          PY
+          python -m compileall -q .
+          bash -n run.sh
+      - name: Run real pinned-parser and adapter CPU tests
+        working-directory: experiments/qwen-tensorfold-cooperative
+        run: PYTHONPATH="$RUNNER_TEMP/tensorfold/src:$PWD" python -m unittest discover -p 'test_*.py'

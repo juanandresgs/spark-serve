@@ -1,0 +1,1510 @@
+{
+  "performance": {
+    "baseline-context-0.json": {
+      "summary": {
+        "passed": true,
+        "cold": 535.1336514769937,
+        "warm": 0.6915304549911525,
+        "cached": 253841
+      },
+      "requests": 2,
+      "input_tokens": [
+        253841,
+        253912
+      ],
+      "cached_tokens": [
+        0,
+        253841
+      ],
+      "max_tokens": [
+        8192
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "baseline-mixed-0.json": {
+      "summary": {
+        "passed": true,
+        "wall_s": 375.4935485669994,
+        "short_p50": 312.92393777050165,
+        "short_p95": 359.9958743169991,
+        "short_max": 365.776804025998,
+        "long_seconds": [
+          369.6395839140023,
+          369.6400761910045
+        ]
+      },
+      "requests": 22,
+      "input_tokens": [
+        66,
+        66,
+        131096,
+        131096,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        128,
+        8192
+      ],
+      "long_ttft_seconds": [
+        185.7607229760033,
+        367.52679937200446
+      ],
+      "short_median_total_seconds": 313.8357301615033
+    },
+    "baseline-mixed-1.json": {
+      "summary": {
+        "passed": true,
+        "wall_s": 371.0662274399947,
+        "short_p50": 308.456514274505,
+        "short_p95": 355.8452544299944,
+        "short_max": 361.63740979299473,
+        "long_seconds": [
+          365.36862555900007,
+          365.3722389300092
+        ]
+      },
+      "requests": 22,
+      "input_tokens": [
+        66,
+        66,
+        131096,
+        131096,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        128,
+        8192
+      ],
+      "long_ttft_seconds": [
+        181.67006612799014,
+        363.421586691009
+      ],
+      "short_median_total_seconds": 309.47045470550074
+    },
+    "baseline-short-0.json": {
+      "summary": {
+        "passed": true,
+        "median_decode": {
+          "code": 90.72351408082788,
+          "prose": 42.42540767004016
+        }
+      },
+      "requests": 6,
+      "input_tokens": [
+        73,
+        73,
+        73,
+        62,
+        62,
+        62
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        512
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "cooperative2048-context-0.json": {
+      "summary": {
+        "passed": true,
+        "cold": 538.0587876229984,
+        "warm": 0.6793979210051475,
+        "cached": 253841
+      },
+      "requests": 2,
+      "input_tokens": [
+        253841,
+        253912
+      ],
+      "cached_tokens": [
+        0,
+        253841
+      ],
+      "max_tokens": [
+        8192
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "cooperative2048-mixed-0.json": {
+      "summary": {
+        "passed": true,
+        "wall_s": 376.10309183000936,
+        "short_p50": 1.798872712002776,
+        "short_p95": 2.7270433800003957,
+        "short_max": 2.932870638993336,
+        "long_seconds": [
+          376.0385228029918,
+          376.09548711500247
+        ]
+      },
+      "requests": 22,
+      "input_tokens": [
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        131096,
+        131096
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        128,
+        8192
+      ],
+      "long_ttft_seconds": [
+        374.9525739749952,
+        375.1948131590034
+      ],
+      "short_median_total_seconds": 10.693392920002225
+    },
+    "cooperative2048-short-0.json": {
+      "summary": {
+        "passed": true,
+        "median_decode": {
+          "code": 91.18062074688446,
+          "prose": 43.36886227797946
+        }
+      },
+      "requests": 6,
+      "input_tokens": [
+        73,
+        73,
+        73,
+        62,
+        62,
+        62
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        512
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "optimized4096-context-0.json": {
+      "summary": {
+        "passed": true,
+        "cold": 533.3801764350064,
+        "warm": 0.6475631919893203,
+        "cached": 253841
+      },
+      "requests": 2,
+      "input_tokens": [
+        253841,
+        253912
+      ],
+      "cached_tokens": [
+        0,
+        253841
+      ],
+      "max_tokens": [
+        8192
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "optimized4096-mixed-0.json": {
+      "summary": {
+        "passed": true,
+        "wall_s": 375.8608178040013,
+        "short_p50": 2.7187285685067764,
+        "short_p95": 3.882719900997472,
+        "short_max": 4.080307355005061,
+        "long_seconds": [
+          375.31814871699316,
+          375.8549407690007
+        ]
+      },
+      "requests": 22,
+      "input_tokens": [
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        131096,
+        131096
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        128,
+        8192
+      ],
+      "long_ttft_seconds": [
+        367.8334023839998,
+        375.2217802399973
+      ],
+      "short_median_total_seconds": 8.4255706105032
+    },
+    "optimized4096-short-0.json": {
+      "summary": {
+        "passed": true,
+        "median_decode": {
+          "code": 91.4588173507084,
+          "prose": 43.652089130190966
+        }
+      },
+      "requests": 6,
+      "input_tokens": [
+        73,
+        73,
+        73,
+        62,
+        62,
+        62
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        512
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "packaged-context-2.json": {
+      "summary": {
+        "passed": true,
+        "cold": 536.4521167839994,
+        "warm": 0.6318810880038654,
+        "cached": 253841
+      },
+      "requests": 2,
+      "input_tokens": [
+        253841,
+        253912
+      ],
+      "cached_tokens": [
+        0,
+        253841
+      ],
+      "max_tokens": [
+        8192
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    },
+    "samehost-control-mixed-1.json": {
+      "summary": {
+        "passed": true,
+        "wall_s": 371.65513673299574,
+        "short_p50": 309.02214924599684,
+        "short_p95": 356.36180207099824,
+        "short_max": 362.151855093005,
+        "long_seconds": [
+          365.902586347991,
+          365.90609176100406
+        ]
+      },
+      "requests": 22,
+      "input_tokens": [
+        66,
+        66,
+        131096,
+        131096,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        128,
+        8192
+      ],
+      "long_ttft_seconds": [
+        363.9144544929877,
+        182.00885325900163
+      ],
+      "short_median_total_seconds": 310.0186589904988
+    },
+    "selected-mixed-1.json": {
+      "summary": {
+        "passed": true,
+        "wall_s": 376.1850992139953,
+        "short_p50": 2.258682809493621,
+        "short_p95": 2.734651122998912,
+        "short_max": 2.866023234993918,
+        "long_seconds": [
+          375.63668166501157,
+          376.17737057901104
+        ]
+      },
+      "requests": 22,
+      "input_tokens": [
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        66,
+        131096,
+        131096
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        128,
+        8192
+      ],
+      "long_ttft_seconds": [
+        371.79690041800495,
+        375.53941884099913
+      ],
+      "short_median_total_seconds": 5.2855217779942905
+    },
+    "selected-short-1.json": {
+      "summary": {
+        "passed": true,
+        "median_decode": {
+          "code": 92.65568577899666,
+          "prose": 43.81261417490388
+        }
+      },
+      "requests": 6,
+      "input_tokens": [
+        73,
+        73,
+        73,
+        62,
+        62,
+        62
+      ],
+      "cached_tokens": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_tokens": [
+        512
+      ],
+      "long_ttft_seconds": [],
+      "short_median_total_seconds": null
+    }
+  },
+  "qualification": {
+    "cooperative-qualification.json": {
+      "cases": 36,
+      "passed": 36
+    },
+    "optimized4096-qualification.json": {
+      "cases": 36,
+      "passed": 36
+    },
+    "packaged-qualification.json": {
+      "cases": 36,
+      "passed": 36
+    },
+    "selected-qualification.json": {
+      "cases": 36,
+      "passed": 36
+    }
+  },
+  "token_ids": {
+    "cooperative2048-token-ids.json": [
+      {
+        "kind": "code",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": false,
+        "serial_pass": false,
+        "passed": true
+      }
+    ],
+    "optimized4096-token-ids.json": [
+      {
+        "kind": "code",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      }
+    ],
+    "packaged-token-ids.json": [
+      {
+        "kind": "code",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "code",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "prose",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0.7,
+        "seed": 1234,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      },
+      {
+        "kind": "8k-code",
+        "temperature": 0.7,
+        "seed": 4321,
+        "cross_arm_pass": true,
+        "serial_supported": true,
+        "serial_pass": true,
+        "passed": true
+      }
+    ]
+  },
+  "streaming": {
+    "baseline-stream-gap.json": {
+      "label": "baseline",
+      "rows": [
+        {
+          "role": "stream",
+          "index": 0,
+          "passed": true,
+          "seconds": 376.03189288401336,
+          "ttft": 0.26511573800235055,
+          "max_output_gap": 362.73719634799636,
+          "p95_output_gap": 0.07752687198808417,
+          "output_chunks": 199,
+          "usage": {
+            "prompt_tokens": 72,
+            "completion_tokens": 1024,
+            "total_tokens": 1096
+          },
+          "runtime_stats": {
+            "prefill_s": 0.2344,
+            "decode_s": 375.7651,
+            "rounds": 198,
+            "drafts": true,
+            "cached": 0,
+            "min_rows": 2,
+            "token_sha": "373098752f0c"
+          },
+          "finish": "length",
+          "prompt_sha256": "2061c3f219049604db2c1d9bc809d900df306f573784beaec89b4b67cce59cd3",
+          "output_sha256": "6eacdb6baa08686dda931dfcc5ade367c746d28a0803649f09cf4500551d64b0"
+        },
+        {
+          "role": "long",
+          "index": 0,
+          "passed": true,
+          "seconds": 364.0886983740056,
+          "ttft": 181.5302258869924,
+          "max_output_gap": 181.60389860501164,
+          "p95_output_gap": 0.1303060359932715,
+          "output_chunks": 9,
+          "usage": {
+            "prompt_tokens": 131090,
+            "completion_tokens": 53,
+            "total_tokens": 131143
+          },
+          "runtime_stats": {
+            "prefill_s": 181.1285,
+            "decode_s": 182.562,
+            "rounds": 9,
+            "drafts": true,
+            "cached": 0,
+            "min_rows": 4,
+            "token_sha": "fa53b12ecfbb"
+          },
+          "finish": "stop",
+          "prompt_sha256": "c7cd3ee39ebd7dfa4622fc35cab275e1b2151a90c733cb1f32edd69c087523f2",
+          "output_sha256": "3fd2d9eed4ff9da229ffa01a0bdf727074dd9ab88ef3a202b227eeadfa573063"
+        },
+        {
+          "role": "long",
+          "index": 1,
+          "passed": true,
+          "seconds": 364.08870462900086,
+          "ttft": 363.0218569760036,
+          "max_output_gap": 0.12976153400086332,
+          "p95_output_gap": 0.1279750520043308,
+          "output_chunks": 9,
+          "usage": {
+            "prompt_tokens": 131090,
+            "completion_tokens": 53,
+            "total_tokens": 131143
+          },
+          "runtime_stats": {
+            "prefill_s": 181.497,
+            "decode_s": 1.065,
+            "rounds": 9,
+            "drafts": true,
+            "cached": 0,
+            "min_rows": 4,
+            "token_sha": "fa53b12ecfbb"
+          },
+          "finish": "stop",
+          "prompt_sha256": "2f186a556ab97d50004b57f1cb9da3e0aefc0aaa9e9a2a2f61ef4db5eec16be2",
+          "output_sha256": "3fd2d9eed4ff9da229ffa01a0bdf727074dd9ab88ef3a202b227eeadfa573063"
+        }
+      ],
+      "seconds": 376.0332543849945,
+      "passed": true
+    },
+    "packaged-stream-gap.json": {
+      "label": "packaged",
+      "rows": [
+        {
+          "role": "stream",
+          "index": 0,
+          "passed": true,
+          "seconds": 143.01554949699494,
+          "ttft": 0.25155905800056644,
+          "max_output_gap": 2.8670283329993254,
+          "p95_output_gap": 2.81954957000562,
+          "output_chunks": 199,
+          "usage": {
+            "prompt_tokens": 72,
+            "completion_tokens": 1024,
+            "total_tokens": 1096
+          },
+          "runtime_stats": {
+            "prefill_s": 0.2299,
+            "decode_s": 142.7643,
+            "rounds": 198,
+            "drafts": true,
+            "cached": 0,
+            "min_rows": 2,
+            "token_sha": "373098752f0c"
+          },
+          "finish": "length",
+          "prompt_sha256": "2061c3f219049604db2c1d9bc809d900df306f573784beaec89b4b67cce59cd3",
+          "output_sha256": "6eacdb6baa08686dda931dfcc5ade367c746d28a0803649f09cf4500551d64b0"
+        },
+        {
+          "role": "long",
+          "index": 0,
+          "passed": true,
+          "seconds": 377.8181435709994,
+          "ttft": 376.8616803519981,
+          "max_output_gap": 0.26431423900066875,
+          "p95_output_gap": 0.10546232599881478,
+          "output_chunks": 9,
+          "usage": {
+            "prompt_tokens": 131090,
+            "completion_tokens": 53,
+            "total_tokens": 131143
+          },
+          "runtime_stats": {
+            "prefill_s": 376.3026,
+            "decode_s": 0.9553,
+            "rounds": 9,
+            "drafts": true,
+            "cached": 0,
+            "min_rows": 4,
+            "token_sha": "fa53b12ecfbb"
+          },
+          "finish": "stop",
+          "prompt_sha256": "c7cd3ee39ebd7dfa4622fc35cab275e1b2151a90c733cb1f32edd69c087523f2",
+          "output_sha256": "3fd2d9eed4ff9da229ffa01a0bdf727074dd9ab88ef3a202b227eeadfa573063"
+        },
+        {
+          "role": "long",
+          "index": 1,
+          "passed": true,
+          "seconds": 378.0871277940023,
+          "ttft": 377.3016425950045,
+          "max_output_gap": 0.115679630995146,
+          "p95_output_gap": 0.10403122300340328,
+          "output_chunks": 9,
+          "usage": {
+            "prompt_tokens": 131090,
+            "completion_tokens": 53,
+            "total_tokens": 131143
+          },
+          "runtime_stats": {
+            "prefill_s": 373.9419,
+            "decode_s": 0.7825,
+            "rounds": 9,
+            "drafts": true,
+            "cached": 0,
+            "min_rows": 4,
+            "token_sha": "fa53b12ecfbb"
+          },
+          "finish": "stop",
+          "prompt_sha256": "2f186a556ab97d50004b57f1cb9da3e0aefc0aaa9e9a2a2f61ef4db5eec16be2",
+          "output_sha256": "3fd2d9eed4ff9da229ffa01a0bdf727074dd9ab88ef3a202b227eeadfa573063"
+        }
+      ],
+      "seconds": 378.5439517999912,
+      "passed": true
+    }
+  },
+  "matched_runs": {
+    "baseline-mixed-0 / cooperative2048-mixed-0": {
+      "requests": 22,
+      "prompt_matches": 22,
+      "token_matches": 22
+    },
+    "baseline-mixed-0 / optimized4096-mixed-0": {
+      "requests": 22,
+      "prompt_matches": 22,
+      "token_matches": 22
+    },
+    "samehost-control-mixed-1 / selected-mixed-1": {
+      "requests": 22,
+      "prompt_matches": 22,
+      "token_matches": 22
+    }
+  },
+  "streaming_agreement": {
+    "requests": 3,
+    "prompt_matches": 3,
+    "output_matches": 3,
+    "token_matches": 3
+  },
+  "packaged-long-state": [
+    {
+      "kind": "near-limit-code",
+      "temperature": 0.7,
+      "seed": 4321,
+      "prompt_tokens": [
+        254029,
+        254029
+      ],
+      "cached_tokens": [
+        253912,
+        0
+      ],
+      "token_counts": [
+        128,
+        128
+      ],
+      "passed": true
+    }
+  ],
+  "raw_receipt_sha256": [
+    {
+      "file": "baseline-context-0.json",
+      "sha256": "8d7f2b0dbd973620369feb3c4a4dc5ff895f7beaf08f738390db890bd9f9534c"
+    },
+    {
+      "file": "baseline-mixed-0.json",
+      "sha256": "fccf29398f1fbfb252bb6496418bc6c69e30180a0af5b39a8a0c9b964bce7569"
+    },
+    {
+      "file": "baseline-mixed-1.json",
+      "sha256": "b860be988c7076f18ad8eca1edfb25591e07add8907d87b4c561b49a3ef5ae4e"
+    },
+    {
+      "file": "baseline-short-0.json",
+      "sha256": "107fcb30ca5ac8e9ba8bef065e5bd78d1fc8e0575dde0df1916dc67945fa3512"
+    },
+    {
+      "file": "baseline-stream-gap.json",
+      "sha256": "6e753b04dd1018941275cf6262c8d1a0b1bb75b2a18c825e668f654a5c703669"
+    },
+    {
+      "file": "cooperative-qualification.json",
+      "sha256": "6bd495eb86a3ab8335df4389e998531247f22d043fdf9ace106f77ab18fc700b"
+    },
+    {
+      "file": "cooperative2048-context-0.json",
+      "sha256": "294a4d4e1997eedba2def8257dedaf60c4202e2e31e3ede74ebe46d128b15abf"
+    },
+    {
+      "file": "cooperative2048-mixed-0.json",
+      "sha256": "55e89a122b5f86f7876a8bf60d6da59a93803273e0b22c0a19436d982f2c901a"
+    },
+    {
+      "file": "cooperative2048-short-0.json",
+      "sha256": "c3af98f0e8e2b09135294b4d371f35ebff9e68204dffbe47b1552adc1549fb60"
+    },
+    {
+      "file": "cooperative2048-token-ids.json",
+      "sha256": "bab49801223d6931b78e88a9187df1dfdc50615cfeb53f40fd7467a49563fae5"
+    },
+    {
+      "file": "optimized4096-cancellation.json",
+      "sha256": "ca03ee638c1d695fe724d15a12918e142d55b717d25aa4cdc2140c555026068a"
+    },
+    {
+      "file": "optimized4096-context-0.json",
+      "sha256": "e81e285f8f687b8f03d6b9f7ab1e833f56f52c47b647272e579b5ff3b403cc62"
+    },
+    {
+      "file": "optimized4096-mixed-0.json",
+      "sha256": "d30f37facc2b708e786b3ec7f7c569c454cfb7b215a5ee9d2fe296cf6e31a457"
+    },
+    {
+      "file": "optimized4096-qualification.json",
+      "sha256": "2cac0b52bde37894ef2771d9fe715e63239ee98134047c67c2b87fa5d6a2212d"
+    },
+    {
+      "file": "optimized4096-short-0.json",
+      "sha256": "891ea4cd9f3a374ddebb2264b20c6d2f5a2be97ff57f0ececff9956b76b41b98"
+    },
+    {
+      "file": "optimized4096-token-ids.json",
+      "sha256": "563d79b449114c2c68ae3a6affcf3c9999afaae93ef9b525d6bb892ab55fbfad"
+    },
+    {
+      "file": "packaged-cancellation.json",
+      "sha256": "87ee23c1c84e77ecbb1ce5436fd923fd8a0ffe64e0f8a1153980d3ce38598157"
+    },
+    {
+      "file": "packaged-context-2.json",
+      "sha256": "1282471ac6e3ae4d9b3649b216a679851b8e93a1b250c000ceb9a05746c0addd"
+    },
+    {
+      "file": "packaged-qualification.json",
+      "sha256": "00be1cda528764d5c19c016d2569d933fa0e978a91f6c3b0c335127eff85a127"
+    },
+    {
+      "file": "packaged-stream-gap.json",
+      "sha256": "37a7141fd356dad959986ccb43f3b24a9a3c9fb9c86cf75659cddd018156e3de"
+    },
+    {
+      "file": "packaged-token-ids.json",
+      "sha256": "381119b18eaf8f2f4cc966fa19c3384325ec9d1f97faff3f2f1ee620328ae677"
+    },
+    {
+      "file": "samehost-control-mixed-1.json",
+      "sha256": "52c29ddde33a380a0a5f9543db6ccf8db645188337b4db5ec5c0596440d0ef00"
+    },
+    {
+      "file": "selected-cancellation.json",
+      "sha256": "746a4139e7d9074d73e33944732017384921d95862dbddb94d3e1764a67a0d43"
+    },
+    {
+      "file": "selected-mixed-1.json",
+      "sha256": "520e97ee3593a25051793eb8bd8bfe1a437ea9743919cb69b4c245d93f8e4a36"
+    },
+    {
+      "file": "selected-qualification.json",
+      "sha256": "ca97896ac500bc934de0bf52633c8c159461d5a8fa4d4d5e9a746f9bbf6a44ae"
+    },
+    {
+      "file": "selected-short-1.json",
+      "sha256": "e412e55f99b3fa991b5d23242d09a32958cac83778fe0292e379b7078f4a430b"
+    },
+    {
+      "file": "selected-image.json",
+      "sha256": "de2b8e5851880b75c01bc0a2008ed0214edd952b1aeea89db6afe9eb25eeb391"
+    },
+    {
+      "file": "selection.json",
+      "sha256": "1948a8878e04855410514eaafb40e21d1077f637a275ebf2ad1388b95731184f"
+    },
+    {
+      "file": "packaged-long-state.json",
+      "sha256": "3f0696a4ef05faf5b8b90e4576a6ae2cb4e449c3845fe2f886b1c988a6fe00de"
+    },
+    {
+      "file": "phase4-complete.json",
+      "sha256": "cd3069b281ee7ca70d337d43b919bd4a8108d3bd9382ae7de0bbd958bd8def8f"
+    },
+    {
+      "file": "complete.json",
+      "sha256": "64744c83cc321d400c8aed9503e3b45b28d576db6d19db62ae9f6c579c9d5034"
+    },
+    {
+      "file": "packaged-container.json",
+      "sha256": "389ce456d1e6c67325b2d904bca904da632ee94a32819255280bc68775391e38"
+    },
+    {
+      "file": "local-checks.json",
+      "sha256": "1ca44f1bf7222fda454731ac79d07b017d3a7ee67e28a7f01b39c815d2d1cc65"
+    },
+    {
+      "file": "kernel-checks.json",
+      "sha256": "aede33e00e5ac2452e6f60cc84f70f2aac2cb6169b8f99fb1dbd3590a37e3dc1"
+    },
+    {
+      "file": "final-production-checks.json",
+      "sha256": "2f4b8d187e84be0fb111666de6685971bacda5cee13c3703699d62763f9d1790"
+    },
+    {
+      "file": "pi-candidate.json",
+      "sha256": "aaa74d76667b5cffd22b9c0e900a495535b8a3dae1ee25d061b23d8a33cab24e"
+    },
+    {
+      "file": "hermes-candidate.json",
+      "sha256": "c1d59acdf8978b10fba8012775d9860c785cd123e7970100a6770ed57f183433"
+    }
+  ],
+  "scope": "Original hardware observations, September 28 2026. Public source build not GPU-qualified; candidate not deployed.",
+  "cancellation": {
+    "optimized4096-cancellation.json": {
+      "cases": 6,
+      "passed": 6,
+      "latency_seconds": [
+        3.24355913499312,
+        3.2217380110087106,
+        3.176399335003225,
+        3.1746131330000935,
+        3.278048874999513,
+        3.2201263019960606
+      ]
+    },
+    "packaged-cancellation.json": {
+      "cases": 6,
+      "passed": 6,
+      "latency_seconds": [
+        0.7098537269921508,
+        0.6456821000028867,
+        0.6130731209996156,
+        0.5753888570034178,
+        0.6091404399921885,
+        0.5809859709988814
+      ]
+    },
+    "selected-cancellation.json": {
+      "cases": 6,
+      "passed": 6,
+      "latency_seconds": [
+        0.5341171420004684,
+        0.6360184520017356,
+        0.5734761690109735,
+        0.6058872529974906,
+        0.5828353560063988,
+        0.6794236040004762
+      ]
+    }
+  }
+}

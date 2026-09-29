@@ -29,3 +29,13 @@ history; do not treat the older runtime's measurements as acceptance of a fresh
 image or site. Contributions should include a small reversible change and checks
 appropriate to its behavior. `deploy/check.py` is the offline check; `deploy/smoke.py`
 provides API and optional disruptive restart acceptance.
+
+## Qwen cooperative source recipe — issue #2
+
+- Publish source-pinned adapters, source-build/run steps, synthetic benchmark tools,
+  aggregate receipts and a causal metric ledger under `experiments/qwen-tensorfold-cooperative`.
+- Two Luna reviews verify metrics, source behavior, limits and primary-source claims;
+  Sol supplies a ranked improvement analysis.
+- Export/privacy/CPU checks support this source candidate. Fresh GPU build, cold
+  boot, sustained load and full-slot cancellation remain future qualification.
+- No existing deployment, model weights or binary image is changed/distributed.
