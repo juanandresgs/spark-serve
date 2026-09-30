@@ -1,0 +1,217 @@
+{
+  "accounting": {
+    "requests_attempted": 1,
+    "requests_completed": 0,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": 326.978
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "glm-window-20260930-tf-context-near-limit-retrieval-and-generation-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-30T17:16:31.579028+00:00",
+  "recipe": {
+    "id": "glm-window-20260930-tf-eager-v1",
+    "fingerprint": "b931e15d686296d57d26a854a2e9ffe36ba821838f2a962e531661c4a4e843ca"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": "9cd52ab4daba68ddd09be89be8f23ad43175e821",
+    "model_revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "attestation": "Imported completed research receipt; rank identities retained where captured. No new execution, deployment or qualification by this import."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 2,
+      "memory_gb_per_node": 128,
+      "topology": "tensor parallel pair"
+    },
+    "software": {
+      "rank_image_digests": [
+        "sha256:d9c5e16c0d72bfaff93d91f2eeff648a4a3007bc826f070f1ee68eb6042438e1",
+        "sha256:fcb2c29d87dc7dabbe39c1dd433c03c9eb3c941439a4ba3caf5407aebdc68f6d"
+      ]
+    },
+    "unknowns": [
+      "OS/driver/rank software parity not captured in this sanitized evidence.",
+      "Complete independently reproducible build/launcher source is not included in this research snapshot."
+    ]
+  },
+  "workload_version": "glm-window-20260930-v1",
+  "measurements": [
+    {
+      "id": "ttft-seconds",
+      "metric": "ttft",
+      "value": null,
+      "unit": "s",
+      "definition": "Client start to first nonempty streamed token delta; unknown when no first token was received.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "near_limit_retrieval_and_generation",
+        "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523.json",
+        "sha256": "5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523",
+        "path": [
+          "data",
+          "phases",
+          "near_limit_retrieval_and_generation",
+          "ttft_seconds"
+        ]
+      }
+    },
+    {
+      "id": "wall-seconds",
+      "metric": "response_latency",
+      "value": 326.978,
+      "unit": "s",
+      "definition": "Client request start to completion or bounded timeout; a timeout is not completed-answer latency.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "near_limit_retrieval_and_generation",
+        "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523.json",
+        "sha256": "5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523",
+        "path": [
+          "data",
+          "phases",
+          "near_limit_retrieval_and_generation",
+          "wall_seconds"
+        ]
+      }
+    },
+    {
+      "id": "decode-tokens-per-second",
+      "metric": "decode_rate_proxy",
+      "value": null,
+      "unit": "tokens/s",
+      "definition": "(completion_tokens - 1) / (last streamed token delta time - first delta time); client streaming proxy.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "near_limit_retrieval_and_generation",
+        "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523.json",
+        "sha256": "5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523",
+        "path": [
+          "data",
+          "phases",
+          "near_limit_retrieval_and_generation",
+          "decode_tokens_per_second"
+        ]
+      }
+    }
+  ],
+  "failures": [
+    {
+      "category": "timeout_before_first_token",
+      "count": 1,
+      "detail": "326.978-second client deadline was shorter than the vLLM 640.344-second TTFT. No server usage or continuation; no speed verdict or observed retrieval failure."
+    }
+  ],
+  "qualification": {
+    "build": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "No generated response to evaluate."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "performance": {
+      "status": "unknown",
+      "scope": "No first token; timeout is inconclusive for full-model speed."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523.json",
+      "sha256": "5afaf2fa7e64563798e15bb8ff9a1f0ad2501bf5035ffbc7c4ac6392ba87e523",
+      "path": [
+        "data"
+      ]
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Research evidence only; not a production finalist. No recommendation change.",
+    "Missing server environment/cache metadata and failures prevent percentage comparisons.",
+    "Cached tokens are unreported; continuation speed does not prove an instrumented cache hit. Same user-content fixture renders seven tokens differently between engines."
+  ],
+  "fingerprint": "e36a40623f2f79dd5af4f36d8f5d5fb85b1e6e49ba4eabccc56fc05334ecd103"
+}

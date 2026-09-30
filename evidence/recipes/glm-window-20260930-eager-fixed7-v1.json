@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "glm-window-20260930-eager-fixed7-v1",
+  "catalog_id": "research-glm-eager-fixed7",
+  "model": "glm",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 2,
+    "memory_gb_per_node": 128,
+    "topology": "tensor parallel pair"
+  },
+  "pins": {
+    "target_repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+    "target_revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "donor_revision": "e90ef415a2bf1274f848965a61144eca1e99eabf",
+    "donor_target_layers": [
+      15,
+      44
+    ],
+    "draft_repository": "incoai/GLM-5.3-Flash-DFlash2",
+    "draft_revision": "dc77ff1c99eeb2df044ee3d4f0094eb033fee410",
+    "runtime_revision": null,
+    "image_digest": null
+  },
+  "settings": {
+    "context_tokens": 850000,
+    "output_reserve": 8192,
+    "slots": 8,
+    "graphs_enabled": false,
+    "kv_dtype": "FP8 target",
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "draft_policy": "fixed7"
+  },
+  "requirements": {
+    "minimum_available_memory_gib_per_rank": 5,
+    "production_acceptance_required": true
+  },
+  "source_files": {},
+  "unknowns": [
+    "OS/driver/rank software parity not captured in this sanitized evidence.",
+    "Complete independently reproducible build/launcher source is not included in this research snapshot.",
+    "Actual vLLM runtime revision and per-rank image digest not asserted from ambiguous historical inventory."
+  ],
+  "scope": "Research configuration only. Not a deployable or recommended recipe; original source/launcher qualification is separate.",
+  "fingerprint": "2aece4d457fd093af3e8b68fd00e8eb49d7b9f13bb6e7b9f771769e34de93bc8"
+}

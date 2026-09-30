@@ -80,7 +80,7 @@ Integration obligations (evidence maintainer owns reconciliation):
 | Dependency / owner | Resumption trigger | Acceptance |
 | --- | --- | --- |
 | README/graph presentation / evidence maintainer | Completed locally through presentation commit `a02b9f7` | Combined 15 evidence/chart tests pass; README and four SVGs are byte-identical to reviewed mobile presentation; numeric refs use validated records and percentage bypass is removed |
-| GLM bakeoff / GLM research maintainer | Final sanitized receipts and exact source/image IDs are handed off | Append v1 runs with actual fixture/request/cache/environment/sample metadata, preserve failures and separate qualifications; propose a new reviewed decision only with operator approval |
+| GLM bakeoff / evidence maintainer | Completed local import of the September 30 final window | Six research recipe snapshots and twenty run/cohort records preserve token accounting, failures and unknowns; recommendations and headline comparisons remain unchanged; see `evidence/GLM-RESEARCH-20260930.md` |
 | Remaining mixed-load, quality and lifecycle runners / evidence maintainer | Next authorized change to the corresponding runner | Emit the same run schema with domain-specific accounting and failure scopes; retain old receipts, do not pretend throughput/context emission covers those suites |
 
 Publication and production promotion remain explicit operator decisions. The

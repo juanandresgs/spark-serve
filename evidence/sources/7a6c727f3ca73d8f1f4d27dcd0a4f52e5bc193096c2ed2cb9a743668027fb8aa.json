@@ -1,0 +1,16 @@
+{
+  "label": "tf-compact-tail-micro-harness",
+  "original_receipt_sha256": "a3fc2254180cbf3da1908d64c74ddf9904e3efe9b55ef740b6bde11d16f8c249",
+  "data": {
+    "source_sha256": {
+      "tf_capacity_patch.py": "a56f696cc0e5d575209f949416fd1329859aef99db79e79402eb101ad33ca6fe",
+      "tail_gpu_check.py": "f56f8f560e587b0fd1f774adf0b6c497a0bf16190e1f806bc3fa6daefccad605"
+    },
+    "cases": 20,
+    "correct": 20,
+    "peak_allocated_bytes": 22460416,
+    "ring_rows": 2115,
+    "torch": "2.13.0a0+9186a08b2c.nv26.07",
+    "tensorfold": "0.5.0"
+  }
+}

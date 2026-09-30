@@ -1,0 +1,9 @@
+{
+  "label": "tf-startup-cached-eager",
+  "original_receipt_sha256": "ace57356bdd236bd62df7593316527f1056485abbb7b5d523c98cc06324831fb",
+  "data": {
+    "ready": true,
+    "aborted": false,
+    "scope": "Graphs disabled: readiness in 43.9 s; 177 guard samples, no trip. Readiness did not qualify generation."
+  }
+}

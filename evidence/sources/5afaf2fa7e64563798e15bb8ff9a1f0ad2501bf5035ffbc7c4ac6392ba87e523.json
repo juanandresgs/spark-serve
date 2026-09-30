@@ -1,0 +1,31 @@
+{
+  "label": "tf-context",
+  "original_receipt_sha256": "2ed82cc0ff2bdf2d48de5cc1ba6c105fb307876dc1d3a4c13f5ae3a94c073bf5",
+  "data": {
+    "settings": {
+      "seed": 42,
+      "temperature": 0,
+      "thinking": false
+    },
+    "started_utc": "2026-09-30T17:16:31.579028+00:00",
+    "ended_utc": "2026-09-30T17:22:00.102072+00:00",
+    "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+    "tokenized_prompt_tokens": 841797,
+    "phases": {
+      "near_limit_retrieval_and_generation": {
+        "cached_tokens": null,
+        "completion_tokens": null,
+        "prompt_tokens": null,
+        "ttft_seconds": null,
+        "wall_seconds": 326.978,
+        "decode_tokens_per_second": null,
+        "finish_reason": null,
+        "generation_complete": false,
+        "retrieval_pass": false,
+        "continuation_pass": null,
+        "status": "error",
+        "tokenized_prompt_tokens": null
+      }
+    }
+  }
+}

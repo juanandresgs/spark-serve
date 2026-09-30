@@ -1,0 +1,182 @@
+{
+  "accounting": {
+    "requests_attempted": 8,
+    "requests_completed": 8,
+    "prompt_tokens": 516,
+    "completion_tokens": 4096,
+    "cached_tokens": null,
+    "wall_seconds": 99.01
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "glm-window-20260930-policy-fixed7-c4-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-30T17:03:09.362547+00:00",
+  "recipe": {
+    "id": "glm-window-20260930-eager-fixed7-v1",
+    "fingerprint": "2aece4d457fd093af3e8b68fd00e8eb49d7b9f13bb6e7b9f771769e34de93bc8"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "attestation": "Imported completed research receipt; rank identities retained where captured. No new execution, deployment or qualification by this import."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 2,
+      "memory_gb_per_node": 128,
+      "topology": "tensor parallel pair"
+    },
+    "software": {
+      "rank_image_digests": null
+    },
+    "unknowns": [
+      "OS/driver/rank software parity not captured in this sanitized evidence.",
+      "Complete independently reproducible build/launcher source is not included in this research snapshot.",
+      "Actual vLLM runtime revision and per-rank image digest not asserted from ambiguous historical inventory."
+    ]
+  },
+  "workload_version": "glm-window-20260930-v1",
+  "measurements": [
+    {
+      "id": "aggregate",
+      "metric": "end_to_end_throughput",
+      "value": 41.369,
+      "unit": "tokens/s",
+      "definition": "Actual completion tokens divided by entire mixed code/prose cohort wall seconds; all cap-truncated answers included.",
+      "aggregation": "single",
+      "samples": 8,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "mixed-code-prose-policy",
+        "fixture_sha256": "b281d18232d8781730b56436ab4c4d6b554f83f519b98f00d1ed3ba411c34eaa",
+        "concurrency": 4,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 512,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": "Eight explicit prefix warmups per arm; measured server cache-hit counters unavailable."
+      },
+      "source": {
+        "file": "evidence/sources/57710f814e9722e239d7a2d20461207ccb763df2cf1443af98e1d9ad6f31ef1a.json",
+        "sha256": "57710f814e9722e239d7a2d20461207ccb763df2cf1443af98e1d9ad6f31ef1a",
+        "path": [
+          "data",
+          "groups",
+          1,
+          "aggregate_tokens_per_second"
+        ]
+      }
+    },
+    {
+      "id": "median-ttft",
+      "metric": "ttft",
+      "value": 0.733562,
+      "unit": "s",
+      "definition": "Median client time to first streamed output across eight requests; converted from reported milliseconds.",
+      "aggregation": "median",
+      "samples": 8,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "mixed-code-prose-policy",
+        "fixture_sha256": "b281d18232d8781730b56436ab4c4d6b554f83f519b98f00d1ed3ba411c34eaa",
+        "concurrency": 4,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 512,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": "Eight explicit prefix warmups per arm; measured server cache-hit counters unavailable."
+      },
+      "source": {
+        "file": "evidence/sources/57710f814e9722e239d7a2d20461207ccb763df2cf1443af98e1d9ad6f31ef1a.json",
+        "sha256": "57710f814e9722e239d7a2d20461207ccb763df2cf1443af98e1d9ad6f31ef1a",
+        "path": [
+          "data",
+          "groups",
+          1,
+          "median_ttft_seconds"
+        ]
+      }
+    }
+  ],
+  "failures": [
+    {
+      "category": "answer_cap_truncation",
+      "count": 8,
+      "detail": "All measured code/prose answers hit the 512-token cap; not completed-task goodput."
+    },
+    {
+      "category": "output_non_parity",
+      "count": 8,
+      "detail": "Every output hash differs from matched A1 despite matched inputs/settings, including adaptive repeat A2. Cause unknown."
+    }
+  ],
+  "qualification": {
+    "build": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "api_tool": {
+      "status": "passed",
+      "scope": "One typed-tool request passed for the parent arm; not an independent tool check per concurrency cohort."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "No completed-task quality/noninferiority established."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "One-boot capped-output throughput screen only."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/57710f814e9722e239d7a2d20461207ccb763df2cf1443af98e1d9ad6f31ef1a.json",
+      "sha256": "57710f814e9722e239d7a2d20461207ccb763df2cf1443af98e1d9ad6f31ef1a",
+      "path": [
+        "data"
+      ]
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Research evidence only; not a production finalist. No recommendation change.",
+    "Missing server environment/cache metadata and failures prevent percentage comparisons."
+  ],
+  "fingerprint": "ce3e485a213280bc71e460ecfe06f3359e3c162cda67b5bc9009bfc3a54ac67c"
+}

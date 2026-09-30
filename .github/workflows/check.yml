@@ -47,3 +47,5 @@ jobs:
         run: python3 -m unittest discover -s deploy -p test_comparisons.py
       - name: Verify schemas, comparability and sanitized runner output
         run: python3 -m unittest discover -s deploy -p test_evidence.py
+      - name: Verify GLM research limitations and unchanged decisions
+        run: python3 -m unittest discover -s deploy -p test_glm_research_evidence.py

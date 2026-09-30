@@ -1,8 +1,8 @@
 {
   "assets": {
-    ".github/workflows/check.yml": "0e7b71b6d72f8db42a9440feda94cd1328b5aeea3c53fa0f9962a6cb518eae96",
+    ".github/workflows/check.yml": "b39803539e191b4a4471dc901d14266d1d11ed6caba5b7f155159dc1b23f099f",
     ".gitignore": "e17991e401ad330b600ef1af7f8396bfd7dcd0648017fe8dd9a11443de438ac3",
-    "MASTER_PLAN.md": "9af22330fa10db643ca80ce5ca0d1954e82879bc7d4555d009b29c2d9743b1b8",
+    "MASTER_PLAN.md": "24966c418c9df2f3b6c1b427def1e70bd8ab9ce7072e9a3436cb1d79f96dad83",
     "README.md": "1cfcbfdc0562d1dd5e87f0d1bf12a844b60db772ba03f4444998226c440f21b2",
     "REPRODUCTION.md": "360b26b4d63ad741efa8462a9d0f28d6cfde6bbd272517a79e30e0e6fc6a388d",
     "clients/pi/install.py": "e155fd13b5cfcc56cb20b6861c2e1220a351b273849497c9f2dc848a1f5aadd4",
