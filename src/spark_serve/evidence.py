@@ -136,7 +136,7 @@ def comparison_reasons(left, lm, right, rm):
     reasons = []
     if left['origin'] == 'external_report' or right['origin'] == 'external_report':
         reasons.append('external reports are unmatched')
-    for key in ['metric', 'unit', 'definition', 'aggregation', 'sample_unit', 'population', 'conditions']:
+    for key in ['metric', 'unit', 'definition', 'aggregation', 'samples', 'sample_unit', 'population', 'conditions']:
         if lm[key] != rm[key]:
             reasons.append('different ' + key)
     for m in [lm, rm]:
@@ -189,7 +189,7 @@ def write_immutable(record, directory, root):
 def check_immutable(root, base):
     """CI compares history, not only a mutable checksum stored beside the records."""
     result = subprocess.run(['git', '-C', str(root), 'diff', '--name-status', base, '--',
-                             'evidence/recipes', 'evidence/runs', 'evidence/recommendations', 'evidence/sources'],
+                             'evidence/recipes', 'evidence/runs', 'evidence/recommendations', 'evidence/sources', 'evidence/schemas'],
                             check=True, capture_output=True, text=True)
     for line in result.stdout.splitlines():
         if not line.startswith('A\t'):

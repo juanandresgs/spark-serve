@@ -13,7 +13,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import unittest
 from jsonschema import ValidationError
 from spark_serve import evidence as e
-from spark_serve.evidence_bench import publish_group
+from spark_serve.evidence_bench import metadata, publish_group
 
 ROOT=Path(__file__).resolve().parents[1]
 PYTHON=sys.executable
@@ -104,6 +104,9 @@ class EvidenceChecks(unittest.TestCase):
                 path=Path(d);recipe=self.records['qwen-affine4-source-20260930-v1'];pins=recipe['pins']
                 meta={'recipe_id':recipe['id'],'image_digest':'sha256:'+'1'*64,'runtime_revision':pins['runtime_revision'],'model_revision':pins['target_revision'],'hardware':recipe['hardware'],'software':{'os':'test','kernel':'test','driver':'test','cuda':'test','runtime_version':'test'}}
                 (path/'metadata.json').write_text(json.dumps(meta))
+                invalid=copy.deepcopy(meta);invalid['recipe_id']='glm-adaptive-source-20260930-v1';invalid['hardware']=self.records[invalid['recipe_id']]['hardware']
+                (path/'wrong-model.json').write_text(json.dumps(invalid))
+                with self.assertRaisesRegex(ValueError,'Qwen Affine4'):metadata(path/'wrong-model.json',ROOT)
                 result=subprocess.run([PYTHON,str(ROOT/'recipes/qwen38-flash-affine4-1spark/bench.py'),'--base',f'http://127.0.0.1:{server.server_port}/v1','--label','test','--out',str(path/'raw'),'--quick','--clients','4','--reps','1','--evidence-metadata',str(path/'metadata.json'),'--evidence-dir',str(path/'share')],env=dict(os.environ,PYTHONPATH=str(ROOT/'src')),capture_output=True,text=True)
                 self.assertEqual(result.returncode,0,result.stderr)
                 records=[e.validate_record(e.read(p),ROOT) for p in (path/'share').glob('*.json')]

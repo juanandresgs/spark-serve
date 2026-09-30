@@ -128,7 +128,7 @@ separate. The speed runner warms the engine but does not reset prefix cache, so 
 records `uncontrolled`, not a fabricated cold-cache qualification.
 
 `evidence.percent_change(left_run, left_metric, right_run, right_metric)` fails
-closed unless metric definitions, units, aggregation, sample population, workload,
+closed unless metric definitions, units, aggregation, sample count/population, workload,
 fixture hash, concurrency, sampling, request settings, cache state and server
 environment match, actual identities are complete, values/sample counts exist,
 and neither run has failures. Recipe settings may differ, but a runtime software-version change does not pass
@@ -146,7 +146,8 @@ pinned source commits and `external_report` origin; they cannot qualify our buil
 
 Write records with `evidence.write_immutable`: it validates, fsyncs a temporary file
 and atomically links a new ID without overwriting an existing file. Git/CI checks
-reject edits, renames and deletions of committed recipe/run/decision snapshots.
+reject edits, renames and deletions of committed recipe/run/decision snapshots,
+source receipts and versioned schemas. Schema evolution uses a new schema version.
 Corrections require a new ID and an explanatory limitation; preserve the old record.
 Use `--immutable-base <base-commit>` to run the same history check locally.
 

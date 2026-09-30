@@ -30,6 +30,8 @@ def metadata(path, root):
     recipe = records[data['recipe_id']]
     if recipe['kind'] != 'recipe' or data['hardware'] != recipe['hardware']:
         raise ValueError('Actual hardware differs from the selected recipe')
+    if recipe['catalog_id'] != 'qwen38-flash-affine4-1spark':
+        raise ValueError('This runner emits evidence only for its Qwen Affine4 request contract')
     pins = recipe['pins']
     for actual, pin in [('runtime_revision', 'runtime_revision'), ('model_revision', 'target_revision')]:
         if pin in pins and data[actual] != pins[pin]:
