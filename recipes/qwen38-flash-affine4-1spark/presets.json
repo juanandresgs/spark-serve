@@ -1,0 +1,20 @@
+{
+  "reasoning": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "chat_template_kwargs": {"enable_thinking": true}
+  },
+  "bounded_reasoning_experimental": {
+    "temperature": 1.0,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "chat_template_kwargs": {"enable_thinking": true},
+    "spark_reliability": {"thinking_budget": 2048, "answer_reserve": 1024}
+  },
+  "json_object_contract": {
+    "response_format": {"type": "json_object"}
+  }
+}

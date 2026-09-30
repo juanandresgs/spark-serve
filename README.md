@@ -1,49 +1,128 @@
 # spark-serve
 
-Pinned serving recipes and one model lifecycle broker for NVIDIA DGX Sparks.
-This distribution contains source, patches, build procedures and model-source
-revisions. It contains **no model weights**.
+Run Qwen on **one NVIDIA DGX Spark**, or GLM-5.3-Flash on **two**.
+Start with these two recipes: each includes pinned sources, settings, build
+instructions and the evidence behind our choices. Model weights are downloaded
+separately from their publishers.
 
-New: [single-Spark Qwen TensorFold cooperative-prefill recipe](experiments/qwen-tensorfold-cooperative/README.md),
-with [measured improvements and tradeoffs](experiments/qwen-tensorfold-cooperative/METRICS.md)
-and [further optimization experiments](experiments/qwen-tensorfold-cooperative/IMPROVEMENTS.md).
-It reduced short-request p95 first-token latency from 356.36s to 2.73s in a bounded
-same-Spark mixed-load test. Cold near-limit prefill remains about nine minutes.
-This experimental source build is not yet independently GPU-qualified. Existing
-catalog entries below retain their historical qualification scope and are not a
-statement of any site's present deployment.
+| Your hardware | Recommended recipe | What you get | Start here |
+|---|---|---|---|
+| 1 Spark | **Qwen3.8 Flash Next · Affine4** | 262,144-token context, four concurrent text requests, cooperative prefill and MTP6 | [Build and run Qwen](recipes/qwen38-flash-affine4-1spark/README.md) |
+| 2 connected Sparks | **GLM-5.3-Flash · adaptive DFlash2** | 850K context, images, eight concurrent requests, EXL3 experts with BF16 dense layers | [Build and deploy GLM](recipes/glm53-flash-adaptive-2spark/README.md) |
 
-This is a deployment candidate. Portable launchers and a fresh-site installer
-are included; clean GPU compilation and deployment acceptance are still pending.
-Do not interpret historical benchmark results as a completed test of this package.
+Qwen Affine4 is our recommended **Qwen** recipe. It handles long prompts and
+mixed interactive traffic substantially better than our previous EXL3 recipe,
+although EXL3 still wins on some coding and reasoning workloads. GLM remains
+our two-Spark choice; these measurements do not establish a quality ranking
+between the two models.
 
-| Recipe | Configuration | Evidence |
-|---|---|---|
-| `glm53-flash-adaptive-2spark` | GLM Flash, TP2, E3 grouped EXL3, adaptive DFlash2 k2/4/7, 850K context, images, 8 sequences, 11 GiB FP8 KV | Current best verified GLM Flash settings |
-| `glm53-flash-adaptive-4spark` | Two independent copies of that GLM configuration; native ready-only routing | Current four-Spark GLM arrangement |
-| `agent-fleet-211-adaptive` | Adaptive GLM on two Sparks plus two independent Qwen TP1 workers | Current per-model settings; historical mixed-fleet rate is a different run |
-| `qwen38-flash-1spark` | Qwen Flash Next on one Spark, 262K context, PLE offload, FP8 KV, BF16 SSM, MTP3 | Same verified settings as the fleet workers |
-| `glm53-full-4spark` | Full GLM, TP4/DCP4, 307200 context, DFlash2 k7, 12 sequences, 6 billion KV bytes per rank | Bounded original-site qualification |
+## Get started
 
-GLM Flash keeps BF16 dense paths, a 2048-token batch budget, mixed-prefill 512,
-row cap 128 and the pinned donor transplant. Adaptive verification retains k7
-for structured and unobserved requests and captures all eight-slot graph shapes.
-In the matched prose checks, single-request throughput increased from 22.22 to
-24.98 output tokens/s and eight-request throughput from 72.25 to 88.57. These
-are workload-specific measurements, not universal model speed claims.
+```sh
+git clone https://github.com/juanandresgs/spark-serve.git
+cd spark-serve
+```
 
-Qwen TP1 retains 262144 context, PLE offload, 20 GiB target KV, 26 GiB host
-reserve, 5 GiB slack, FP8 KV, BF16 SSM, MTP3 and the V2 runner. Full GLM keeps
-NVMe KV tiering off and balanced mixed-prefill behavior. The fixed-k GLM recipes
-remain as historical references. Qwen TP2 and DeepSeek remain experimental
-because their recorded startup/fabric failures have not been resolved.
+For **Qwen**, follow the [one-Spark quick start](recipes/qwen38-flash-affine4-1spark/README.md):
+download the pinned weights, build the Docker image, then run it on your Spark.
+Allow roughly 180 GB of disk and 100 GiB of available memory. This recipe is a
+standalone Docker deployment; the broker's `recipes prepare` command does not
+install it.
 
-Start with [deployment and validation](REPRODUCTION.md). The `deploy/` programs
-stage the same runtime source and settings on the original operator's fleet or
-a new site. The site file supplies machine identity, storage and network bindings.
-`spark-serve` remains the sole owner of model admission, start, stop and recovery.
+For **GLM**, follow the [two-Spark guide](recipes/glm53-flash-adaptive-2spark/README.md)
+and [deployment walkthrough](REPRODUCTION.md). Supply your host, storage and
+network bindings, build the pinned runtime, and validate it on your pair of
+Sparks. The included broker owns admission, start, stop and recovery for managed
+recipes.
 
-The broker is MIT licensed. Derived runtime components retain their upstream
-licenses; see [third-party notices](THIRD_PARTY.md) and exact [source pins](sources.json).
-Model access and licenses remain with each model publisher. Download from those
-sources under your own account where required.
+## Why these settings?
+
+### Qwen: our matched one-Spark comparison
+
+September 29, 2026. Same workloads, four request slots and 262K context. Rates
+below count output tokens over the entire request group's elapsed time; C4
+means four concurrent requests. Speed rows are medians of three runs.
+
+| Workload | Previous cooperative EXL3 | Recommended Affine4 |
+|---|---:|---:|
+| C4 prose throughput ↑ | 85.99 tokens/s | **92.64 tokens/s** |
+| C4 code throughput ↑ | **161.08 tokens/s** | 142.23 tokens/s |
+| Cold 253,843-token prompt, complete JSON response ↓ | 534.79 s | **261.62 s** |
+| Cached appended prompt, complete response ↓ | 1.710 s | **1.245 s** |
+| Short-request p95 during mixed long/short traffic ↓ | 2.721 s | **1.115 s** |
+| Distinct reasoning answers correct ↑ | 294/296 | **296/296** |
+| Executable coding tasks correct ↑ | 20/20 | 20/20 |
+| Fresh reasoning latency, median / p95 ↓ | **7.09 / 34.31 s** | 8.56 / 58.61 s |
+| Coding latency, median / p95 ↓ | **12.67 / 25.06 s** | 14.80 / 243.56 s |
+
+Affine4 cuts cold long-prompt completion time by about **51%** and mixed-load
+short-request p95 by **59%**. The tradeoff is lower code throughput and longer
+reasoning tails. The small synthetic correctness checks support this choice but
+do not prove broad coding superiority or that more reasoning always helps.
+We keep normal reasoning behavior by default; an optional 2,048-token reasoning
+cap reduced coding p95 to 96.65 s in a bounded follow-up, but is not enabled globally.
+
+These are comparisons of complete recipes, including different TensorFold
+versions, rather than an isolated test of quantization. See [methodology, older
+variants and all caveats](recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
+
+### GLM: our matched two-Spark comparison
+
+September 11, 2026. Adaptive DFlash2 chooses how many draft tokens to verify,
+while retaining BF16 dense layers and the same serving capacity.
+
+| Workload | Previous fixed draft length | Recommended adaptive |
+|---|---:|---:|
+| Single-request prose | 22.22 tokens/s | **24.98 tokens/s** |
+| Eight-request aggregate prose | 72.25 tokens/s | **88.57 tokens/s** |
+| Single-request code | 55.95 tokens/s | **56.04 tokens/s** |
+| Single-request counting | **61.62 tokens/s** | 60.73 tokens/s |
+
+The main gain is prose: about **12%** for one request and **23%** across eight.
+[Recorded qualification](recipes/glm53-flash-adaptive-2spark/results.json)
+includes eight long-context checks and five structured-tool/mixed checks.
+
+### How do the public numbers compare?
+
+These are reference points reported by MiaAI-Lab, **not matched A/B tests**.
+We preserve the metric definitions and configuration differences so the numbers
+are useful without implying an unsupported win.
+
+| Model / metric | Public reference | Our result | Comparison boundary |
+|---|---:|---:|---|
+| Qwen C4 prose | 106.7 tokens/s | 92.64 tokens/s | Public decode rate; ours includes the whole request group, including prefill |
+| Qwen long-prompt latency | 59.60 s at 131,110 tokens | 261.62 s at 253,843 tokens | Public time to first token; ours time to complete validated JSON, with a much longer prompt |
+| GLM single-request prose | 32.1 tokens/s | 24.98 tokens/s | Public adaptive **FP8 dense** configuration; ours retains **BF16 dense** layers |
+| GLM structured/code | 62.9 tokens/s at C1; 146.5 at C4 | 56.04 tokens/s at C1 | Different prompts; public high-acceptance decode workload, no matched C4 result here |
+
+Sources: pinned public [Qwen benchmark README](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md)
+and [GLM benchmark README](https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/blob/dc6936cea8fd7b2e7ee5b7a48a5aa193857ca489/README.md).
+Public Qwen uses a newer runtime; public GLM's prose row also uses a different KV
+budget. A fresh run with identical inputs and timing boundaries is needed for a
+ranking. Our Qwen adapters were independently written; the public implementation
+was not imported.
+
+## What has been verified?
+
+**Qwen:** an independent build from the shared sources compiled on a Spark and
+passed 11 API checks, 36 tool/API checks and six exact-token replays against the
+qualified production image. The full performance table was measured on that
+production image, not rerun in full on the rebuilt image. The build reused
+verified weights; a fresh-download clean-machine install, long soak and reboot
+qualification remain outstanding. [Build receipt](recipes/qwen38-flash-affine4-1spark/build-validation.json).
+
+**GLM:** the measurements above describe the qualified original runtime. The
+portable source package and site rendering pass offline checks; rebuilt images
+and a new pair of Sparks still require destination acceptance. Recoverable
+startup allocation warnings remain unresolved. [Release gates](MASTER_PLAN.md).
+
+## Previous recipes remain available
+
+- [Qwen cooperative EXL3](experiments/qwen-tensorfold-cooperative/README.md): useful when its measured code throughput or reasoning latency matters most; its exported build has separate qualification limits.
+- [Qwen vLLM / NVFP4](recipes/qwen38-flash-1spark/README.md): previous managed one-Spark recipe, retained with its existing settings.
+- [Other recipes](recipes/): four-Spark GLM, mixed fleets, full GLM and historical experiments retain their own evidence and status.
+
+This recommendation does not migrate existing installations. The broker is MIT
+licensed; derived runtimes retain upstream licenses. See [third-party
+notices](THIRD_PARTY.md), [source pins](sources.json) and the individual recipe
+notices. Model access and licenses remain with their publishers.

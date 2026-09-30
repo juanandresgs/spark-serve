@@ -1,0 +1,13 @@
+{
+  "image": "sha256:34a5ffedbb9c73d6b5ee6ce8ea2fa6f277ccc41c6b3f75b24e8ec445a38863d2",
+  "base_image": "sha256:1b8f753bfdff53e1a47268e3b7d752cd1a1cbc07e142a5474664fbdfacb2c416",
+  "base_layers_preserved": true,
+  "files": {
+    "reliability.py": "a491036585f2a8b9aa276d8a6aec5ed680ee9f8b7dd922fe1a78189a0ceb6740",
+    "serve.py": "53074dfb038c1f357e3f4dff2693a3d49a3855dc0eb126071345170d2cbc38f8"
+  },
+  "entrypoint": [
+    "python3",
+    "/opt/spark-qwen/serve.py"
+  ]
+}

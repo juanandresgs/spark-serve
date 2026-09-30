@@ -22,3 +22,11 @@ jobs:
         run: python3 -m pip install --no-cache-dir .
       - name: Exercise the installed CLI
         run: spark-serve --help
+      - name: Check standalone recipe contract
+        run: python3 deploy/check_source_recipe.py
+      - name: Check Affine4 CPU adapters and launcher syntax
+        run: |
+          python3 -m pip install jsonschema==4.26.0
+          python3 -m unittest discover -s recipes/qwen38-flash-affine4-1spark -p test_reliability.py
+          python3 -m compileall -q recipes/qwen38-flash-affine4-1spark
+          bash -n recipes/qwen38-flash-affine4-1spark/run.sh

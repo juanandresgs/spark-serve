@@ -1,0 +1,26 @@
+{
+  "runtime_repository": "ashhart/TensorFold",
+  "runtime_revision": "71377a5373ed7b394f1b480ba2a6a3986b03af1c",
+  "runtime_version": "0.3.6.2",
+  "target_repository": "Vontra/Qwen3.8-Flash-Next-MLX-4bit-MTP",
+  "target_revision": "dadefa8066e3be900a0d148d0f5a2f4eb1cf6534",
+  "context": 262144,
+  "parallel": 4,
+  "mtp_drafts": 6,
+  "base_image": "nvcr.io/nvidia/pytorch@sha256:2140e699b3beaf7f96a0081fd9c9406bc3832b435cdb60dfa2d261f7d2f34a1c",
+  "environment": {
+    "TORCH_CUDA_ARCH_LIST": "12.1",
+    "MAX_JOBS": "2",
+    "SPARK_TILED_SELECT": "1",
+    "SPARK_SSD_PIPELINE": "1"
+  },
+  "image": "sha256:34a5ffedbb9c73d6b5ee6ce8ea2fa6f277ccc41c6b3f75b24e8ec445a38863d2",
+  "base_runtime_image": "sha256:657d7adc91de16de2f0f1fb552af849899064d79ab5b45f4f089b516fe595f01",
+  "cooperative": 1,
+  "prefill_rows": 2048,
+  "kv_dtype": "int8",
+  "decode_burst": 4,
+  "packaged": true,
+  "mtp_confidence": 0.6,
+  "adapter_base_image": "sha256:1b8f753bfdff53e1a47268e3b7d752cd1a1cbc07e142a5474664fbdfacb2c416"
+}

@@ -1,5 +1,7 @@
 # Deploying the pinned recipes
 
+**Choose your path:** [Qwen Affine4 on one Spark](recipes/qwen38-flash-affine4-1spark/README.md) has a standalone Docker quick start. The managed multi-node workflow below is the starting point for [GLM-5.3-Flash on two Sparks](recipes/glm53-flash-adaptive-2spark/README.md). It does not install Qwen Affine4.
+
 The following path is for ARM64 Linux DGX Sparks with Docker and NVIDIA Container
 Toolkit already working. Use Python 3.11+, Bash, Git, patch, rsync, SSH, the Hugging
 Face `hf` CLI, and enough local disk for the selected model on every rank.

@@ -1,10 +1,10 @@
 {
   "assets": {
-    ".github/workflows/check.yml": "af3043328892cbcb3315ebd502c9174186725c4153fb0fca24dfa68859e9b1a4",
+    ".github/workflows/check.yml": "09d10061f943bfd581dd698fe2796655787b8d65a74e9f89dfb5d8b24b76c571",
     ".gitignore": "e17991e401ad330b600ef1af7f8396bfd7dcd0648017fe8dd9a11443de438ac3",
-    "MASTER_PLAN.md": "3f37a68a225b487682814e19b3ef83cb70ff9b376446fb633d23115acbf04371",
-    "README.md": "8cb159b84ac68250bb5c5494fb9a0f439c415ec4c557c79693d5f809a998ca57",
-    "REPRODUCTION.md": "71d2d6c3de3a7c5b5df8710f233edd0a288e5684a6f72c854a38fcbb98a426af",
+    "MASTER_PLAN.md": "cb416723e17c5aee377823645ba0f38c0fd370c4911bea1a96b4733357d7b01e",
+    "README.md": "cf926b4d05a160eeedd3cf3cd616eca7551eea02eb35a9ee82188e065adf6048",
+    "REPRODUCTION.md": "360b26b4d63ad741efa8462a9d0f28d6cfde6bbd272517a79e30e0e6fc6a388d",
     "clients/pi/install.py": "e155fd13b5cfcc56cb20b6861c2e1220a351b273849497c9f2dc848a1f5aadd4",
     "cluster/agent-fleet/pi/agents/Explore.md": "761e5521fa0fe0eed0cbca45cf312b7c172c924fe629871564ac69689ea6e4f1",
     "cluster/agent-fleet/pi/agents/Plan.md": "6b4ffe1d625b0a49a0011444d7f380cd311bcfeff7bfe631248da74b6805354a",
@@ -34,9 +34,9 @@
     "deploy/verify_artifacts.py": "cbe59c46c25f4b466df41d3516153056e6ce50a38e44d10482c44c4a1b3164a3",
     "examples/deployment-site.json": "32b79ea4d368f3cc3d25c3174fc130acf7771b7b139b9be775a3935239ae696f",
     "licenses/GLM-adaptive-LICENSE.txt": "8d56b405468aad11f87ab5763f901e276e08d9646ff5c8481b1762b6b789e9ed",
-    "recipes/qwen38-flash-1spark/README.md": "4d69ee9ddb5c482f18218b6ee81fdf3d3554748c851e7cbb1e88d0a187f2702d",
+    "recipes/qwen38-flash-1spark/README.md": "07e783b52c20d386783aacb4450e6b294efb6ee2cdc44a924b54dae7c2a68f9b",
     "recipes/qwen38-flash-1spark/profile-0.json": "16879ece72da0344677f36ef7b024189cfeb53e1fbf535c9ba6cdb7bed3ab9e1",
-    "recipes/qwen38-flash-1spark/results.json": "35413a0116074ed9f1862a2638d4968288ee13499b2ff375ce80fbdc1fc51f6c"
+    "recipes/qwen38-flash-1spark/results.json": "019549ff6bc2b5c8f927bc0f72013fd10a1c7380df6c7e33d47fd720f71140d6"
   },
   "configuration": {
     "default_model": "qwen3.8-flash-next",
@@ -72,6 +72,7 @@
   "qualification_date": "2026-09-09",
   "schema_version": 1,
   "source_recipe_sha256": "57d88e7db28bf22b2530021f3a45d56d480f2a92ae9886c152e5fcabec40bb0c",
-  "status": "recommended-with-caveats",
-  "title": "Qwen Flash Next on one Spark"
+  "status": "bounded-qualification",
+  "title": "Qwen Flash Next on one Spark",
+  "superseded_by": "qwen38-flash-affine4-1spark"
 }

@@ -37,7 +37,7 @@ def read_recipe(root: Path, name: str) -> dict[str, Any]:
             raise ValueError('invalid identity, version or status')
         if value['status'] == 'experimental' and not value.get('hold'):
             raise ValueError('experimental recipe requires a hold reason')
-        if not value['profiles'] or not value['assets']:
+        if (not value['profiles'] and value.get('kind') != 'standalone-source') or not value['assets']:
             raise ValueError('missing source inputs')
         return value
     except (KeyError, TypeError, ValueError) as exc:
@@ -58,7 +58,16 @@ def check(root: Path, recipe: dict[str, Any]) -> dict[str, Any]:
         if len(pins) != len(profiles):
             failures.append('Duplicate model profiles')
         cfg = recipe['configuration']
-        if cfg['default_model'] not in pins or set(cfg['preload_models']) != set(pins):
+        if recipe.get('kind') == 'standalone-source':
+            if recipe.get('portable_adapter') or recipe['profiles'] or recipe['profile_pins'] or cfg:
+                failures.append('Standalone source recipe must not advertise broker preparation')
+            standalone = recipe.get('source_pins', {})
+            if not all(re.fullmatch(r'[0-9a-f]{40}', standalone.get(k, '')) for k in ('runtime_revision', 'target_revision')):
+                failures.append('Standalone source recipe requires immutable runtime/model pins')
+            declared = json.loads(asset(root, recipe['pins_file']).read_text())
+            if any(declared.get(k) != v for k,v in standalone.items()):
+                failures.append('Standalone source pins differ from pinned build')
+        elif cfg['default_model'] not in pins or set(cfg['preload_models']) != set(pins):
             failures.append('Default/preload set differs from selected profiles')
         pool = cfg.get('worker_pool')
         if pool and (pool['id'] in pins or not pool['targets'] or not set(pool['targets']) <= set(pins)):
@@ -74,7 +83,12 @@ def check(root: Path, recipe: dict[str, Any]) -> dict[str, Any]:
             actual = hashlib.sha256(asset(root, path).read_bytes()).hexdigest()
             if actual != digest:
                 failures.append(f'Asset digest drift: {path}')
-        for path in (recipe['guide'], recipe['evidence'], recipe['pi']['installer']):
+        required = [recipe['guide'], recipe['evidence'], *recipe['profiles']]
+        if recipe.get('kind') == 'standalone-source':
+            required.append(recipe['pins_file'])
+        else:
+            required.append(recipe['pi']['installer'])
+        for path in required:
             asset(root, path)
             if path not in recipe['assets']:
                 failures.append(f'Unhashed required asset: {path}')
@@ -151,6 +165,8 @@ def replace_values(value, replacements):
 
 def prepare(root, recipe, site_path, output, allow_experimental=False):
     """Write a new, validated config directory. Never invoke a lifecycle command."""
+    if recipe.get('kind') == 'standalone-source':
+        raise ConfigError('Standalone recipe: follow ' + recipe['guide'] + '; broker site preparation is not supported')
     from spark_serve.config import load_catalog, render_gateway_config
     import os
     from dataclasses import replace
