@@ -79,7 +79,7 @@ Integration obligations (evidence maintainer owns reconciliation):
 
 | Dependency / owner | Resumption trigger | Acceptance |
 | --- | --- | --- |
-| README/graph presentation work / README maintainer | Final local presentation commit is available | Reconcile renderer changes; retain structured numeric refs; regenerate page/graphs; run freshness and evidence checks on combined tree before publication review |
+| README/graph presentation / evidence maintainer | Completed locally through presentation commit `a02b9f7` | Combined 15 evidence/chart tests pass; README and four SVGs are byte-identical to reviewed mobile presentation; numeric refs use validated records and percentage bypass is removed |
 | GLM bakeoff / GLM research maintainer | Final sanitized receipts and exact source/image IDs are handed off | Append v1 runs with actual fixture/request/cache/environment/sample metadata, preserve failures and separate qualifications; propose a new reviewed decision only with operator approval |
 | Remaining mixed-load, quality and lifecycle runners / evidence maintainer | Next authorized change to the corresponding runner | Emit the same run schema with domain-specific accounting and failure scopes; retain old receipts, do not pretend throughput/context emission covers those suites |
 

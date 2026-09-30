@@ -8,10 +8,10 @@ practical run guides, and measurements you can inspect. Start with the recipes
 below, then choose the tradeoffs that suit your workload. Download model weights
 separately from their publishers.
 
-| Your hardware | Recommended recipe | What you get | Start here |
-| --- | --- | --- | --- |
-| 1 Spark | **Qwen3.8 Flash Next · Affine4** | 262,144-token context, four concurrent text requests, cooperative prefill and MTP6 | [Build and run Qwen](recipes/qwen38-flash-affine4-1spark/README.md) |
-| 2 Sparks | **GLM-5.3-Flash · Adaptive DFlash2** | 850K context, images, eight concurrent requests, EXL3 experts with BF16 dense layers | [Build and run GLM](recipes/glm53-flash-adaptive-2spark/README.md) |
+| Your hardware | Recommended recipe · build and run |
+| --- | --- |
+| 1 Spark | [**Qwen3.8 Flash Next · Affine4**](recipes/qwen38-flash-affine4-1spark/README.md) |
+| 2 Sparks | [**GLM-5.3-Flash · Adaptive DFlash2**](recipes/glm53-flash-adaptive-2spark/README.md) |
 
 These are our recommended starting points for each model. Context and request
 counts are configured limits, not a promise of simultaneous maximum-length

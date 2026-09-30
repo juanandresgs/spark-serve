@@ -112,9 +112,8 @@ def render(root):
     for model in data['models']:
         chosen = next(o for o in model['options'] if o['id'] == model['recommended'])
         hardware = f"{model['sparks']} Spark" + ('s' if model['sparks'] > 1 else '')
-        choices.append([hardware, f"**{model['name']} · {chosen['label']}**", model['summary'],
-                        f"[Build and run {'Qwen' if model['id'] == 'qwen' else 'GLM'}]({chosen['guide']})"])
-    rendered = {'choices': table(['Your hardware', 'Recommended recipe', 'What you get', 'Start here'], choices)}
+        choices.append([hardware, f"[**{model['name']} · {chosen['label']}**]({chosen['guide']})"])
+    rendered = {'choices': table(['Your hardware', 'Recommended recipe · build and run'], choices)}
     for name in ('qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
         rendered[name] = f'![{name.replace("-", " ")} comparison; numeric equivalent in the table below](comparisons/charts/{name}.svg)'
     def row(table_id, metric):
