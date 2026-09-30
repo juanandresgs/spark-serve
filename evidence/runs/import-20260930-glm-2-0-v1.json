@@ -1,0 +1,123 @@
+{
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "import-20260930-glm-2-0-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-11",
+  "recipe": {
+    "id": "glm-fixed-historical-20260911-v1",
+    "fingerprint": "2129e77fc9d2d11dfb4bc1bb5629fb01b0a1398619c57d7a9d72611e212896e5"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": null,
+    "attestation": "Imported from pinned public receipts; no new execution or actual-identity attestation."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 2,
+      "memory_gb_per_node": 128,
+      "topology": "tensor parallel pair"
+    },
+    "software": {},
+    "unknowns": [
+      "Exact installed software, runtime/image identity and physical host parity not established by the numeric receipt."
+    ]
+  },
+  "workload_version": "historical-glm-v1",
+  "measurements": [
+    {
+      "id": "m0",
+      "metric": "reported_throughput",
+      "value": 55.95,
+      "unit": "tokens/s",
+      "definition": "Output tokens per second as reported; exact timing denominator not retained.",
+      "aggregation": "reported_unknown",
+      "samples": null,
+      "sample_unit": "unknown",
+      "population": "all reported observations; raw failure exclusion policy unknown",
+      "conditions": {
+        "workload": "glm-2",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/41348c09dae611558ff68d34c9f654d1bd24cda657467705e9c79d34d33d3865.json",
+        "original_file": "recipes/glm53-flash-adaptive-2spark/results.json",
+        "path": [
+          "observations",
+          "matched_pair_b_output_tokens_per_second",
+          "fixed_k_full_graph",
+          "code_c1"
+        ],
+        "sha256": "41348c09dae611558ff68d34c9f654d1bd24cda657467705e9c79d34d33d3865"
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "api_tool": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "clean_install": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "restart": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "reboot": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "performance": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "endurance": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/41348c09dae611558ff68d34c9f654d1bd24cda657467705e9c79d34d33d3865.json",
+      "original_file": "recipes/glm53-flash-adaptive-2spark/results.json",
+      "path": [],
+      "sha256": "41348c09dae611558ff68d34c9f654d1bd24cda657467705e9c79d34d33d3865"
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Imported aggregate/cohort, not a newly executed run. Unknown metadata is deliberately not reconstructed from current defaults.",
+    "No percentage comparison permitted until required matching metadata is available."
+  ],
+  "fingerprint": "11d11f4fdfcac91188933187f0ac90386e524257794a0cfcff63eb9b29794c27"
+}

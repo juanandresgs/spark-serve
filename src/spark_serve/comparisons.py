@@ -10,6 +10,7 @@ import re
 from pathlib import Path
 
 from spark_serve.config import ConfigError
+from spark_serve import evidence
 from spark_serve.recipes import asset, read_recipe, source_root
 
 
@@ -23,6 +24,11 @@ def value(root, reference):
 
 
 def cell(root, spec):
+    if '%' in spec['format']:
+        raise ValueError('Percentage cells require the evidence.percent_change comparability gate')
+    for ref in spec['refs']:
+        if not ref['file'].startswith('evidence/runs/') or ref['path'][0] != 'measurements' or ref['path'][-1] != 'value':
+            raise ValueError('Comparison values must reference structured run measurements')
     return spec['format'].format(*(value(root, ref) for ref in spec['refs']))
 
 
@@ -32,10 +38,18 @@ def load(root):
         data = json.loads(asset(root, 'comparisons/models.json').read_text())
         if data['schema_version'] != 1:
             raise ValueError('Unknown comparison schema')
+        records = evidence.load(root, schema_check=False)
         ids = [m['id'] for m in data['models']]
         if len(ids) != len(set(ids)) or set(ids) != {'qwen', 'glm'}:
             raise ValueError('Expected unique Qwen and GLM model choices')
         for model in data['models']:
+            decision = records[model['recommendation_record']]
+            selected = records[decision['selected']['id']]
+            if (decision['kind'] != 'recommendation' or decision['review']['status'] != 'reviewed'
+                    or selected['catalog_id'] != model['recommended']
+                    or decision['hardware_nodes'] != model['sparks']
+                    or decision['model'] != model['id']):
+                raise ValueError('Model choice disagrees with reviewed recommendation')
             options = model['options']
             option_ids = [o['id'] for o in options]
             if len(set(option_ids)) != len(option_ids) or model['recommended'] not in option_ids:

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "qwen-exl3-source-20260930-v1",
+  "catalog_id": "qwen-cooperative-exl3",
+  "model": "qwen",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 1,
+    "memory_gb_per_node": 128,
+    "topology": "single GPU"
+  },
+  "pins": {
+    "runtime_repository": "ashhart/TensorFold",
+    "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+    "runtime_version": "0.3.6.1",
+    "target_repository": "turboderp/Qwen3.8-Flash-Next-exl3",
+    "target_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "target_branch": "3.05bpw_h5_ng5",
+    "context": 262144,
+    "parallel": 4,
+    "mtp_drafts": 6,
+    "base_image": "nvcr.io/nvidia/pytorch@sha256:2140e699b3beaf7f96a0081fd9c9406bc3832b435cdb60dfa2d261f7d2f34a1c",
+    "environment": {
+      "TORCH_CUDA_ARCH_LIST": "12.1",
+      "MAX_JOBS": "2"
+    }
+  },
+  "settings": {
+    "context_tokens": 262144,
+    "slots": 4
+  },
+  "requirements": {
+    "destination_acceptance_required": true,
+    "available_memory_gib_per_node": 100,
+    "disk_free": {
+      "value": 180,
+      "unit": "GB"
+    },
+    "runtime": "NVIDIA-enabled Docker; serving GPU free of other workloads"
+  },
+  "source_files": {
+    "experiments/qwen-tensorfold-cooperative/pins.json": "fac52843639a54b123f379ff43e9a4533efe0565c5a0224020a8e6c53fb5283d"
+  },
+  "unknowns": [
+    "Complete image and adapter identity of historical control not retained in these receipts."
+  ],
+  "scope": "Historical EXL3 alternative; not a new build qualification.",
+  "fingerprint": "5528f7e0c54af85e4fd564cd17f7f67df953ff5f71c4d2073701fa908f442489"
+}

@@ -1,0 +1,159 @@
+{
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "import-20260930-public-1-reported-v1",
+  "origin": "external_report",
+  "recorded_at": "2026-09-30",
+  "executed_at": null,
+  "recipe": {
+    "id": "external-qwen-report-20260930-v1",
+    "fingerprint": "f430113fcd01d0a4d63a5dc73b717453ddc1c281ab9c6480d108b3f7698b440d"
+  },
+  "identity": {
+    "relationship": "external_report",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": null,
+    "attestation": "Imported from pinned public receipts; no new execution or actual-identity attestation."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {},
+    "unknowns": [
+      "Exact installed software, runtime/image identity and physical host parity not established by the numeric receipt."
+    ]
+  },
+  "workload_version": "historical-public-v1",
+  "measurements": [
+    {
+      "id": "m0",
+      "metric": "ttft",
+      "value": 59.6,
+      "unit": "s",
+      "definition": "Externally reported time to first token.",
+      "aggregation": "reported_unknown",
+      "samples": null,
+      "sample_unit": "unknown",
+      "population": "all reported observations; raw failure exclusion policy unknown",
+      "conditions": {
+        "workload": "public-1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/a3fd1372434bfa2d73159726b17d031c2ee4c2b03ca383c4167134a2a6991e87.json",
+        "original_file": "comparisons/public-references.json",
+        "path": [
+          "observations",
+          "row_1",
+          "values",
+          0
+        ],
+        "sha256": "a3fd1372434bfa2d73159726b17d031c2ee4c2b03ca383c4167134a2a6991e87"
+      }
+    },
+    {
+      "id": "m1",
+      "metric": "reported_prompt_tokens",
+      "value": 131110,
+      "unit": "tokens",
+      "definition": "Externally reported prompt tokens.",
+      "aggregation": "reported_unknown",
+      "samples": null,
+      "sample_unit": "unknown",
+      "population": "all reported observations; raw failure exclusion policy unknown",
+      "conditions": {
+        "workload": "public-1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/a3fd1372434bfa2d73159726b17d031c2ee4c2b03ca383c4167134a2a6991e87.json",
+        "original_file": "comparisons/public-references.json",
+        "path": [
+          "observations",
+          "row_1",
+          "values",
+          1
+        ],
+        "sha256": "a3fd1372434bfa2d73159726b17d031c2ee4c2b03ca383c4167134a2a6991e87"
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "api_tool": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "clean_install": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "restart": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "reboot": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "performance": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "endurance": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/a3fd1372434bfa2d73159726b17d031c2ee4c2b03ca383c4167134a2a6991e87.json",
+      "original_file": "comparisons/public-references.json",
+      "path": [],
+      "sha256": "a3fd1372434bfa2d73159726b17d031c2ee4c2b03ca383c4167134a2a6991e87"
+    }
+  ],
+  "external_sources": [
+    {
+      "url": "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md",
+      "revision": "856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e"
+    }
+  ],
+  "limitations": [
+    "Imported aggregate/cohort, not a newly executed run. Unknown metadata is deliberately not reconstructed from current defaults.",
+    "No percentage comparison permitted until required matching metadata is available."
+  ],
+  "fingerprint": "05019c456132221f305f74c475d2384a0a451ae8f06b92ae55b30ac7b79e0775"
+}

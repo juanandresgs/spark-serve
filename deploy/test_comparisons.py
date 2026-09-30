@@ -36,17 +36,18 @@ class ComparisonChecks(unittest.TestCase):
             root = Path(temp)
             shutil.copytree(ROOT / 'comparisons', root / 'comparisons')
             # Copy just published evidence/configuration and experiment guides.
-            for folder in ['recipes', 'experiments']:
+            for folder in ['recipes', 'experiments', 'evidence']:
                 shutil.copytree(ROOT / folder, root / folder, ignore=shutil.ignore_patterns('__pycache__'))
             shutil.copy(ROOT / 'README.md', root / 'README.md')
             check_page(root)
-            path = root / 'recipes/glm53-flash-adaptive-2spark/results.json'
+            record = json.loads((root / 'evidence/runs/import-20260930-glm-0-1-v1.json').read_text())
+            path = root / record['measurements'][0]['source']['file']
             data = json.loads(path.read_text())
             data['observations']['matched_pair_b_output_tokens_per_second']['adaptive_full_graph']['prose_c1'] = 12.34
             path.write_text(json.dumps(data))
-            self.assertIn('12.34 tokens/s', render(root))
-            with self.assertRaisesRegex(ConfigError, 'stale'):
-                check_page(root)
+            # Imported receipts are pinned: changing history is an integrity error, not a new result.
+            with self.assertRaisesRegex(ConfigError, 'Source receipt changed'):
+                render(root)
             del data['observations']
             path.write_text(json.dumps(data))
             with self.assertRaises(ConfigError):
@@ -65,6 +66,7 @@ class ComparisonChecks(unittest.TestCase):
             # Resolve the actual files but supply a mutated data file.
             shutil.copytree(ROOT / 'recipes', root / 'recipes')
             shutil.copytree(ROOT / 'experiments', root / 'experiments')
+            shutil.copytree(ROOT / 'evidence', root / 'evidence')
             data = json.loads((ROOT / 'comparisons/models.json').read_text())
             data['tables']['public']['rows'][0]['boundary'] = ''
             path.write_text(json.dumps(data))

@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "glm-adaptive-source-20260930-v1",
+  "catalog_id": "glm53-flash-adaptive-2spark",
+  "model": "glm",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 2,
+    "memory_gb_per_node": 128,
+    "topology": "tensor parallel pair"
+  },
+  "pins": {
+    "glm-5.3-flash-exl3-ablit": {
+      "context_tokens": 850000,
+      "image": "dgx-local/glm53-e3-adaptive:issue106",
+      "repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+      "revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f"
+    }
+  },
+  "settings": {
+    "aliases": [
+      "glm53-exl3",
+      "glm-exl3",
+      "glm53-ablit",
+      "glm53-uncensored",
+      "dgx-orchestrator"
+    ],
+    "artifacts": [
+      {
+        "kind": "docker_image",
+        "node": "head",
+        "value": "dgx-local/glm53-exl3-e2:eb0469f-905c0293-c5d9c657"
+      },
+      {
+        "kind": "docker_image",
+        "node": "worker",
+        "value": "dgx-local/glm53-exl3-e2:eb0469f-905c0293-c5d9c657"
+      },
+      {
+        "kind": "docker_image",
+        "node": "head",
+        "value": "dgx-local/glm53-e3-only:20260909-cap128"
+      },
+      {
+        "kind": "docker_image",
+        "node": "worker",
+        "value": "dgx-local/glm53-e3-only:20260909-cap128"
+      },
+      {
+        "kind": "docker_image",
+        "node": "head",
+        "value": "dgx-local/glm53-e3-adaptive:issue106"
+      },
+      {
+        "kind": "docker_image",
+        "node": "worker",
+        "value": "dgx-local/glm53-e3-adaptive:issue106"
+      }
+    ],
+    "description": "Serving settings template for deploy/render_site.py.",
+    "id": "glm-5.3-flash-exl3-ablit",
+    "model": {
+      "context_tokens": 850000,
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "quantization": "EXL3/TR3 4bpw plus pinned dealign o_proj transplant on all target layers L15-L44; FP8 target KV",
+      "repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+      "revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+      "served_name": "GLM-5.3-Flash-EXL3-Ablit"
+    },
+    "name": "GLM-5.3-Flash-EXL3-Ablit (glm-5.3-flash-exl3-ablit)",
+    "operator": {
+      "exposure": "maintenance-only",
+      "readiness": "experimental",
+      "use_cases": [
+        "configuration reference"
+      ],
+      "warnings": [
+        "Bind this template with deploy/render_site.py before serving."
+      ]
+    },
+    "resources": {
+      "claims": [
+        "gpu:head",
+        "gpu:worker",
+        "fabric:head-worker"
+      ],
+      "nodes": {
+        "head": {
+          "min_disk_free_gib": 190,
+          "min_memory_available_gib": 100,
+          "swap_policy": "off_during_run"
+        },
+        "worker": {
+          "min_disk_free_gib": 190,
+          "min_memory_available_gib": 100,
+          "swap_policy": "off_during_run"
+        }
+      }
+    },
+    "runtime": {
+      "backend": {
+        "health_path": "/health",
+        "models_path": "/v1/models",
+        "node": "head",
+        "port": 8893
+      },
+      "engine": "vLLM native TP2, E3 grouped EXL3, adaptive DFlash2 TP2; issue106",
+      "image": "dgx-local/glm53-e3-adaptive:issue106",
+      "launch": {
+        "argv": [
+          "/usr/bin/false"
+        ],
+        "environment": {
+          "DGX_ORCHESTRATOR_E2": "1",
+          "DGX_SPARK_SERVE_MANAGED": "1",
+          "GLM53_MIXED_PREFILL_CHUNK": "512",
+          "GPU_MEM_UTIL": "0.84",
+          "KV_CACHE_MEMORY": "11811160064",
+          "LANGUAGE_MODEL_ONLY": "1",
+          "ORCH_CONTEXT": "850000",
+          "ORCH_KV_GIB": "11",
+          "ORCH_MIXED": "512",
+          "ORCH_SEQS": "8",
+          "ORCH_VISION": "1",
+          "ORCH_WORKSPACE": "rightsize"
+        },
+        "mode": "detached",
+        "node": "head",
+        "timeout_seconds": 2100
+      },
+      "stop": {
+        "argv": [
+          "/usr/bin/false"
+        ],
+        "mode": "detached",
+        "node": "head",
+        "timeout_seconds": 900
+      }
+    },
+    "schema_version": 1,
+    "serving": {
+      "concurrency_limit": 16,
+      "eviction_cost": 140,
+      "reasoning": true,
+      "request_filters": {
+        "setParamsByID": {
+          "dgx-orchestrator": {
+            "priority": 0
+          }
+        }
+      },
+      "scheduler": {
+        "engine": "vllm",
+        "max_num_batched_tokens": 2048,
+        "max_running_requests": 8,
+        "policy": "priority",
+        "priority_order": "lower-first"
+      },
+      "tools": true,
+      "ttl_seconds": 0
+    },
+    "topology": {
+      "fabric_required": true,
+      "mode": "tensor-parallel",
+      "nodes": [
+        "head",
+        "worker"
+      ]
+    }
+  },
+  "requirements": {
+    "destination_acceptance_required": true,
+    "available_memory_gib_per_node": 100,
+    "disk_free": {
+      "value": 190,
+      "unit": "GiB"
+    },
+    "runtime": "NVIDIA-enabled Docker; serving GPU free of other workloads"
+  },
+  "source_files": {
+    "recipes/glm53-flash-adaptive-2spark/profile-0.json": "f616d3011ab6e092b0c049fac4220d1c93a5a025eda14c5a413bd5a11fd0defc",
+    "cluster/glm-throughput/Dockerfile": "6cb1fc91cbb181ca5c1983bf25a3fef52fa464f4475e25fa1670b5c4c4e788a8",
+    "cluster/glm-throughput/overlay/patch_adaptive_k.py": "153db545d414cad2556220e844fa90f04cc34bff0f1107e1f3dedb4072616d6f"
+  },
+  "unknowns": [
+    "Historical installed image digest, rank software parity and benchmark fixture identity not retained."
+  ],
+  "scope": "Portable source snapshot; original-site evidence does not qualify a destination install.",
+  "fingerprint": "7cfb765c4bc8bccaa66fd712b4b52b0255753b902fd83266f79cc2e4fc6a29b9"
+}

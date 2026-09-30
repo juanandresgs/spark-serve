@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spark-serve.invalid/evidence/recipe-v1.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "recipe"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]*$"
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "catalog_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hardware": {
+      "type": "object",
+      "properties": {
+        "accelerator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nodes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "memory_gb_per_node": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "topology": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "accelerator",
+        "nodes",
+        "memory_gb_per_node",
+        "topology"
+      ],
+      "additionalProperties": false
+    },
+    "pins": {
+      "type": "object"
+    },
+    "settings": {
+      "type": "object"
+    },
+    "requirements": {
+      "type": "object"
+    },
+    "source_files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "id",
+    "fingerprint",
+    "catalog_id",
+    "model",
+    "hardware",
+    "pins",
+    "settings",
+    "requirements",
+    "source_files",
+    "unknowns",
+    "scope"
+  ],
+  "additionalProperties": false
+}

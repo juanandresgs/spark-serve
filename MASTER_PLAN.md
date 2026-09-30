@@ -60,3 +60,28 @@ provides API and optional disruptive restart acceptance.
 - Expose the same choices through `recipes options`, model filtering and JSON.
 - Verify generated-page freshness, missing evidence, recommendation consistency
   and actual CLI behavior. No new benchmark or deployment qualification is claimed.
+
+## Structured recipe and evidence contract — v1
+
+Implemented in isolated feature work: three linked JSON record types with content
+fingerprints, JSON Schema and semantic validation; immutable historical Qwen/GLM
+cohorts; separately pinned external reports; reviewed recommendation snapshots;
+existing table generation redirected to records; fail-closed percentage comparison;
+and sanitized, create-only Qwen speed-run output. Original receipts and failed
+mitigation evidence remain available. See `evidence/README.md`.
+
+Acceptance: schema/reference/receipt integrity, immutable-history checks, invalid
+comparison cases, real runner emission against a local synthetic HTTP boundary,
+existing comparison/CLI tests, offline source/recipe/site checks and adapter tests.
+These are software checks, not new hardware qualifications.
+
+Integration obligations (evidence maintainer owns reconciliation):
+
+| Dependency / owner | Resumption trigger | Acceptance |
+| --- | --- | --- |
+| README/graph presentation work / README maintainer | Final local presentation commit is available | Reconcile renderer changes; retain structured numeric refs; regenerate page/graphs; run freshness and evidence checks on combined tree before publication review |
+| GLM bakeoff / GLM research maintainer | Final sanitized receipts and exact source/image IDs are handed off | Append v1 runs with actual fixture/request/cache/environment/sample metadata, preserve failures and separate qualifications; propose a new reviewed decision only with operator approval |
+| Remaining context, quality and lifecycle runners / evidence maintainer | Next authorized change to the corresponding runner | Emit the same run schema with domain-specific accounting and failure scopes; retain old receipts, do not pretend speed emission covers those suites |
+
+Publication and production promotion remain explicit operator decisions. The
+initial normalization changes neither serving state nor the existing choices.

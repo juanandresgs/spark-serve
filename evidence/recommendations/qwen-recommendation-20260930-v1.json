@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "kind": "recommendation",
+  "id": "qwen-recommendation-20260930-v1",
+  "model": "qwen",
+  "hardware_nodes": 1,
+  "selected": {
+    "id": "qwen-affine4-source-20260930-v1",
+    "fingerprint": "1bc3a27cc210efb3e88bd01ba62809285cfe68d16790072e8456019f4089007c"
+  },
+  "alternatives": [
+    {
+      "catalog_id": "qwen-cooperative-exl3",
+      "rationale": "Higher measured code throughput and shorter reasoning tails; exported build remains experimental."
+    },
+    {
+      "catalog_id": "qwen38-flash-1spark",
+      "rationale": "Previous managed recipe; retained for existing deployments."
+    }
+  ],
+  "evidence_runs": [
+    {
+      "id": "import-20260930-qwen-0-0-v1",
+      "fingerprint": "153b1364e97adba6aab77480e5ee4e65d8c950714f9cc126cf2b0b7b616b7ede"
+    },
+    {
+      "id": "import-20260930-qwen-0-1-v1",
+      "fingerprint": "30377179fdb3304a742780412a5ae5fe75c8189bf0b39c33064dcea60ac9e6af"
+    },
+    {
+      "id": "import-20260930-qwen-1-0-v1",
+      "fingerprint": "b8fda35fc16e86cd0768cf26cc55c3d0deb3e1635e590ead1733e257eec1369e"
+    },
+    {
+      "id": "import-20260930-qwen-1-1-v1",
+      "fingerprint": "90db6b3eb810588674544c16cf734c82625a3c1b05b829af1bff816655348d3a"
+    },
+    {
+      "id": "import-20260930-qwen-2-0-v1",
+      "fingerprint": "1e124e6807509477f78617743c2758c84c4299ee327674cca61a84041ab0a1cd"
+    },
+    {
+      "id": "import-20260930-qwen-2-1-v1",
+      "fingerprint": "18ced85e24802c4bbfc8d188992b352be8012e4c28bab8cb87100b434dd14dff"
+    },
+    {
+      "id": "import-20260930-qwen-3-0-v1",
+      "fingerprint": "8a70c91949649d2940d64594091672eb16645731e1eb741855ecb36526b0c457"
+    },
+    {
+      "id": "import-20260930-qwen-3-1-v1",
+      "fingerprint": "8fb7d48a0fb7264a5c48d957a82da7a36e0bf5333fc75dad588985cd8fdd9632"
+    },
+    {
+      "id": "import-20260930-qwen-4-0-v1",
+      "fingerprint": "ff6bbc2f7fa1dd178b39b4c5d6d9e43fe0c7168601f58a8761d5bd75e9416857"
+    },
+    {
+      "id": "import-20260930-qwen-4-1-v1",
+      "fingerprint": "e8e2b88aede6f47d65a680857dad45fbbd4656fb6109d525ccc34b7a85b61071"
+    },
+    {
+      "id": "import-20260930-qwen-5-0-v1",
+      "fingerprint": "5559dc81dbc6c3f6b097fd0bae4ccd2b5e3a8f1d52a663c2e628ca8809dc3852"
+    },
+    {
+      "id": "import-20260930-qwen-5-1-v1",
+      "fingerprint": "3d7e2065c32d0c811ba4f779f114ba266f76428ee7aa23a85c74dce3ae5f3972"
+    },
+    {
+      "id": "import-20260930-qwen-6-0-v1",
+      "fingerprint": "7438d2b9a4e426d8d2c235b0586d81d18de4135effffd1af0fec1d6ac343d3d8"
+    },
+    {
+      "id": "import-20260930-qwen-6-1-v1",
+      "fingerprint": "cb4329f6d44bddb179db6517a0b706eae2a895f088cf9585880a905587691bd1"
+    },
+    {
+      "id": "import-20260930-qwen-7-0-v1",
+      "fingerprint": "ca13f34f49df3b40a13111579517d1da1816f043a2c99fcdb7dbd4063f2253f7"
+    },
+    {
+      "id": "import-20260930-qwen-7-1-v1",
+      "fingerprint": "54a04b6b8d69b15e29a9c467669a332bf42c0ed746315185ea69d8f1c5730293"
+    },
+    {
+      "id": "import-20260930-qwen-8-0-v1",
+      "fingerprint": "5eae243a6850e41fa84e0637f2bd14972490b8fecc5d8da4f1ce2e22db22f883"
+    },
+    {
+      "id": "import-20260930-qwen-8-1-v1",
+      "fingerprint": "703756b920e5498ec5ce0bd50b4498d13d143e9591d3ac627fc83905c6a53fc3"
+    },
+    {
+      "id": "import-20260930-qwen-bounded-greedy-failures-v1",
+      "fingerprint": "59e18dd5ba3599ab5e232b3fbb0ab96571e43a4759226d2135db0ffc1b6f0045"
+    },
+    {
+      "id": "import-20260930-qwen-public-build-v1",
+      "fingerprint": "ff532b8e4891e45863cc451939d4c9a8d9ae69281836a60d9690801cbb0b146b"
+    }
+  ],
+  "rationale": "Best measured long-prompt and mixed-traffic performance; longer reasoning tails.",
+  "review": {
+    "status": "reviewed",
+    "basis": "Imported existing published selection at public commit 2a4d956; this migration makes no new recommendation decision.",
+    "date": "2026-09-30"
+  },
+  "limitations": [
+    "Destination install and reboot qualification remain separate.",
+    "Historical incomplete metadata prevents percentage claims from these imported records."
+  ],
+  "fingerprint": "1fd741818a4b63b290e538f5507a20b3607f3344134f3f9497d0d5ac74850b04"
+}

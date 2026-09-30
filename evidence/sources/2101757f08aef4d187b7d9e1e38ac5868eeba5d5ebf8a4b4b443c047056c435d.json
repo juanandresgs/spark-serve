@@ -1,0 +1,528 @@
+{
+  "reliability-affine-bounded-greedy": {
+    "cases": 6,
+    "correct": 4,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [
+      25,
+      41
+    ],
+    "median_s": 56.99617017748824,
+    "p95_s": 67.77073097601533,
+    "median_tokens": 2056.0,
+    "total_tokens": 12337,
+    "forced_exits": 6,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "25,37,41,69,73,81",
+      "draft": "on",
+      "temperature": 0.0,
+      "clients": 4,
+      "budget": 2048,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 147
+    }
+  },
+  "reliability-affine-coding": {
+    "cases": 20,
+    "correct": 20,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 16.073497393517755,
+    "p95_s": 96.65478118500323,
+    "median_tokens": 408.5,
+    "total_tokens": 15795,
+    "forced_exits": 3,
+    "normalized_fences": 0,
+    "parameters": {
+      "budget": 2048
+    }
+  },
+  "reliability-affine-context-147": {
+    "passed": true,
+    "cold": 261.62183046800783,
+    "warm": 1.2450901539996266,
+    "cached": 253843,
+    "cases": 2,
+    "correct": 2,
+    "complete_cold_s": 261.62193750901497,
+    "complete_warm_s": 1.2451941070030443,
+    "prompt_tokens": 253843,
+    "normalized_fences": 0
+  },
+  "reliability-affine-default-coding": {
+    "cases": 20,
+    "correct": 20,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 14.803247489995556,
+    "p95_s": 243.55592729098862,
+    "median_tokens": 408.5,
+    "total_tokens": 25786,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "budget": 0
+    }
+  },
+  "reliability-affine-default-heldout-20260929": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 8.592174684497877,
+    "p95_s": 63.908564066980034,
+    "median_tokens": 236.0,
+    "total_tokens": 41156,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 20260929
+    }
+  },
+  "reliability-affine-default-heldout-20260930": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 8.318658825010061,
+    "p95_s": 38.49856348900357,
+    "median_tokens": 227.0,
+    "total_tokens": 33966,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 20260930
+    }
+  },
+  "reliability-affine-heldout-20260929": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 8.964302592008607,
+    "p95_s": 67.02833086100873,
+    "median_tokens": 236.0,
+    "total_tokens": 40478,
+    "forced_exits": 3,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 2048,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 20260929
+    }
+  },
+  "reliability-affine-heldout-20260930": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 8.283090172990342,
+    "p95_s": 37.720502259006025,
+    "median_tokens": 227.0,
+    "total_tokens": 33764,
+    "forced_exits": 1,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 2048,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 20260930
+    }
+  },
+  "reliability-affine-improved": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 9.32366813950648,
+    "p95_s": 53.792349203984486,
+    "median_tokens": 251.5,
+    "total_tokens": 38015,
+    "forced_exits": 3,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 2048,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 147
+    }
+  },
+  "reliability-affine-mixed-147": {
+    "passed": true,
+    "wall_s": 144.60568718600553,
+    "short_p50": 0.7048643010057276,
+    "short_p95": 1.114806519006379,
+    "short_max": 1.2937814840115607,
+    "long_seconds": [
+      144.04170837099082,
+      144.60083493601996
+    ],
+    "cases": 22,
+    "correct": 22,
+    "normalized_fences": 1
+  },
+  "reliability-affine-packaged-speed": {
+    "code": {
+      "median_aggregate_tps": 142.22775988961774,
+      "min_aggregate_tps": 139.98864134890823,
+      "max_aggregate_tps": 151.8164452387828,
+      "reps": 3,
+      "all_passed": true
+    },
+    "prose": {
+      "median_aggregate_tps": 92.64070921382998,
+      "min_aggregate_tps": 89.39203794560703,
+      "max_aggregate_tps": 93.22804382702226,
+      "reps": 3,
+      "all_passed": true
+    }
+  },
+  "reliability-affine-sampled-serial": {
+    "cases": 6,
+    "correct": 6,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 15.96556372899795,
+    "p95_s": 17.49503902599099,
+    "median_tokens": 263.5,
+    "total_tokens": 1709,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "25,37,41,69,73,81",
+      "draft": "off",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": false,
+      "fixture_seed": 147
+    }
+  },
+  "reliability-affine-sampled": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 9.604179807996843,
+    "p95_s": 53.84449363598833,
+    "median_tokens": 251.5,
+    "total_tokens": 40181,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": false,
+      "fixture_seed": 147
+    }
+  },
+  "reliability-affine-speed": {
+    "code": {
+      "median_aggregate_tps": 141.37597590859974,
+      "min_aggregate_tps": 139.86818745806994,
+      "max_aggregate_tps": 154.94725078496134,
+      "reps": 3,
+      "all_passed": true
+    },
+    "prose": {
+      "median_aggregate_tps": 92.62211033340833,
+      "min_aggregate_tps": 87.72282203369214,
+      "max_aggregate_tps": 92.95674383655086,
+      "reps": 3,
+      "all_passed": true
+    }
+  },
+  "reliability-api": {
+    "cases": 11,
+    "passed": 11
+  },
+  "reliability-buffered-cancel": {
+    "cases": 6,
+    "passed": 6
+  },
+  "reliability-cancel": {
+    "cases": 6,
+    "passed": 6
+  },
+  "reliability-exl3-coding": {
+    "cases": 20,
+    "correct": 20,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 12.673445155509398,
+    "p95_s": 25.06229130399879,
+    "median_tokens": 377.0,
+    "total_tokens": 10924,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "budget": 0
+    }
+  },
+  "reliability-exl3-context-147": {
+    "passed": true,
+    "cold": 534.1723438090121,
+    "warm": 0.7532493190083187,
+    "cached": 253843,
+    "cases": 2,
+    "correct": 2,
+    "complete_cold_s": 534.7935392220097,
+    "complete_warm_s": 1.709791375003988,
+    "prompt_tokens": 253843,
+    "normalized_fences": 0
+  },
+  "reliability-exl3-heldout-20260929": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 7.141653453494655,
+    "p95_s": 34.312757828010945,
+    "median_tokens": 200.0,
+    "total_tokens": 29167,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": false,
+      "fixture_seed": 20260929
+    }
+  },
+  "reliability-exl3-heldout-20260930": {
+    "cases": 100,
+    "correct": 98,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [
+      42,
+      62
+    ],
+    "median_s": 6.772795929005952,
+    "p95_s": 31.297882420010865,
+    "median_tokens": 193.0,
+    "total_tokens": 28003,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": false,
+      "fixture_seed": 20260930
+    }
+  },
+  "reliability-exl3-mixed-147": {
+    "passed": true,
+    "wall_s": 376.60067968899966,
+    "short_p50": 2.4395353785075713,
+    "short_p95": 2.720810498984065,
+    "short_max": 2.8233130820153747,
+    "long_seconds": [
+      376.32523698799196,
+      376.59299190799356
+    ],
+    "cases": 22,
+    "correct": 22,
+    "normalized_fences": 0
+  },
+  "reliability-exl3-sampled": {
+    "cases": 100,
+    "correct": 100,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 6.9501370360085275,
+    "p95_s": 29.68064390300424,
+    "median_tokens": 201.0,
+    "total_tokens": 30116,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "all",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": false
+    }
+  },
+  "reliability-exl3-speed": {
+    "code": {
+      "median_aggregate_tps": 161.0836907183187,
+      "min_aggregate_tps": 159.42182383753467,
+      "max_aggregate_tps": 163.85956986615858,
+      "reps": 3,
+      "all_passed": true
+    },
+    "prose": {
+      "median_aggregate_tps": 85.99285263221795,
+      "min_aggregate_tps": 85.63867388229289,
+      "max_aggregate_tps": 87.6502348221607,
+      "reps": 3,
+      "all_passed": true
+    }
+  },
+  "reliability-packaged-api": {
+    "cases": 11,
+    "passed": 11
+  },
+  "reliability-packaged-cancel": {
+    "cases": 6,
+    "passed": 6
+  },
+  "reliability-packaged-forced": {
+    "cases": 3,
+    "correct": 3,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 59.76957003498683,
+    "p95_s": 63.98096792100114,
+    "median_tokens": 2056,
+    "total_tokens": 6172,
+    "forced_exits": 3,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "83,87,99",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 2048,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 147
+    }
+  },
+  "reliability-packaged-sampled": {
+    "cases": 6,
+    "correct": 6,
+    "empty": 0,
+    "length": 0,
+    "errors": 0,
+    "failed_indices": [],
+    "median_s": 10.066970850501093,
+    "p95_s": 11.98213651200058,
+    "median_tokens": 263.5,
+    "total_tokens": 1709,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "25,37,41,69,73,81",
+      "draft": "on",
+      "temperature": 1.0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": true,
+      "fixture_seed": 147
+    }
+  },
+  "reliability-packaged-typed-api": {
+    "cases": 36,
+    "passed": 36
+  },
+  "reliability-serial": {
+    "cases": 6,
+    "correct": 0,
+    "empty": 6,
+    "length": 6,
+    "errors": 0,
+    "failed_indices": [
+      25,
+      37,
+      41,
+      69,
+      73,
+      81
+    ],
+    "median_s": 407.1570506995049,
+    "p95_s": 408.2950235589815,
+    "median_tokens": 8192.0,
+    "total_tokens": 49152,
+    "forced_exits": 0,
+    "normalized_fences": 0,
+    "parameters": {
+      "indices": "25,37,41,69,73,81",
+      "draft": "off",
+      "temperature": 0,
+      "clients": 4,
+      "budget": 0,
+      "seed": 61000,
+      "schema": false
+    }
+  },
+  "reliability-typed-api": {
+    "cases": 36,
+    "passed": 36
+  }
+}
