@@ -10,5 +10,6 @@
   },
   "original_evidence_sha256": "16f5fa15dfe285c0edaf797543476cc8236de524de98bb9377608b98ac7fc702",
   "recipe_id": "qwen38-flash-1spark",
-  "status": "recommended-with-caveats"
+  "status": "bounded-qualification",
+  "superseded_by": "qwen38-flash-affine4-1spark"
 }

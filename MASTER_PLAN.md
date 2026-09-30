@@ -39,3 +39,15 @@ provides API and optional disruptive restart acceptance.
 - Export/privacy/CPU checks support this source candidate. Fresh GPU build, cold
   boot, sustained load and full-slot cancellation remain future qualification.
 - No existing deployment, model weights or binary image is changed/distributed.
+
+## Recommended GLM and Qwen entry points — issue #4
+
+- Recommend the two-Spark adaptive GLM recipe and the one-Spark Affine4 Qwen recipe.
+- Publish the allowlisted Affine4 source kit, pinned build receipt, benchmark
+  methodology and independent adapter code. Keep EXL3 and vLLM alternatives.
+- Show matched local variants separately from attributed, unmatched public numbers.
+- Register Affine4 as a standalone source recipe; reject broker preparation until
+  a portable adapter exists. Preserve existing deployment configurations.
+- Check source manifests, catalog behavior, CPU adapter tests and shell syntax.
+  GPU build/API/replay evidence is included; full rebuild performance, clean-machine
+  install, reboot and endurance checks remain explicitly outstanding.

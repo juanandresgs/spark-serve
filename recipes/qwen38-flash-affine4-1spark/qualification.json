@@ -1,0 +1,11 @@
+{
+  "recipe_id": "qwen38-flash-affine4-1spark",
+  "status": "recommended-with-caveats",
+  "build_validation": "build-validation.json",
+  "performance": "PERFORMANCE.md",
+  "limits": [
+    "Not a fresh weight-download or clean-machine test",
+    "No soak, reboot or broad agentic coding qualification",
+    "Public reference numbers are not matched benchmarks"
+  ]
+}

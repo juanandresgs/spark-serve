@@ -1,3 +1,5 @@
+> The recommended Qwen recipe is now [Affine4 on one Spark](../../recipes/qwen38-flash-affine4-1spark/README.md). This EXL3 variant remains available for higher measured code throughput and lower reasoning latency. See the [comparison](../../recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
+
 # Qwen3.8-Flash-Next on one DGX Spark: cooperative TensorFold recipe
 
 A source-pinned single-Spark recipe with schema-aware tool arguments, honest
