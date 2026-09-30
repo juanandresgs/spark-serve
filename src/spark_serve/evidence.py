@@ -167,23 +167,28 @@ def percent_change(left, lm, right, rm):
     return 100 * (rm['value'] / lm['value'] - 1)
 
 
+def write_bytes_once(target, body):
+    """Publish complete bytes atomically without replacing any existing name."""
+    target = Path(target)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(dir=target.parent, delete=False) as stream:
+        temporary = Path(stream.name)
+        stream.write(body)
+        stream.flush()
+        os.fsync(stream.fileno())
+    try:
+        os.link(temporary, target)
+    finally:
+        temporary.unlink()
+    return target
+
+
 def write_immutable(record, directory, root):
     """Atomic create-only publication. Concurrent writers cannot replace an existing ID."""
     record = seal(record)
     validate_record(record, root)
-    directory = Path(directory)
-    directory.mkdir(parents=True, exist_ok=True)
-    target = directory / (record['id'] + '.json')
-    with tempfile.NamedTemporaryFile(dir=directory, delete=False) as stream:
-        temporary = Path(stream.name)
-        stream.write(json.dumps(record, indent=2, allow_nan=False).encode() + b'\n')
-        stream.flush()
-        os.fsync(stream.fileno())
-    try:
-        os.link(temporary, target)  # atomic no-clobber; target never exposes partial JSON
-    finally:
-        temporary.unlink()
-    return target
+    target = Path(directory) / (record['id'] + '.json')
+    return write_bytes_once(target, json.dumps(record, indent=2, allow_nan=False).encode() + b'\n')
 
 
 def check_immutable(root, base):

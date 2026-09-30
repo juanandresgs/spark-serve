@@ -7,8 +7,10 @@ require a new migration/version. Legacy receipts remain the provenance authority
 import copy
 import hashlib
 import json
+import os
+import tempfile
 from pathlib import Path
-from spark_serve.evidence import canonical, read, seal
+from spark_serve.evidence import canonical, read, seal, write_bytes_once, write_immutable
 ROOT = Path(__file__).resolve().parents[1]
 STAMP = '2026-09-30'
 
@@ -17,13 +19,17 @@ def source(file,path):
  sha=digest(file);target=ROOT/'evidence/sources'/(sha+'.json');target.parent.mkdir(exist_ok=True)
  body=(ROOT/file).read_bytes()
  if target.exists() and target.read_bytes()!=body:raise ValueError('Content-addressed source collision')
- if not target.exists():target.write_bytes(body)
+ if not target.exists():
+  try:write_bytes_once(target,body)
+  except FileExistsError:
+   if target.read_bytes()!=body:raise ValueError('Conflicting source snapshot')
  return {'file':str(target.relative_to(ROOT)),'original_file':file,'path':path,'sha256':sha}
 def ref(r):return {'id':r['id'],'fingerprint':r['fingerprint']}
 def save(r):
  r=seal(r);p=ROOT/'evidence'/(r['kind']+'s')/(r['id']+'.json');body=json.dumps(r,indent=2)+'\n'
  if p.exists() and p.read_text()!=body:raise ValueError('Refusing to rewrite immutable '+str(p))
- p.write_text(body);return r
+ if not p.exists():write_immutable(r,p.parent,ROOT)
+ return r
 
 def recipe(id,catalog,model,nodes,pins,settings,files,unknowns,scope):
  return save(dict(schema_version=1,kind='recipe',id=id,catalog_id=catalog,model=model,
@@ -38,7 +44,7 @@ def main():
  # Retain the exact pre-migration table specification as an auditable input.
  old=ROOT/'evidence/legacy-comparisons-v1.json'
  if old.exists():models=read(old)
- else:old.write_text(json.dumps(models,indent=2)+'\n')
+ else:write_bytes_once(old,(json.dumps(models,indent=2)+'\n').encode())
  q='recipes/qwen38-flash-affine4-1spark/'
  e='experiments/qwen-tensorfold-cooperative/'
  g='recipes/glm53-flash-adaptive-2spark/'
@@ -137,6 +143,14 @@ def main():
    return {k:redirect(v) for k,v in value.items()}
   if isinstance(value,list):return [redirect(v) for v in value]
   return value
- (ROOT/'comparisons/models.json').write_text(json.dumps(redirect(models),indent=2)+'\n')
+ target=ROOT/'comparisons/models.json';before=target.read_bytes();body=(json.dumps(redirect(models),indent=2)+'\n').encode()
+ if before!=body:
+  if read(target)!=read(old):raise ValueError('Comparison configuration changed; reconcile manually instead of overwriting it')
+  with tempfile.NamedTemporaryFile(dir=target.parent,delete=False) as stream:
+   temporary=Path(stream.name);stream.write(body)
+  try:
+   if target.read_bytes()!=before:raise ValueError('Concurrent comparison edit')
+   temporary.chmod(target.stat().st_mode & 0o777);os.replace(temporary,target)
+  finally:temporary.unlink(missing_ok=True)
  print(f'Imported {len(runs)} immutable run cohorts; originals retained.')
 if __name__=='__main__':main()

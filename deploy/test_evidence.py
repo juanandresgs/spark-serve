@@ -1,6 +1,7 @@
 """Schema, provenance, immutability and real runner HTTP-boundary checks."""
 import copy
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -74,6 +75,22 @@ class EvidenceChecks(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Incomparable'):e.percent_change(r,m,changed,changed['measurements'][0])
         b['origin']='external_report'
         with self.assertRaisesRegex(ValueError,'external'):e.percent_change(r,m,b,b['measurements'][0])
+
+    def test_importer_preserves_existing_records_and_refuses_changed_configuration(self):
+        spec=importlib.util.spec_from_file_location('import_evidence',ROOT/'deploy/import_evidence.py')
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            for name in ['evidence','recipes','comparisons','experiments','cluster']:
+                shutil.copytree(ROOT/name,root/name)
+            module.ROOT=root
+            record=root/'evidence/runs/import-20260930-qwen-0-1-v1.json'
+            before=record.stat().st_mtime_ns
+            config=root/'comparisons/models.json';data=e.read(config);data['presentation_note']='owned by another editor'
+            body=json.dumps(data);config.write_text(body)
+            with self.assertRaisesRegex(ValueError,'configuration changed'):module.main()
+            self.assertEqual(config.read_text(),body)
+            self.assertEqual(record.stat().st_mtime_ns,before)
 
     def test_create_only_and_history_guard(self):
         with tempfile.TemporaryDirectory() as d:
