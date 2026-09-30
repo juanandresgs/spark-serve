@@ -55,7 +55,7 @@ slots and 262K configured context. Output speed includes prefill and the whole
 request group's elapsed time. Higher is faster; C4 means four concurrent
 requests. Each workload has its own axis.
 
-Affine4 completed the fresh long prompt in **51% less time** and reduced mixed-traffic short-request p95 by **59%**.
+Affine4 completed the fresh long-prompt check in **261.62 s**, versus **534.79 s** for EXL3. Mixed-traffic short-request p95 was **1.115 s**, versus **2.721 s**.
 
 ![qwen waiting comparison; numeric equivalent in the table below](comparisons/charts/qwen-waiting.svg)
 
@@ -105,7 +105,7 @@ DFlash2 drafts tokens ahead, then verifies them against the target model.
 The adaptive recipe varies the draft length while retaining BF16 dense layers
 and the same configured serving capacity as our fixed-draft control.
 
-Adaptive drafting improved prose throughput by **12% at one request** and **23% at eight** in our matched local runs.
+Recorded prose output rates were **24.98 tokens/s** with adaptive drafting versus **22.22 tokens/s** with fixed drafts at one request; **88.57 tokens/s** versus **72.25 tokens/s** across eight requests.
 
 ![glm throughput comparison; numeric equivalent in the table below](comparisons/charts/glm-throughput.svg)
 

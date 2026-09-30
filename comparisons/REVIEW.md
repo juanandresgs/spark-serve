@@ -21,6 +21,9 @@ Resolved findings: removed coding maxima absent from the public receipts; dated
 historical public GLM figures and linked newer reports; corrected joined words
 in the performance guide; enlarged chart-panel spacing to prevent unit/heading
 collisions. The final audit found no remaining numeric, unit or sample mismatch.
+For integration with the structured-evidence contract, headline percentage claims
+were replaced with absolute receipt values. Historical metadata gaps are not
+filled by arithmetic, and this presentation does not override comparability gates.
 
 ## Verification
 

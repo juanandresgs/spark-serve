@@ -56,7 +56,7 @@ score. Display formatting never changes the underlying measurement.
    and manifests in the same change.
 
 CI verifies references, recommendation/guide consistency and exact generated-page
-and chart content, including missing or obsolete charts. Headline percentages
+and chart content, including missing or obsolete charts. Absolute headline values
 resolve from the same table references as their charts. Review SVGs visually at
 desktop and mobile widths after generation; each is a standalone shareable asset.
 CI does not decide whether two experiments are scientifically comparable

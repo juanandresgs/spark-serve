@@ -108,17 +108,18 @@ def render(root):
         if len(matches) != 1:
             raise ConfigError('Headline metric must resolve to exactly one comparison row')
         return matches[0]
-    def change(row, reduction=False):
-        previous, selected = (value(root, c['refs'][0]) for c in row['cells'])
-        return (1 - selected / previous if reduction else selected / previous - 1) * 100
-    cold = change(row('qwen', 'Cold 253,843-token prompt, complete JSON response ↓'), True)
-    mixed = change(row('qwen', 'Short-request p95 during mixed long/short traffic ↓'), True)
-    rendered['gains'] = (f"Affine4 completed the fresh long prompt in **{cold:.0f}% less time** "
-                         f"and reduced mixed-traffic short-request p95 by **{mixed:.0f}%**.")
-    prose_c1 = change(row('glm', 'Single-request prose'))
-    prose_c8 = change(row('glm', 'Eight-request aggregate prose'))
-    rendered['glm-gains'] = (f"Adaptive drafting improved prose throughput by **{prose_c1:.0f}% at one request** "
-                             f"and **{prose_c8:.0f}% at eight** in our matched local runs.")
+    def pair(table_id, metric):
+        return [cell(root, c) for c in row(table_id, metric)['cells']]
+    cold = pair('qwen', 'Cold 253,843-token prompt, complete JSON response ↓')
+    mixed = pair('qwen', 'Short-request p95 during mixed long/short traffic ↓')
+    rendered['gains'] = (f"Affine4 completed the fresh long-prompt check in **{cold[1]}**, "
+                         f"versus **{cold[0]}** for EXL3. Mixed-traffic short-request p95 was "
+                         f"**{mixed[1]}**, versus **{mixed[0]}**.")
+    prose_c1 = pair('glm', 'Single-request prose')
+    prose_c8 = pair('glm', 'Eight-request aggregate prose')
+    rendered['glm-gains'] = (f"Recorded prose output rates were **{prose_c1[1]}** with adaptive drafting "
+                             f"versus **{prose_c1[0]}** with fixed drafts at one request; "
+                             f"**{prose_c8[1]}** versus **{prose_c8[0]}** across eight requests.")
     rendered['alternatives'] = '\n'.join(f"- [{model['name']} · {option['label']}]({option['guide']}): {option['reason']}"
                                          for model in data['models'] for option in model['options']
                                          if option['id'] != model['recommended'])
