@@ -84,6 +84,11 @@ class EvidenceChecks(unittest.TestCase):
             for name in ['evidence','recipes','comparisons','experiments','cluster']:
                 shutil.copytree(ROOT/name,root/name)
             module.ROOT=root
+            # Recreate the migration's original published inputs from retained snapshots.
+            for r in self.records.values():
+                for source in r.get('sources',[]):
+                    if 'original_file' in source:
+                        shutil.copyfile(root/source['file'],root/source['original_file'])
             record=root/'evidence/runs/import-20260930-qwen-0-1-v1.json'
             before=record.stat().st_mtime_ns
             config=root/'comparisons/models.json';data=e.read(config);data['presentation_note']='owned by another editor'

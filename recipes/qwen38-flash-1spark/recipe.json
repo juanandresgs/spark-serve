@@ -2,8 +2,8 @@
   "assets": {
     ".github/workflows/check.yml": "0e7b71b6d72f8db42a9440feda94cd1328b5aeea3c53fa0f9962a6cb518eae96",
     ".gitignore": "e17991e401ad330b600ef1af7f8396bfd7dcd0648017fe8dd9a11443de438ac3",
-    "MASTER_PLAN.md": "5510727baf7cd1589f2922368671e392b0626be3acb37f3fb0dd7af57e704533",
-    "README.md": "1b28dc1cb52ca98590a17d258ad994101a13713cd082e23e8ed4e8b2d58f4b43",
+    "MASTER_PLAN.md": "04c49e855a6520f58d6c3ba2f120466017ca0cfe8f0993caa522ac71746f8ccf",
+    "README.md": "96b6705346d2240f57f5a67f039746bee3ebea36217dbf171e446ea3e53fb510",
     "REPRODUCTION.md": "360b26b4d63ad741efa8462a9d0f28d6cfde6bbd272517a79e30e0e6fc6a388d",
     "clients/pi/install.py": "e155fd13b5cfcc56cb20b6861c2e1220a351b273849497c9f2dc848a1f5aadd4",
     "cluster/agent-fleet/pi/agents/Explore.md": "761e5521fa0fe0eed0cbca45cf312b7c172c924fe629871564ac69689ea6e4f1",

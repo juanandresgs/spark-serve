@@ -9,20 +9,39 @@
       "metric": "Qwen C4 prose",
       "values": [
         106.7
-      ]
+      ],
+      "source_index": 0,
+      "measurement": "aggregate decode throughput",
+      "hardware": "1 DGX Spark",
+      "concurrency": 4,
+      "runtime": "TensorFold 0.3.6.3",
+      "classification": "historical-pinned; figure unchanged at rechecked upstream revision"
     },
     "row_1": {
       "metric": "Qwen long-prompt latency",
       "values": [
         59.6,
         131110
-      ]
+      ],
+      "source_index": 0,
+      "measurement": "prefill time to first token",
+      "hardware": "1 DGX Spark",
+      "runtime": "TensorFold 0.3.6.3",
+      "classification": "historical-pinned; figure unchanged at rechecked upstream revision"
     },
     "row_2": {
       "metric": "GLM single-request prose",
       "values": [
         32.1
-      ]
+      ],
+      "source_index": 1,
+      "measured_on": "2026-09-08",
+      "measurement": "single-request prose decode throughput",
+      "hardware": "2 DGX Sparks",
+      "dense_precision": "FP8 dense,kda opt-in",
+      "context_tokens": 850000,
+      "kv_gib": 14,
+      "classification": "historical-pinned; newer upstream reports exist"
     },
     "row_3": {
       "metric": "GLM structured/code",
@@ -31,7 +50,33 @@
         1,
         146.5,
         4
-      ]
+      ],
+      "source_index": 1,
+      "measured_on": "2026-08-28",
+      "measurement": "high-acceptance structured/code decode throughput",
+      "hardware": "2 DGX Sparks",
+      "temperature": 0,
+      "thinking": false,
+      "output_setting_tokens": 400,
+      "cache": "warm/empty KV",
+      "context_tokens": 1000000,
+      "kv_pool_tokens": 1754237,
+      "classification": "historical-pinned; separate workload from prose; newer upstream reports exist"
     }
-  }
+  },
+  "verified_on": "2026-09-30",
+  "rechecked_sources": [
+    {
+      "source_index": 0,
+      "revision": "a3aa89835022c55ca8e55008c37785954834e04f",
+      "url": "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/a3aa89835022c55ca8e55008c37785954834e04f/README.md",
+      "finding": "Referenced figures unchanged; public runtime/configuration differs from local recipe."
+    },
+    {
+      "source_index": 1,
+      "revision": "674155dec2f2f62bb879801b5ce2cfc759a0bebf",
+      "url": "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/blob/674155dec2f2f62bb879801b5ce2cfc759a0bebf/README.md",
+      "finding": "New September 28 default/boost and September 30 abliterated-profile results; historical pinned rows are not current default results."
+    }
+  ]
 }

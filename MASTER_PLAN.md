@@ -85,3 +85,16 @@ Integration obligations (evidence maintainer owns reconciliation):
 
 Publication and production promotion remain explicit operator decisions. The
 initial normalization changes neither serving state nor the existing choices.
+
+## Approachable README and generated charts — issue #8
+
+- Rewrite the landing page around one-Spark Qwen Affine4 and two-Spark GLM
+  adaptive DFlash2, with clear setup paths and retained alternatives.
+- Generate four accessible SVGs from the existing comparison references. Keep
+  models/hardware/workloads separate, show code and reasoning tradeoffs, retain
+  numeric tables, and check page/chart freshness and evidence drift.
+- Independently audit local receipts, pinned/current public sources, and the final
+  README/charts with three Luna reviewers. Remove unsupported coding maxima;
+  explicitly date historical public GLM figures and link to newer reports.
+- Complete local checks and desktop/mobile visual review. Hold publication for
+  the user's review of the rendered preview; no infrastructure or new benchmark.

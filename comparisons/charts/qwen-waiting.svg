@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="908" viewBox="0 0 600 908" role="img" aria-labelledby="title desc">
+<title id="title">Qwen · long prompts and mixed traffic</title>
+<desc id="desc">Matched Qwen complete recipes, four slots, 262K context. Lower is faster. Separate zero-based axes for cold context, cached context, and mixed-load latency; single matched runs, not repeated distributions. Fresh 253,843-token prompt · complete JSON: Cooperative EXL3 534.794 s, Affine4 261.622 s; Cached prompt + appended turn · complete response: Cooperative EXL3 1.710 s, Affine4 1.245 s; Short-request p95 · mixed long / short traffic: Cooperative EXL3 2.721 s, Affine4 1.115 s</desc>
+<rect width="100%" height="100%" rx="12" fill="#ffffff"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#172c3d">
+<text x="24" y="36" font-size="26" font-weight="bold">Qwen · long prompts and mixed traffic</text>
+<text x="24" y="66" font-size="20" >One DGX Spark · completed-response latency · Sep 29, 2026</text>
+<text x="24" y="124" font-size="22" font-weight="bold">Fresh 253,843-token prompt · complete JSON</text>
+<text x="24" y="148" font-size="18" >53 output tokens in each arm; lower is faster</text>
+<text x="24" y="176" font-size="20" >Cooperative EXL3</text>
+<rect x="24" y="184" width="418.922" height="25" rx="3" fill="#63778b"/>
+<text x="450.9216057239076" y="204" font-size="20" font-weight="bold">534.79</text>
+<text x="24" y="236" font-size="20" >Affine4</text>
+<rect x="24" y="244" width="204.937" height="25" rx="3" fill="#007f79"/>
+<text x="236.93718438206173" y="264" font-size="20" font-weight="bold">261.62</text>
+<path d="M 24 288 H 494" stroke="#687c8c"/>
+<path d="M 24 288 v 5" stroke="#687c8c"/>
+<text x="24" y="314" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 288 v 5" stroke="#687c8c"/>
+<text x="259.0" y="314" font-size="20" text-anchor="middle">300</text>
+<path d="M 494 288 v 5" stroke="#687c8c"/>
+<text x="494" y="314" font-size="20" text-anchor="middle">600</text>
+<text x="259.0" y="337" font-size="18" text-anchor="middle">s</text>
+<text x="24" y="372" font-size="22" font-weight="bold">Cached prompt + appended turn · complete response</text>
+<text x="24" y="396" font-size="18" >Reuses the long-prompt cache; lower is faster</text>
+<text x="24" y="424" font-size="20" >Cooperative EXL3</text>
+<rect x="24" y="432" width="401.801" height="25" rx="3" fill="#63778b"/>
+<text x="433.80097312593716" y="452" font-size="20" font-weight="bold">1.710</text>
+<text x="24" y="484" font-size="20" >Affine4</text>
+<rect x="24" y="492" width="292.621" height="25" rx="3" fill="#007f79"/>
+<text x="324.6206151457154" y="512" font-size="20" font-weight="bold">1.245</text>
+<path d="M 24 536 H 494" stroke="#687c8c"/>
+<path d="M 24 536 v 5" stroke="#687c8c"/>
+<text x="24" y="562" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 536 v 5" stroke="#687c8c"/>
+<text x="259.0" y="562" font-size="20" text-anchor="middle">1</text>
+<path d="M 494 536 v 5" stroke="#687c8c"/>
+<text x="494" y="562" font-size="20" text-anchor="middle">2</text>
+<text x="259.0" y="585" font-size="18" text-anchor="middle">s</text>
+<text x="24" y="620" font-size="22" font-weight="bold">Short-request p95 · mixed long / short traffic</text>
+<text x="24" y="644" font-size="18" >20 short arrivals + two ~131K prompts; lower is faster</text>
+<text x="24" y="672" font-size="20" >Cooperative EXL3</text>
+<rect x="24" y="680" width="426.260" height="25" rx="3" fill="#63778b"/>
+<text x="458.2603115075035" y="700" font-size="20" font-weight="bold">2.721</text>
+<text x="24" y="732" font-size="20" >Affine4</text>
+<rect x="24" y="740" width="174.653" height="25" rx="3" fill="#007f79"/>
+<text x="206.65302131099938" y="760" font-size="20" font-weight="bold">1.115</text>
+<path d="M 24 784 H 494" stroke="#687c8c"/>
+<path d="M 24 784 v 5" stroke="#687c8c"/>
+<text x="24" y="810" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 784 v 5" stroke="#687c8c"/>
+<text x="259.0" y="810" font-size="20" text-anchor="middle">1.5</text>
+<path d="M 494 784 v 5" stroke="#687c8c"/>
+<text x="494" y="810" font-size="20" text-anchor="middle">3</text>
+<text x="259.0" y="833" font-size="18" text-anchor="middle">s</text>
+<text x="24" y="870" font-size="18" >Single matched runs. Cold means fresh prompt, not cold OS</text>
+<text x="24" y="894" font-size="18" >or SSD cache.</text>
+</g></svg>
