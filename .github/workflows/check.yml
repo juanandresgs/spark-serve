@@ -30,3 +30,5 @@ jobs:
           python3 -m unittest discover -s recipes/qwen38-flash-affine4-1spark -p test_reliability.py
           python3 -m compileall -q recipes/qwen38-flash-affine4-1spark
           bash -n recipes/qwen38-flash-affine4-1spark/run.sh
+      - name: Verify comparisons, evidence references and CLI options
+        run: python3 -m unittest discover -s deploy -p test_comparisons.py
