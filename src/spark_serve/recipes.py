@@ -106,6 +106,8 @@ def add_parser(sub):
     parser.add_argument('--source', type=Path, help='source checkout containing recipes and launchers')
     actions = parser.add_subparsers(dest='recipe_action', required=True)
     actions.add_parser('list', help='list recipes and qualification status')
+    choices = actions.add_parser('options', help='show recommended Qwen/GLM recipes and retained alternatives')
+    choices.add_argument('--model', choices=('qwen', 'glm'), help='limit choices to one model')
     show = actions.add_parser('show', help='show pinned configuration and guide path')
     show.add_argument('recipe')
     actions.add_parser('check', help='check all recipe source pins and evidence references')
@@ -118,6 +120,22 @@ def add_parser(sub):
 
 def execute(args) -> int:
     root = source_root(args.source)
+    if args.recipe_action == 'options':
+        from spark_serve.comparisons import options
+        choices = options(root, args.model)
+        if args.json:
+            print(json.dumps(choices, indent=2))
+        else:
+            for model in choices:
+                print(f"{model['name']} — {model['sparks']} Spark(s)")
+                for option in model['options']:
+                    label = 'recommended' if option['recommended'] else 'alternative'
+                    print(f"  {option['id']} [{label}]")
+                    print(f"    {option['reason']}")
+                    print(f"    Guide: {option['guide']}")
+                print()
+            print('Compare measurements: README.md. These choices do not change your deployment.')
+        return 0
     if args.recipe_action == 'prepare':
         try:
             result = prepare(root, read_recipe(root, args.recipe), args.site, args.output, args.allow_experimental)

@@ -7,6 +7,7 @@ from pathlib import Path
 import tempfile
 
 from spark_serve import recipes
+from spark_serve.comparisons import check_page
 from spark_serve.config import load_catalog
 from render_site import render, SUPPORTED
 
@@ -20,6 +21,7 @@ def check(root):
             raise ValueError('Unsafe release path: ' + rel)
         if hashlib.sha256(path.read_bytes()).hexdigest() != sha:
             raise ValueError('Release file changed: ' + rel)
+    check_page(root)
     checked = []
     for path in sorted((root / 'recipes').glob('*/recipe.json')):
         recipe = recipes.read_recipe(root, path.parent.name)

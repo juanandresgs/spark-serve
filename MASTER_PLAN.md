@@ -51,3 +51,12 @@ provides API and optional disruptive restart acceptance.
 - Check source manifests, catalog behavior, CPU adapter tests and shell syntax.
   GPU build/API/replay evidence is included; full rebuild performance, clean-machine
   install, reboot and endurance checks remain explicitly outstanding.
+
+## Data-driven model comparison page — issue #6
+
+- Define focused Qwen/GLM choices with links to retained alternatives.
+- Generate README tables from existing numeric benchmark receipts; keep public
+  reported figures and unmatched comparison boundaries explicit.
+- Expose the same choices through `recipes options`, model filtering and JSON.
+- Verify generated-page freshness, missing evidence, recommendation consistency
+  and actual CLI behavior. No new benchmark or deployment qualification is claimed.

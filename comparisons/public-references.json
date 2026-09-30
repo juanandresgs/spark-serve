@@ -1,0 +1,37 @@
+{
+  "sources": [
+    "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md",
+    "https://github.com/MiaAI-Lab/GLM-5.3-Flash-EXL3-2x-DGX-Sparks/blob/dc6936cea8fd7b2e7ee5b7a48a5aa193857ca489/README.md"
+  ],
+  "kind": "reported-unmatched",
+  "observations": {
+    "row_0": {
+      "metric": "Qwen C4 prose",
+      "values": [
+        106.7
+      ]
+    },
+    "row_1": {
+      "metric": "Qwen long-prompt latency",
+      "values": [
+        59.6,
+        131110
+      ]
+    },
+    "row_2": {
+      "metric": "GLM single-request prose",
+      "values": [
+        32.1
+      ]
+    },
+    "row_3": {
+      "metric": "GLM structured/code",
+      "values": [
+        62.9,
+        1,
+        146.5,
+        4
+      ]
+    }
+  }
+}
