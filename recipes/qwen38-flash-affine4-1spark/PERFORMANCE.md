@@ -10,8 +10,8 @@ capacity guarantees or proof of broad model quality. `results.json`, `quality.js
 Four slots, 262144 context, 8192 output allowance; thinking off for throughput and
 context. Throughput is aggregate output tokens / whole group elapsed time,
 including initial latency, with three repetitions of four clients and 512-token
-caps. Quality uses thinking on, temperature1/top-p.95/top-k20. These compare whole
-recipes: EXL3/TensorFold0.3.6.1 versus affine4/TensorFold0.3.6.2.
+caps. Quality uses thinking on, temperature 1 / top-p .95 / top-k 20. These compare whole
+recipes: EXL3 / TensorFold 0.3.6.1 versus Affine4 / TensorFold 0.3.6.2.
 
 | Metric | Cooperative EXL3 | Selected Affine4 |
 |---|---:|---:|
@@ -34,24 +34,25 @@ Cold context means a fresh prompt, not an OS-cold SSD/cache. Both arms produced
 53 output tokens. Affine's explicit JSON validation buffers, so compare completed
 answers rather than its first visible content against EXL3's first token.
 Other workload timings are single matched runs. P95 uses nearest rank: with only
-20 coding tasks it is the second slowest; EXL3's maximum was87.72s, affine256.97s.
+20 coding tasks it is the second slowest. Maximum latencies are not retained in
+the public coding receipts and are not asserted here.
 Quality tasks are arithmetic, Python semantics, FIFO state and shortest paths,
-plus20 independently authored executable functions with hidden tests. Not SWE-bench
+plus 20 independently authored executable functions with hidden tests. Not SWE-bench
 or agentic repository work. Four repeated graph trials are excluded from unique
 counts. The small two-question gap is not evidence of broad quality superiority.
 
 ## Why the selected policy is uncapped
 
-The earlier greedy screen scored EXL398/100 and affine94/100. All six affine
-failures exhausted8192 tokens without an answer and reproduced exactly with MTP
+The earlier greedy screen scored EXL3 98/100 and Affine4 94/100. All six affine
+failures exhausted 8192 tokens without an answer and reproduced exactly with MTP
 disabled. Recommended sampling resolved all six, with MTP/serial exact token parity.
-Both packs then passed the original100. This confound supersedes a blanket
+Both packs then passed the original 100. This confound supersedes a blanket
 interpretation that affine quantization caused the failures.
 
-A greedy2048 reasoning cap returned six answers, only four correct. With recommended
-sampling, the optional cap preserved296/296 and20/20 in our screen. It reduced
+A greedy 2048 reasoning cap returned six answers, only four correct. With recommended
+sampling, the optional cap preserved 296/296 and 20/20 in our screen. It reduced
 coding p95 to96.65s but increased median to16.07s. Fresh reasoning median/p95 became
-8.76/59.55s; maximum fell118.28→94.76s. Affine generated2.36× the coding tokens of
+8.76/59.55s; maximum fell 118.28 → 94.76 s. Affine generated 2.36× the coding tokens of
 EXL3 without a measured coding-quality gain. Longer reasoning is not automatically
 better. Use the cap only as an explicit workload-tested latency policy.
 
@@ -62,36 +63,36 @@ packs, topology, runtimes and/or fixture details. Do not combine into a matched 
 
 | Version | C4 code / prose aggregate tok/s | Near-limit completed retrieval |
 |---|---:|---:|
-| Two-Spark TP2, NVFP4/b12x, MTP4 | 237.3 /149.4 | 129.16 s at253826 input tokens |
-| Single-Spark EXL3, one slot | 98.7 /50.4 | 534.37 s |
-| Single-Spark EXL3, four slots, original scheduler | 192.5 /84.5 | 534.97 s |
-| Cooperative EXL3, latest control | 161.08 /85.99 | 534.79 s at253843 input tokens |
-| Selected Affine4, one Spark/four slots | 142.23 /92.64 | 261.62 s |
+| Two-Spark TP2, NVFP4/b12x, MTP4 | 237.3 / 149.4 | 129.16 s at 253826 input tokens |
+| Single-Spark EXL3, one slot | 98.7 / 50.4 | 534.37 s |
+| Single-Spark EXL3, four slots, original scheduler | 192.5 / 84.5 | 534.97 s |
+| Cooperative EXL3, latest control | 161.08 / 85.99 | 534.79 s at 253843 input tokens |
+| Selected Affine4, one Spark/four slots | 142.23 / 92.64 | 261.62 s |
 
-The original scheduler's mixed-load short-request p95 was356.36s; cooperative
-scheduling reduced it to2.73s in the historical same-Spark crossover, with bulk
-time371.66→376.19s. Affine then improved prefill alongside cooperative scheduling.
+The original scheduler's mixed-load short-request p95 was 356.36 s; cooperative
+scheduling reduced it to 2.73 s in the historical same-Spark crossover, with bulk
+time 371.66 → 376.19 s. Affine then improved prefill alongside cooperative scheduling.
 The two-Spark recipe remains faster on these throughput/context observations,
 but consumes two Sparks. No unmeasured two-replica scaling claim is made.
 
 ## Public reference claims (not independently reproduced)
 
-[MiaAI-Lab README, revision856bb6b](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md),
-read September30, reports prose decode62.4tok/s atC1,106.7 atC4 and119.3 atC5;
-131110-token prefill TTFT59.60s and roughly195K-token TTFT97s with4096-row chunks.
-Its documented current default uses TensorFold0.3.6.3, five slots and vision/video.
-Our selected recipe uses0.3.6.2, four slots,2048-row cooperative chunks, text only.
+[MiaAI-Lab README, revision 856bb6b](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md),
+read September 30, reports prose decode 62.4 tokens/s at C1, 106.7 at C4 and 119.3 at C5;
+131,110-token prefill TTFT 59.60 s and roughly 195K-token TTFT 97 s with 4096-row chunks.
+Its documented current default uses TensorFold 0.3.6.3, five slots and vision/video.
+Our selected recipe uses 0.3.6.2, four slots, 2048-row cooperative chunks, text only.
 Public prose decode metrics are not our end-to-end group metric, and the prompts,
-caches and output lengths are unmatched. Our254K completed retrieval is not their
+caches and output lengths are unmatched. Our 254K completed retrieval is not their
 195K TTFT test. These figures identify targets to reproduce, not a percentage
 performance claim against their implementation. No Mia code/image was used.
 
 ## Verified and still open
 
-The measured immutable image passed HTTP11/11, typed-tool/API36/36,
-cancellation6/6, exact final-image replay9/9 and all six throughput repetitions.
-Adapter tests10/10 and repository tests373/373 passed. Later quality/coding memory
-samples saw16.71GiB available on affine versus31.10GiB on EXL3, no swap configured;
+The measured immutable image passed HTTP 11/11, typed-tool/API 36/36,
+cancellation 6/6, exact final-image replay 9/9 and all six throughput repetitions.
+Adapter tests 10/10 and repository tests 373/373 passed. Later quality/coding memory
+samples saw 16.71 GiB available on affine versus 31.10 GiB on EXL3, no swap configured;
 these are not entire-run minima. Broad coding quality, repeated-seed distributions,
 endurance, cold reboot and vision remain unqualified. Source rebuild qualification
 and production cutover receipts are described in BUILD-VALIDATION.md.

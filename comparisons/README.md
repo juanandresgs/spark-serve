@@ -22,6 +22,12 @@ elsewhere. Discovery never starts, stops or migrates a model.
   reported observations with different configurations, not local A/B evidence.
 - `README.template.md` contains the explanation and table placeholders. The
   renderer supplies choices, comparison scopes, numbers and public source links.
+- `charts.json` selects existing table metrics and, for paired median/p95 cells,
+  the reference index to plot. It contains labels and scope, never copied numeric
+  measurements. `comparison_charts.py` generates accessible SVGs with each
+  workload on a separate zero-based axis. Text labels distinguish both recipes;
+  `<title>`/`<desc>`, Markdown alt text and nearby tables preserve numeric access.
+- `SOURCES.md` records the dated public-source recheck and newer upstream reports.
 - Recipe manifests retain their build settings and qualification status. The
   choices file refers to them; it does not replace or install those recipes.
 
@@ -50,7 +56,10 @@ score. Display formatting never changes the underlying measurement.
    and manifests in the same change.
 
 CI verifies references, recommendation/guide consistency and exact generated-page
-content. It does not decide whether two experiments are scientifically comparable
+and chart content, including missing or obsolete charts. Headline percentages
+resolve from the same table references as their charts. Review SVGs visually at
+desktop and mobile widths after generation; each is a standalone shareable asset.
+CI does not decide whether two experiments are scientifically comparable
 or verify external claims anew. Review remains necessary for methodology and prose.
 
 This is deliberately a small schema for the two supported model families. It

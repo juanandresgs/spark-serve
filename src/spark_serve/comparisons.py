@@ -11,6 +11,7 @@ from pathlib import Path
 
 from spark_serve.config import ConfigError
 from spark_serve.recipes import asset, read_recipe, source_root
+from spark_serve.comparison_charts import outputs as chart_outputs
 
 
 def value(root, reference):
@@ -100,6 +101,24 @@ def render(root):
         choices.append([hardware, f"**{model['name']} · {chosen['label']}**", model['summary'],
                         f"[Build and run {'Qwen' if model['id'] == 'qwen' else 'GLM'}]({chosen['guide']})"])
     rendered = {'choices': table(['Your hardware', 'Recommended recipe', 'What you get', 'Start here'], choices)}
+    for name in ('qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
+        rendered[name] = f'![{name.replace("-", " ")} comparison; numeric equivalent in the table below](comparisons/charts/{name}.svg)'
+    def row(table_id, metric):
+        matches = [r for r in data['tables'][table_id]['rows'] if r['metric'] == metric]
+        if len(matches) != 1:
+            raise ConfigError('Headline metric must resolve to exactly one comparison row')
+        return matches[0]
+    def change(row, reduction=False):
+        previous, selected = (value(root, c['refs'][0]) for c in row['cells'])
+        return (1 - selected / previous if reduction else selected / previous - 1) * 100
+    cold = change(row('qwen', 'Cold 253,843-token prompt, complete JSON response ↓'), True)
+    mixed = change(row('qwen', 'Short-request p95 during mixed long/short traffic ↓'), True)
+    rendered['gains'] = (f"Affine4 completed the fresh long prompt in **{cold:.0f}% less time** "
+                         f"and reduced mixed-traffic short-request p95 by **{mixed:.0f}%**.")
+    prose_c1 = change(row('glm', 'Single-request prose'))
+    prose_c8 = change(row('glm', 'Eight-request aggregate prose'))
+    rendered['glm-gains'] = (f"Adaptive drafting improved prose throughput by **{prose_c1:.0f}% at one request** "
+                             f"and **{prose_c8:.0f}% at eight** in our matched local runs.")
     rendered['alternatives'] = '\n'.join(f"- [{model['name']} · {option['label']}]({option['guide']}): {option['reason']}"
                                          for model in data['models'] for option in model['options']
                                          if option['id'] != model['recommended'])
@@ -125,8 +144,16 @@ def render(root):
 
 
 def check_page(root):
+    root = root.resolve()
     if (root / 'README.md').read_text() != render(root):
         raise ConfigError('README tables are stale: run PYTHONPATH=src python3 -m spark_serve.comparisons')
+    expected = chart_outputs(root, load(root))
+    for rel, content in expected.items():
+        path = root / rel
+        if not path.is_file() or path.read_text() != content:
+            raise ConfigError(f'Chart is stale: {rel}; run PYTHONPATH=src python3 -m spark_serve.comparisons')
+    if {str(p.relative_to(root)) for p in (root / 'comparisons/charts').glob('*.svg')} != set(expected):
+        raise ConfigError('Unexpected generated chart; remove obsolete SVGs')
 
 
 def main():
@@ -139,20 +166,23 @@ def main():
         check_page(root)
         print('Comparison data and generated page are consistent')
     else:
-        target = root / 'README.md'
-        before = target.read_bytes()
-        content = render(root)
-        with tempfile.NamedTemporaryFile(mode='w', dir=root, delete=False) as stream:
-            temporary = Path(stream.name)
-            stream.write(content)
-        try:
-            if target.read_bytes() != before:
-                raise ConfigError('README changed during generation; retry from the current file')
-            temporary.chmod(target.stat().st_mode & 0o777)
-            os.replace(temporary, target)
-        finally:
-            temporary.unlink(missing_ok=True)
-        print('Updated README.md from comparison data and evidence')
+        generated = {'README.md': render(root), **chart_outputs(root, load(root))}
+        before = {rel: (root / rel).read_bytes() if (root / rel).exists() else None for rel in generated}
+        for rel, content in generated.items():
+            target = root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with tempfile.NamedTemporaryFile(mode='w', dir=target.parent, delete=False) as stream:
+                temporary = Path(stream.name)
+                stream.write(content)
+            try:
+                current = target.read_bytes() if target.exists() else None
+                if current != before[rel]:
+                    raise ConfigError(f'{rel} changed during generation; retry from the current files')
+                temporary.chmod(target.stat().st_mode & 0o777 if target.exists() else 0o644)
+                os.replace(temporary, target)
+            finally:
+                temporary.unlink(missing_ok=True)
+        print('Updated README.md and charts from comparison data and evidence')
 
 
 if __name__ == '__main__':

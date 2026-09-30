@@ -1,130 +1,155 @@
 # spark-serve
 
-Run Qwen on **one NVIDIA DGX Spark**, or GLM-5.3-Flash on **two**.
-Start with these two recipes: each includes pinned sources, settings, build
-instructions and the evidence behind our choices. Model weights are downloaded
+**Put your DGX Spark to work: Qwen on one, GLM on two.**
+
+Build a local, OpenAI-compatible model server with pinned sources and settings,
+practical run guides, and measurements you can inspect. Start with the recipes
+below, then choose the tradeoffs that suit your workload. Download model weights
 separately from their publishers.
 
 {{choices}}
 
-Qwen Affine4 is our recommended **Qwen** recipe. It handles long prompts and
-mixed interactive traffic substantially better than our previous EXL3 recipe,
-although EXL3 still wins on some coding and reasoning workloads. GLM remains
-our two-Spark choice; these measurements do not establish a quality ranking
-between the two models.
+These are our recommended starting points for each model. Context and request
+counts are configured limits, not a promise of simultaneous maximum-length
+capacity. The results below help choose a **recipe**; they do not rank the two
+models' quality.
 
-## Browse the recipe options
-
-After cloning, run these commands without installing anything or connecting to a Spark:
-
-```sh
-PYTHONPATH=src python3 -m spark_serve recipes options
-PYTHONPATH=src python3 -m spark_serve recipes options --model qwen
-PYTHONPATH=src python3 -m spark_serve --json recipes options --model glm
-```
-
-The CLI lists the recommendation and retained alternatives with their guides.
-It does not start a model or change an existing installation. With the updated
-CLI installed, use `spark-serve recipes options` instead.
-From another directory, add `recipes --source /path/to/spark-serve options`.
-
-**Reading the numbers:** tokens/s measures output speed; higher is better.
-Latency measures waiting time; lower is better. The median is the middle request;
-p95 describes the slow end, with 95% of requests at or below it. C1, C4 and C8
-mean one, four and eight concurrent requests. Small samples make tail estimates
-less stable. Correctness is separate from speed.
-
-## Get started
+## Choose your setup
 
 ```sh
 git clone https://github.com/juanandresgs/spark-serve.git
 cd spark-serve
 ```
 
-For **Qwen**, follow the [one-Spark quick start](recipes/qwen38-flash-affine4-1spark/README.md):
-download the pinned weights, build the Docker image, then run it on your Spark.
-Allow roughly 180 GB of disk and 100 GiB of available memory. This recipe is a
-standalone Docker deployment; the broker's `recipes prepare` command does not
-install it.
+- **One Spark → [Qwen Affine4 quick start](recipes/qwen38-flash-affine4-1spark/README.md).**
+  Download the pinned weights, build the Docker image, and run it on your Spark.
+  Allow at least 180 GB of disk and 100 GiB of available host memory. Affine4 is
+  a **standalone Docker recipe**; the broker's `recipes prepare` cannot install it.
+- **Two Sparks → [GLM adaptive DFlash2 guide](recipes/glm53-flash-adaptive-2spark/README.md).**
+  Follow the [deployment walkthrough](REPRODUCTION.md) to supply your host,
+  storage and network bindings, build the runtime, and validate your pair.
+  The included broker manages admission, start, stop and recovery for managed
+  recipes. New deployments need their own acceptance checks.
 
-For **GLM**, follow the [two-Spark guide](recipes/glm53-flash-adaptive-2spark/README.md)
-and [deployment walkthrough](REPRODUCTION.md). Supply your host, storage and
-network bindings, build the pinned runtime, and validate it on your pair of
-Sparks. The included broker owns admission, start, stop and recovery for managed
-recipes.
+Want to compare options first? Run this from the checkout; it works offline:
 
-## Why these settings?
+```sh
+PYTHONPATH=src python3 -m spark_serve recipes options
+# Narrow the list with --model qwen or --model glm; add --json before recipes.
+```
 
-### Qwen: our matched one-Spark comparison
+## Qwen: choose Affine4 for long prompts and interactive traffic
 
-September 29, 2026. Same workloads, four request slots and 262K context. Rates
-below count output tokens over the entire request group's elapsed time; C4
-means four concurrent requests. Speed rows are medians of three runs.
+Our one-Spark comparison gives Affine4 the edge on long prompts, mixed traffic,
+and prose. **Cooperative EXL3 is faster on the measured code workload and has
+shorter reasoning tails.** Both remain available.
+
+{{qwen-throughput}}
+
+These are complete recipes with different TensorFold versions, four request
+slots and 262K configured context. Output speed includes prefill and the whole
+request group's elapsed time. Higher is faster; C4 means four concurrent
+requests. Each workload has its own axis.
+
+{{gains}}
+
+{{qwen-waiting}}
+
+The long-prompt figure measures a **completed, validated JSON answer**, not time
+to first token. Latency is elapsed waiting time; lower is faster. The median is
+the middle result; p95 describes the slow end. Single context/mixed runs and
+small tail samples are observations, not guarantees.
+
+### The tradeoff: thinking can take longer
+
+Both recipes passed 20/20 executable coding tasks in our small synthetic suite.
+Affine4 took longer on the slowest part of that distribution, without a measured
+coding-quality gain. This matters if you need predictable interactive latency.
+
+{{qwen-tails}}
+
+The recommendation keeps reasoning uncapped. An optional 2,048-token reasoning
+cap improved coding p95 in a bounded follow-up but can truncate useful reasoning;
+test that policy on your own workload. These fixtures do not establish broad
+coding superiority. See [performance and methodology](recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
+
+<details>
+<summary>Qwen numbers, correctness scores and median / p95 timings</summary>
 
 {{qwen}}
 
-Affine4 cuts cold long-prompt completion time by about **51%** and mixed-load
-short-request p95 by **59%**. The tradeoff is lower code throughput and longer
-reasoning tails. The small synthetic correctness checks support this choice but
-do not prove broad coding superiority or that more reasoning always helps.
-We keep normal reasoning behavior by default; an optional 2,048-token reasoning
-cap reduced coding p95 to 96.65 s in a bounded follow-up, but is not enabled globally.
+The reasoning totals exclude repeated fixtures. Quality uses sampled thinking;
+speed and context checks use thinking off. Correctness is separate from speed.
 
-These are comparisons of complete recipes, including different TensorFold
-versions, rather than an isolated test of quantization. See [methodology, older
-variants and all caveats](recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
+</details>
 
-### GLM: our matched two-Spark comparison
+## GLM: adaptive drafting on two Sparks
 
-September 11, 2026. Adaptive DFlash2 chooses how many draft tokens to verify,
-while retaining BF16 dense layers and the same serving capacity.
+DFlash2 drafts tokens ahead, then verifies them against the target model.
+The adaptive recipe varies the draft length while retaining BF16 dense layers
+and the same configured serving capacity as our fixed-draft control.
+
+{{glm-gains}}
+
+{{glm-throughput}}
+
+GLM and Qwen use different hardware, workloads and measurement histories.
+Read each panel within its own model. GLM's figures are original-site
+observations from September 11; they do not qualify a fresh portable deployment.
+
+<details>
+<summary>GLM numeric comparison and evidence scope</summary>
 
 {{glm}}
 
-The main gain is prose: about **12%** for one request and **23%** across eight.
-[Recorded qualification](recipes/glm53-flash-adaptive-2spark/results.json)
-includes eight long-context checks and five structured-tool/mixed checks.
+[Recorded checks](recipes/glm53-flash-adaptive-2spark/results.json) include eight
+long-context checks and five structured-tool/mixed checks. Configured context is
+850K; the largest recorded fixture was about 801K tokens.
 
-### How do the public numbers compare?
+</details>
 
-These are reference points reported by MiaAI-Lab, **not matched A/B tests**.
-We preserve the metric definitions and configuration differences so the numbers
-are useful without implying an unsupported win.
+## What you can rely on—and what still needs testing
+
+**Qwen:** the shared sources were independently rebuilt on a Spark. That build
+passed 11 API checks, 36 tool/API checks, six exact sampled token replays,
+10 adapter tests and a real file-reader check. The performance and quality
+results above belong to the qualified production image; they were not rerun in
+full on the rebuild. Verified weights were reused. A fresh-download clean-machine
+test, long soak and reboot qualification remain open.
+[Build evidence](recipes/qwen38-flash-affine4-1spark/BUILD-VALIDATION.md).
+
+**GLM:** the portable source package and site rendering pass offline checks.
+The measured original runtime's results do not establish rebuilt-image or
+new-site behavior. Recoverable startup allocation warnings remain unresolved.
+[Release qualification gates](MASTER_PLAN.md).
+
+## More choices and comparison sources
+
+{{alternatives}}
+- [All recipes](recipes/): four-Spark GLM, mixed fleets, full GLM and historical experiments, each with its own status.
+
+<details>
+<summary>Public reference figures: useful context, unmatched measurements</summary>
+
+The following are **historical figures reported by MiaAI-Lab**, preserved at
+pinned source revisions. Public decode rates differ from our full-group Qwen
+rates, and public prefill latency differs from our completed-response latency.
 
 {{public}}
 
-Public Qwen uses a newer runtime; public GLM's prose row also uses a different KV
-budget. A fresh run with identical inputs and timing boundaries is needed for a
-ranking. Our Qwen adapters were independently written; the public implementation
-was not imported.
+Public Qwen uses TensorFold 0.3.6.3; our selected recipe uses 0.3.6.2. GLM's
+pinned prose figure is from September 8 with FP8 dense layers and a 14 GiB KV
+budget; our local recipe retains BF16 dense layers with 11 GiB KV. Its public
+structured/code figures are a separate August 28 workload.
+The [source audit and newer upstream reports](comparisons/SOURCES.md) explain
+what changed. None of these figures supports a cross-source winner.
 
-## What has been verified?
+</details>
 
-**Qwen:** an independent build from the shared sources compiled on a Spark and
-passed 11 API checks, 36 tool/API checks and six exact-token replays against the
-qualified production image. The full performance table was measured on that
-production image, not rerun in full on the rebuilt image. The build reused
-verified weights; a fresh-download clean-machine install, long soak and reboot
-qualification remain outstanding. [Build receipt](recipes/qwen38-flash-affine4-1spark/build-validation.json).
+The tables and charts share [one evidence source](comparisons/README.md); checks
+reject stale generated output. Our Qwen adapters were independently written;
+the public implementation was not imported.
 
-**GLM:** the measurements above describe the qualified original runtime. The
-portable source package and site rendering pass offline checks; rebuilt images
-and a new pair of Sparks still require destination acceptance. Recoverable
-startup allocation warnings remain unresolved. [Release gates](MASTER_PLAN.md).
-
-## Previous recipes remain available
-
-{{alternatives}}
-- [Other recipes](recipes/): four-Spark GLM, mixed fleets, full GLM and historical experiments retain their own evidence and status.
-
-This recommendation does not migrate existing installations. The broker is MIT
-licensed; derived runtimes retain upstream licenses. See [third-party
-notices](THIRD_PARTY.md), [source pins](sources.json) and the individual recipe
-notices. Model access and licenses remain with their publishers.
-
-## Updating the comparisons
-
-The tables are generated from [structured recipe choices](comparisons/models.json)
-and the linked benchmark receipts. See [the update workflow](comparisons/README.md).
-GitHub checks reject stale tables or broken evidence references. Share this page
-for the overview, or a recipe's direct link for build and test instructions.
+The broker is MIT licensed. Derived runtimes retain upstream licenses; model
+access and licenses remain with their publishers. See [third-party notices](THIRD_PARTY.md),
+[source pins](sources.json) and each recipe's notices.
