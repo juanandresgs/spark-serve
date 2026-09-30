@@ -6,7 +6,6 @@ from compare import request
 p=argparse.ArgumentParser();p.add_argument('--base',required=True);p.add_argument('--label',required=True);p.add_argument('--reps',type=int,default=3);p.add_argument('--clients',type=int,nargs='+',choices=[1,4,8]);p.add_argument('--suite',choices=['speed','context'],default='speed');p.add_argument('--quick',action='store_true',help='Crossover subset: same fixtures, 512-token groups only');p.add_argument('--out',type=Path,required=True);p.add_argument('--evidence-metadata',type=Path);p.add_argument('--evidence-dir',type=Path);a=p.parse_args()
 if a.reps < 1:p.error('--reps must be positive')
 if bool(a.evidence_metadata) != bool(a.evidence_dir):p.error('--evidence-metadata and --evidence-dir must be supplied together')
-if a.evidence_dir and a.suite != 'speed':p.error('Structured emission currently supports the speed suite; context remains raw evidence')
 if a.evidence_dir:
  from spark_serve.evidence_bench import metadata,publish_group
  source_root=Path(__file__).resolve().parents[2]
@@ -24,13 +23,13 @@ if a.suite=='speed':
   for c,tokens in ([(1,512),(4,512),(8,512)] if a.quick else [(1,512),(1,1024),(1,4096),(4,512),(8,512)]):
    if a.clients is not None and c not in a.clients:continue
    for kind in ['code','prose']:
-    n=max(4,c);start=time.monotonic()
+    n=max(4,c);group_started=datetime.now(timezone.utc).isoformat();start=time.monotonic()
     with concurrent.futures.ThreadPoolExecutor(c) as pool:
      rows=list(pool.map(lambda i:request(a.base,'qwen3.8-flash-next',kind,50000+rep*10000+tokens+i,tokens),range(n)))
     elapsed=time.monotonic()-start
     result=dict(warmup_passed=warmup['gate'],rep=rep,c=c,cap=tokens,kind=kind,rows=rows,wall_s=elapsed,aggregate_tps=sum(r['completion_tokens'] for r in rows)/elapsed if all(r['completion_tokens'] is not None for r in rows) else None,median_decode_tps=statistics.median([r['decode_tps'] for r in rows if r['decode_tps'] is not None]) if any(r['decode_tps'] is not None for r in rows) else None,median_ttft=statistics.median([r['ttft'] for r in rows if r['ttft'] is not None]) if any(r['ttft'] is not None for r in rows) else None,passed=all(r['gate'] for r in rows))
     if a.evidence_dir:
-     publish_group(source_root,a.evidence_dir,actual,recipe_record,result,[Path(__file__),Path(__file__).with_name('compare.py')],started_at)
+     publish_group(source_root,a.evidence_dir,actual,recipe_record,result,[Path(__file__),Path(__file__).with_name('compare.py')],group_started)
     data['groups'].append(result);save();print(json.dumps({k:v for k,v in result.items() if k!='rows'}),flush=True)
 else:
  fixtures=json.loads((root/'fixtures.json').read_text())
@@ -38,11 +37,20 @@ else:
  for rep in range(a.reps):
   for fixture in fixtures:
    m=json.loads(json.dumps(fixture['messages']));m[0]['content']=f'AB147 fresh context repetition {rep}.\n'+m[0]['content']
+   cold_started=datetime.now(timezone.utc).isoformat()
    cold=request(a.base,'qwen3.8-flash-next','prose',0,8192,{'messages':m})
    m += [{'role':'assistant','content':cold['output']},{'role':'user','content':'Return the same JSON.'}]
+   warm_started=datetime.now(timezone.utc).isoformat()
    warm=request(a.base,'qwen3.8-flash-next','prose',0,8192,{'messages':m})
    try: passed=all(json.loads(x['output'])==expected and not x['error'] for x in (cold,warm))
    except Exception:passed=False
+   if a.evidence_dir:
+    for phase,row,request_started in [('prime',cold,cold_started),('appended',warm,warm_started)]:
+     checked=dict(row)
+     try:checked['gate']=json.loads(row['output'])==expected and not row['error']
+     except Exception:checked['gate']=False
+     group=dict(suite='context',phase=phase,target=fixture['target'],kind='context-'+phase,rows=[checked],c=1,cap=8192,wall_s=row['seconds'],warmup_passed=warmup['gate'])
+     publish_group(source_root,a.evidence_dir,actual,recipe_record,group,[Path(__file__),Path(__file__).with_name('compare.py'),root/'fixtures.json'],request_started)
    result=dict(rep=rep,target=fixture['target'],cold=cold,warm=warm,passed=passed)
    data['groups'].append(result);save();print(json.dumps({'rep':rep,'target':fixture['target'],'tokens':cold['usage'].get('prompt_tokens'),'cold_ttft':cold['ttft'],'warm_ttft':warm['ttft'],'passed':passed}),flush=True)
 assert all(g['passed'] for g in data['groups'])

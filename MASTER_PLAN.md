@@ -67,7 +67,7 @@ Implemented in isolated feature work: three linked JSON record types with conten
 fingerprints, JSON Schema and semantic validation; immutable historical Qwen/GLM
 cohorts; separately pinned external reports; reviewed recommendation snapshots;
 existing table generation redirected to records; fail-closed percentage comparison;
-and sanitized, create-only Qwen speed-run output. Original receipts and failed
+and sanitized, create-only Qwen speed/context-run output. Original receipts and failed
 mitigation evidence remain available. See `evidence/README.md`.
 
 Acceptance: schema/reference/receipt integrity, immutable-history checks, invalid
@@ -81,7 +81,7 @@ Integration obligations (evidence maintainer owns reconciliation):
 | --- | --- | --- |
 | README/graph presentation work / README maintainer | Final local presentation commit is available | Reconcile renderer changes; retain structured numeric refs; regenerate page/graphs; run freshness and evidence checks on combined tree before publication review |
 | GLM bakeoff / GLM research maintainer | Final sanitized receipts and exact source/image IDs are handed off | Append v1 runs with actual fixture/request/cache/environment/sample metadata, preserve failures and separate qualifications; propose a new reviewed decision only with operator approval |
-| Remaining context, quality and lifecycle runners / evidence maintainer | Next authorized change to the corresponding runner | Emit the same run schema with domain-specific accounting and failure scopes; retain old receipts, do not pretend speed emission covers those suites |
+| Remaining mixed-load, quality and lifecycle runners / evidence maintainer | Next authorized change to the corresponding runner | Emit the same run schema with domain-specific accounting and failure scopes; retain old receipts, do not pretend throughput/context emission covers those suites |
 
 Publication and production promotion remain explicit operator decisions. The
 initial normalization changes neither serving state nor the existing choices.

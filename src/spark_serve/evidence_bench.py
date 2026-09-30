@@ -45,6 +45,9 @@ def metadata(path, root):
 
 def publish_group(root, directory, meta, recipe, group, workload_files, started_at):
     """Only measurements/counts/hashes leave the raw result directory. No output/error text."""
+    suite = group.get('suite', 'speed')
+    if suite not in {'speed', 'context'}:
+        raise ValueError('Unsupported benchmark evidence suite')
     rows = group['rows']
     n = len(rows)
     if not n:
@@ -66,6 +69,11 @@ def publish_group(root, directory, meta, recipe, group, workload_files, started_
                   'sampling':{'temperature':0,'seed_policy':'1000 + fixture number',
                               'fixture_numbers':[r['fixture'] for r in rows]},
                   'warmup':'One excluded exact-response request before the suite; prefix cache not reset between groups.'}
+    if suite == 'context':
+        cached = rows[0]['usage'].get('prompt_tokens_details', {}).get('cached_tokens')
+        conditions['cache'] = ('cold' if cached == 0 else 'warm') if type(cached) is int else 'unknown'
+        conditions['request'].update(phase=group['phase'], target_tokens=group['target'])
+        conditions['warmup'] = 'One excluded exact-response request; appended request follows its priming response. Cache state uses API-reported cached prompt tokens only.'
     metrics = []
     def add(id, metric, value, unit, definition, aggregation, samples, sample_unit, population):
         metrics.append(dict(id=id,metric=metric,value=value,unit=unit,definition=definition,
@@ -80,9 +88,15 @@ def publish_group(root, directory, meta, recipe, group, workload_files, started_
         ('decode_tps','decode_rate_proxy','Per-request (completion_tokens - 1) / (last nonempty delta time - first nonempty delta time); chunk-based proxy, not exact token timestamps.','tokens/s')]:
         values=[r[key] for r in rows if r[key] is not None and r['error'] is None]
         add(key,metric,statistics.median(values) if values else None,unit,definition,'median',len(values) or None,'requests','successful transport requests with available measurement; basic gate failures retained')
+    if suite == 'context':
+        add('correct','correct',n-bad,'count','Strict expected JSON retrieval answers correct.','count',n,'requests','all attempted retrieval requests')
+        add('cases','cases',n,'count','Attempted retrieval requests.','count',n,'requests','all attempted retrieval requests')
     now=datetime.now(timezone.utc).isoformat()
     qualification={k:{'status':'not_tested','scope':'This throughput run does not qualify '+k+'.'} for k in ['build','api_tool','correctness','clean_install','restart','reboot','performance','endurance']}
     qualification['performance']={'status':'failed' if failures else 'passed','scope':'This synthetic request group only; response gate is not a correctness evaluation.'}
+    if suite == 'context':
+        qualification['correctness'] = {'status':'failed' if bad else 'passed','scope':'This synthetic three-marker strict JSON retrieval request only; not broad model quality.'}
+        qualification['performance']['scope'] = 'This single context request only; cold/warm labels require API-reported cache accounting.'
     def token_sum(key):
         values=[r['usage'].get(key) for r in rows]
         return sum(values) if all(type(v) is int and v >= 0 for v in values) else None
@@ -101,9 +115,9 @@ def publish_group(root, directory, meta, recipe, group, workload_files, started_
                           'runtime_revision':meta['runtime_revision'],'model_revision':meta['model_revision'],
                           'attestation':'Operator-supplied server identity; local recipe source hashes checked before benchmark. Server image identity is not remotely verified by this client.'},
                 environment={'hardware':meta['hardware'],'software':meta['software'],'unknowns':[]},
-                workload_version='qwen-speed-v1-sha256-'+code_hash,measurements=metrics,failures=failures,
+                workload_version='qwen-'+suite+'-v1-sha256-'+code_hash,measurements=metrics,failures=failures,
                 qualification=qualification,sources=[],external_sources=[],
                 limitations=['Synthetic workload only; no broad correctness or lifecycle qualification.',
-                             'Cache was not reset; percentage comparison is blocked for uncontrolled cache.',
+                             'Speed cache is uncontrolled; context cache state is unknown unless the API reports cached prompt tokens. No process restart or cold OS-cache test is implied.',
                              'Decode rate is a streaming-chunk proxy; report separately from end-to-end throughput.'])
     return write_immutable(record,directory,root)

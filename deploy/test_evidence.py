@@ -111,8 +111,10 @@ class EvidenceChecks(unittest.TestCase):
             def do_POST(self):
                 body=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
                 text='{"sum":465,"sorted":[1,3,7,9],"marker":"TF-CHECK-20260927"}'
+                if 'context fixture' in body['messages'][0]['content']:
+                    text=json.dumps({'ALPHA':'amber-7419-lake','BETA':'silver-3821-oak','OMEGA':'violet-2863-moon'})
                 self.send_response(200);self.send_header('Content-Type','text/event-stream');self.end_headers()
-                event={'choices':[{'delta':{'content':text},'finish_reason':'stop'}], 'usage':{'completion_tokens':16,'prompt_tokens':10}}
+                event={'choices':[{'delta':{'content':text},'finish_reason':'stop'}], 'usage':{'completion_tokens':16,'prompt_tokens':10,'prompt_tokens_details':{'cached_tokens':10 if len(body['messages'])>1 else 0}}}
                 self.wfile.write(('data: '+json.dumps(event)+'\n\ndata: [DONE]\n\n').encode())
         server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
@@ -137,6 +139,17 @@ class EvidenceChecks(unittest.TestCase):
                     serialized=json.dumps(r)
                     for forbidden in ['127.0.0.1','TF-CHECK','messages','output','reasoning_content']:
                         self.assertNotIn('\"'+forbidden+'\"',serialized)
+                (path/'raw/fixtures.json').write_text(json.dumps([{'target':128,'messages':[{'role':'user','content':'context fixture'}]}]))
+                context=subprocess.run([PYTHON,str(ROOT/'recipes/qwen38-flash-affine4-1spark/bench.py'),'--base',f'http://127.0.0.1:{server.server_port}/v1','--label','context','--suite','context','--out',str(path/'raw'),'--reps','1','--evidence-metadata',str(path/'metadata.json'),'--evidence-dir',str(path/'context-share')],env=dict(os.environ,PYTHONPATH=str(ROOT/'src')),capture_output=True,text=True)
+                self.assertEqual(context.returncode,0,context.stderr)
+                context_records=[e.validate_record(e.read(p),ROOT) for p in (path/'context-share').glob('*.json')]
+                self.assertEqual(len(context_records),2)
+                self.assertEqual({r['measurements'][0]['conditions']['cache'] for r in context_records},{'cold','warm'})
+                for r in context_records:
+                    self.assertEqual(r['accounting']['requests_attempted'],1)
+                    self.assertEqual(r['qualification']['correctness']['status'],'passed')
+                    self.assertEqual(r['measurements'][-2]['value'],1)
+                    self.assertNotIn('amber-7419',json.dumps(r))
                 raw=e.read(path/'raw/test-speed.json');group=raw['groups'][0]
                 group['rows'][0]['completion_tokens']=None;group['rows'][0]['error']='SECRET endpoint and output'
                 p=publish_group(ROOT,path/'share',meta,recipe,group,[ROOT/'recipes/qwen38-flash-affine4-1spark/bench.py'],'2026-09-30')

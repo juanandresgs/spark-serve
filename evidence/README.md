@@ -49,7 +49,7 @@ is listed in `unknowns`. In particular, a receipt hash is not a fixture hash.
 
 ## Produce shareable benchmark records
 
-The existing Qwen speed runner can emit one immutable record per request group,
+The existing Qwen benchmark runner can emit one immutable record per request group,
 in addition to its local raw results. First create a **sanitized server identity**
 file with these exact keys. Replace the placeholders with observed server values;
 never use your benchmark client's OS/driver as the server environment.
@@ -96,12 +96,19 @@ sampling, caps, cache policy, actual prompt/output/cached-token counts when the 
 supplies them, per-request measurements and group wall time. Missing accounting
 makes throughput unavailable; it never becomes zero. Failures still produce records.
 
+For context evidence, prepare the existing synthetic `fixtures.json` with
+`context.py --prepare` in your raw output directory, then use the same command
+with `--suite context` instead of `--quick --clients 4`. It emits separate
+priming/appended-request records with strict three-marker retrieval correctness.
+Cold/warm prefix-cache labels come only from API-reported cached prompt tokens;
+otherwise the state remains unknown. It does not imply a cold OS cache or reboot.
+
 Shareable output uses a field allowlist and excludes endpoint URLs, model text,
 prompts, tool payloads, raw exceptions and environment dumps. Raw synthetic results
 stay under `acceptance/raw`; do not commit that directory. Review your supplied
-version strings and the shareable files before submission. Context, mixed-load,
+version strings and the shareable files before submission. The separate mixed-load,
 quality and lifecycle programs still retain their original receipts; their future
-adapters must use this same schema, not claim that speed-run emission covers them.
+adapters must use this same schema, not claim that throughput/context emission covers them.
 
 ## Metric contract
 
