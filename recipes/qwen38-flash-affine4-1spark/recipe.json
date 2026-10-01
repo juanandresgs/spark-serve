@@ -6,7 +6,7 @@
     "recipes/qwen38-flash-affine4-1spark/Dockerfile": "6f3ae67b9688d0ca121c3b60455355cd435dab140a78a1ad53facccf240b126c",
     "recipes/qwen38-flash-affine4-1spark/LICENSE": "6fde45f1978fe8f7977e2634cb17b9db23b0f5ecf6c833cdcc51bee67dfe7e50",
     "recipes/qwen38-flash-affine4-1spark/MANIFEST.json": "5eef046715f5ef756990104c9ed5d015a738747c2d88b5ff02172ca35c542882",
-    "recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md": "fb3855c24b262786a0480d769b2decf5615032e27827810ffdad8389171c3c6a",
+    "recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md": "cb7d70ec3c84b9bd94b6c0fd53412567f37b10c23af593513007b0519461c1ae",
     "recipes/qwen38-flash-affine4-1spark/README.md": "58d611cb45ab4dab28cebf4f7e9b86c41a16c5abd25818f619464360784c0ca3",
     "recipes/qwen38-flash-affine4-1spark/THIRD_PARTY.md": "c9d2fbb4f190e69d43ed2727be071a3535a2e22863db7d4444a14d7486f492c9",
     "recipes/qwen38-flash-affine4-1spark/TensorFold-LICENSE.txt": "be6a9ee4462784a762b21790954b8e76c4dcacc9fb6da2a40d03a8a9bddec93e",

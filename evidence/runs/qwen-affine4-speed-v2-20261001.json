@@ -1,0 +1,427 @@
+{
+  "schema_version": 1,
+  "kind": "run",
+  "id": "qwen-affine4-speed-v2-20261001",
+  "origin": "historical_import",
+  "recorded_at": "2026-10-01",
+  "executed_at": "2026-10-01",
+  "recipe": {
+    "id": "qwen-affine4-source-20260930-v1",
+    "fingerprint": "1bc3a27cc210efb3e88bd01ba62809285cfe68d16790072e8456019f4089007c"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": "71377a5373ed7b394f1b480ba2a6a3986b03af1c",
+    "model_revision": "dadefa8066e3be900a0d148d0f5a2f4eb1cf6534",
+    "attestation": "This historical record carries a daemon-local image association; it does not claim live portable image identity."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {
+      "runtime": "TensorFold 0.3.6.2",
+      "runtime_revision": "71377a5373ed7b394f1b480ba2a6a3986b03af1c",
+      "model_format": "Affine4 4-bit",
+      "model_revision": "dadefa8066e3be900a0d148d0f5a2f4eb1cf6534",
+      "settings": {
+        "context_tokens": 262144,
+        "slots": 4,
+        "max_output_tokens": 8192,
+        "kv_cache": "int8",
+        "mtp_drafts": 6,
+        "mtp_confidence": 0.6,
+        "prefill_rows": 2048,
+        "decode_burst": 4,
+        "cooperative_prefill": 1,
+        "prompt_cache": "2 GiB",
+        "snapshots": "disabled",
+        "reasoning_effort": "medium",
+        "default_thinking": false
+      },
+      "protocol": "cell-warmup-v2",
+      "kit_archive_sha256": null
+    },
+    "unknowns": [
+      "Host OS, kernel, driver, and CUDA versions are not in the sanitized public source projection."
+    ]
+  },
+  "workload_version": "qwen-fixed-cap-cell-warmup-v2-20261001",
+  "measurements": [
+    {
+      "id": "c1-code-cap512-group-throughput",
+      "metric": "end_to_end_throughput",
+      "value": 83.20174324642633,
+      "unit": "tokens/s",
+      "definition": "Total 2,048 completion tokens divided by full wall time for each four-request group, including prefill; median of four groups.",
+      "aggregation": "median",
+      "samples": 4,
+      "sample_unit": "request groups",
+      "population": "Four code requests per measured group, each length-capped at 512 tokens; four repetitions; one active request at a time.",
+      "conditions": {
+        "workload": "code-c1",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c1-code-cap512",
+          "group_rate_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c1-code-cap512-decode-proxy",
+      "metric": "decode_rate_proxy",
+      "value": 86.5464011895086,
+      "unit": "tokens/s",
+      "definition": "Per-request completion tokens minus one divided by first-to-last output-event interval; median across 16 requests, excludes full-group prefill/queue time.",
+      "aggregation": "median",
+      "samples": 16,
+      "sample_unit": "requests",
+      "population": "Four code requests per measured group, each length-capped at 512 tokens; four repetitions; one active request at a time.",
+      "conditions": {
+        "workload": "code-c1",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c1-code-cap512",
+          "request_decode_proxy_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c1-prose-cap512-group-throughput",
+      "metric": "end_to_end_throughput",
+      "value": 48.92897949695635,
+      "unit": "tokens/s",
+      "definition": "Total 2,048 completion tokens divided by full wall time for each four-request group, including prefill; median of four groups.",
+      "aggregation": "median",
+      "samples": 4,
+      "sample_unit": "request groups",
+      "population": "Four prose requests per measured group, each length-capped at 512 tokens; four repetitions; one active request at a time.",
+      "conditions": {
+        "workload": "prose-c1",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c1-prose-cap512",
+          "group_rate_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c1-prose-cap512-decode-proxy",
+      "metric": "decode_rate_proxy",
+      "value": 49.470472911205874,
+      "unit": "tokens/s",
+      "definition": "Per-request completion tokens minus one divided by first-to-last output-event interval; median across 16 requests, excludes full-group prefill/queue time.",
+      "aggregation": "median",
+      "samples": 16,
+      "sample_unit": "requests",
+      "population": "Four prose requests per measured group, each length-capped at 512 tokens; four repetitions; one active request at a time.",
+      "conditions": {
+        "workload": "prose-c1",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c1-prose-cap512",
+          "request_decode_proxy_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c4-code-cap512-group-throughput",
+      "metric": "end_to_end_throughput",
+      "value": 142.12175257403578,
+      "unit": "tokens/s",
+      "definition": "Total 2,048 completion tokens divided by full wall time for each four-request group, including prefill; median of four groups.",
+      "aggregation": "median",
+      "samples": 4,
+      "sample_unit": "request groups",
+      "population": "Four code requests per measured group, each length-capped at 512 tokens; four repetitions; four concurrent requests.",
+      "conditions": {
+        "workload": "code-c4",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c4-code-cap512",
+          "group_rate_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c4-code-cap512-decode-proxy",
+      "metric": "decode_rate_proxy",
+      "value": 39.28615476620476,
+      "unit": "tokens/s",
+      "definition": "Per-request completion tokens minus one divided by first-to-last output-event interval; median across 16 requests, excludes full-group prefill/queue time.",
+      "aggregation": "median",
+      "samples": 16,
+      "sample_unit": "requests",
+      "population": "Four code requests per measured group, each length-capped at 512 tokens; four repetitions; four concurrent requests.",
+      "conditions": {
+        "workload": "code-c4",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c4-code-cap512",
+          "request_decode_proxy_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c4-prose-cap512-group-throughput",
+      "metric": "end_to_end_throughput",
+      "value": 92.69424918647269,
+      "unit": "tokens/s",
+      "definition": "Total 2,048 completion tokens divided by full wall time for each four-request group, including prefill; median of four groups.",
+      "aggregation": "median",
+      "samples": 4,
+      "sample_unit": "request groups",
+      "population": "Four prose requests per measured group, each length-capped at 512 tokens; four repetitions; four concurrent requests.",
+      "conditions": {
+        "workload": "prose-c4",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c4-prose-cap512",
+          "group_rate_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    },
+    {
+      "id": "c4-prose-cap512-decode-proxy",
+      "metric": "decode_rate_proxy",
+      "value": 24.611818803739823,
+      "unit": "tokens/s",
+      "definition": "Per-request completion tokens minus one divided by first-to-last output-event interval; median across 16 requests, excludes full-group prefill/queue time.",
+      "aggregation": "median",
+      "samples": 16,
+      "sample_unit": "requests",
+      "population": "Four prose requests per measured group, each length-capped at 512 tokens; four repetitions; four concurrent requests.",
+      "conditions": {
+        "workload": "prose-c4",
+        "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "finish_reason": "length",
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium",
+          "seed_policy": "1000 + fixture_number"
+        },
+        "warmup": "One 128-token exact-answer canary and four C1/C4-by-code/prose 4-request warmup cells; all 17 excluded."
+      },
+      "source": {
+        "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+        "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+        "path": [
+          "cells",
+          "c4-prose-cap512",
+          "request_decode_proxy_tokens_per_second",
+          "median"
+        ],
+        "original_file": "sanitized fixed-cap cell-warmup-v2 projection"
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "Historical recipe build status is outside this speed receipt."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "This speed receipt verifies 64 bounded text completions only; gateway admission and tool qualification are separate."
+    },
+    "correctness": {
+      "status": "not_tested",
+      "scope": "Throughput-only; all responses finish at the 512-token cap."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "This record does not attest a clean model download or new-machine install."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not tested in this speed batch."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not tested in this speed batch."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "All 16 measured groups passed fixed-cap speed eligibility; four C1/C4 workload cells, four repetitions per cell."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "No soak or long-duration test in this batch."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc.json",
+      "sha256": "cf15581948b77def4078f8234e1a7a8a595b82a8ed9aed16d99d19f74b79dffc",
+      "path": []
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "All 64 requests reached the 512-token cap with finish_reason length; results do not establish task correctness or answer quality.",
+    "No cache reset was performed; the source records zero reported cache-hit rows but cache state remains uncontrolled.",
+    "C4 is aggregate throughput for four simultaneous clients, not per-client rate. C1 groups are four serial requests with one active client.",
+    "Native local Docker image IDs are daemon-store-specific; the portable source archive and pinned revisions identify the tested recipe source, not one cross-host image digest."
+  ],
+  "accounting": {
+    "requests_attempted": 64,
+    "requests_completed": 64,
+    "prompt_tokens": null,
+    "completion_tokens": 32768,
+    "cached_tokens": 0,
+    "wall_seconds": 412.46898052009055
+  },
+  "observations": [],
+  "fingerprint": "3eebcfbfb5f72dfa9e0eec2f7af45d660a8aeb0f936c2d0a6baca7661c5b7bd3"
+}

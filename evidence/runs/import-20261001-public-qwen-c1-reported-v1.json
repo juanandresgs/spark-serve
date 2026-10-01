@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "kind": "run",
+  "id": "import-20261001-public-qwen-c1-reported-v1",
+  "origin": "external_report",
+  "recorded_at": "2026-10-01",
+  "executed_at": null,
+  "recipe": {
+    "id": "external-qwen-report-20260930-v1",
+    "fingerprint": "f430113fcd01d0a4d63a5dc73b717453ddc1c281ab9c6480d108b3f7698b440d"
+  },
+  "identity": {
+    "relationship": "external_report",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": null,
+    "attestation": "Imported from the pinned public README; no new execution or actual image identity attestation."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {
+      "runtime": "TensorFold 0.3.6.3"
+    },
+    "unknowns": [
+      "The exact public image identity and raw request-level receipt are not available."
+    ]
+  },
+  "workload_version": "historical-public-qwen-c1-v1",
+  "measurements": [
+    {
+      "id": "m0",
+      "metric": "reported_throughput",
+      "value": 62.4,
+      "unit": "tokens/s",
+      "definition": "Published C1 prose decode rate; exact timing denominator and raw request accounting not stated.",
+      "aggregation": "reported_unknown",
+      "samples": null,
+      "sample_unit": "unknown",
+      "population": "Pinned README row; sample count not stated.",
+      "conditions": {
+        "workload": "qwen-c1-prose-decode",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ab7bcdafb5d37f41f6ca92ced3026975d636c0ed7c77c64f3ed53c3552abb5fb.json",
+        "original_file": "comparisons/qwen-c1-public-reference-20261001.json",
+        "path": [
+          "observation",
+          "reported_aggregate_tokens_per_second"
+        ],
+        "sha256": "ab7bcdafb5d37f41f6ca92ced3026975d636c0ed7c77c64f3ed53c3552abb5fb"
+      }
+    },
+    {
+      "id": "m1",
+      "metric": "ttft",
+      "value": 0.152,
+      "unit": "s",
+      "definition": "Published C1 prose time to first token.",
+      "aggregation": "reported_unknown",
+      "samples": null,
+      "sample_unit": "unknown",
+      "population": "Pinned README row; sample count not stated.",
+      "conditions": {
+        "workload": "qwen-c1-prose-decode",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ab7bcdafb5d37f41f6ca92ced3026975d636c0ed7c77c64f3ed53c3552abb5fb.json",
+        "original_file": "comparisons/qwen-c1-public-reference-20261001.json",
+        "path": [
+          "observation",
+          "reported_time_to_first_token_seconds"
+        ],
+        "sha256": "ab7bcdafb5d37f41f6ca92ced3026975d636c0ed7c77c64f3ed53c3552abb5fb"
+      }
+    }
+  ],
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "api_tool": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "clean_install": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "restart": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "reboot": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "performance": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    },
+    "endurance": {
+      "status": "unknown",
+      "scope": "External report row only; not re-executed locally."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/ab7bcdafb5d37f41f6ca92ced3026975d636c0ed7c77c64f3ed53c3552abb5fb.json",
+      "original_file": "comparisons/qwen-c1-public-reference-20261001.json",
+      "path": [],
+      "sha256": "ab7bcdafb5d37f41f6ca92ced3026975d636c0ed7c77c64f3ed53c3552abb5fb"
+    }
+  ],
+  "external_sources": [
+    {
+      "url": "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md",
+      "revision": "856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e"
+    }
+  ],
+  "limitations": [
+    "The pinned README reports C1 with four configured backend streams; it does not state the repetition count or exact decode-rate timing denominator.",
+    "This external decode rate is not directly comparable to the local full-request group rate, which includes prefill and group wall time.",
+    "No local selected-image C1 result is attached in this record."
+  ],
+  "fingerprint": "22b3e7bbbc8a9d48ce523d296395f770e9bda2d71c20758afc094128c6cdcf3d"
+}

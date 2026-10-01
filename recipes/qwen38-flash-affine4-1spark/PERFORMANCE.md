@@ -40,6 +40,9 @@ Quality tasks are arithmetic, Python semantics, FIFO state and shortest paths,
 plus 20 independently authored executable functions with hidden tests. Not SWE-bench
 or agentic repository work. Four repeated graph trials are excluded from unique
 counts. The small two-question gap is not evidence of broad quality superiority.
+The historical reasoning comparison uses the same recorded request settings,
+but the effective template effort for those exact images is unverified; do not
+read those scores or latencies as a matched-effort quality comparison.
 
 ## Why the selected policy is uncapped
 
@@ -72,8 +75,9 @@ packs, topology, runtimes and/or fixture details. Do not combine into a matched 
 The original scheduler's mixed-load short-request p95 was 356.36 s; cooperative
 scheduling reduced it to 2.73 s in the historical same-Spark crossover, with bulk
 time 371.66 → 376.19 s. Affine then improved prefill alongside cooperative scheduling.
-The two-Spark recipe remains faster on these throughput/context observations,
-but consumes two Sparks. No unmeasured two-replica scaling claim is made.
+In those older recorded runs, the two-Spark TP2 recipe had higher C4 rates and a
+faster near-limit completion; they are not matched against the later one-Spark
+recipes. No unmeasured two-replica scaling claim is made.
 
 ## Public reference claims (not independently reproduced)
 

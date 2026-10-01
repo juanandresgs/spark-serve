@@ -7,9 +7,9 @@ import sys
 import tempfile
 import unittest
 
-from spark_serve.comparisons import check_page, load, options, render
+from spark_serve.comparisons import cell, check_page, load, options, render
 from spark_serve.config import ConfigError
-from spark_serve.comparison_charts import chart_data, outputs as chart_outputs
+from spark_serve.comparison_charts import chart_data, outputs as chart_outputs, svg
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ComparisonChecks(unittest.TestCase):
     def test_page_and_choices(self):
         check_page(ROOT)
-        for name, expected in [('qwen', 'qwen-cooperative-exl3'),
+        for name, expected in [('qwen', 'qwen-tensorfold-native-exl3'),
                                ('glm', 'glm53-flash-adaptive-2spark')]:
             model, = options(ROOT, name)
             self.assertEqual([o['id'] for o in model['options'] if o['recommended']], [expected])
@@ -75,6 +75,17 @@ class ComparisonChecks(unittest.TestCase):
             with self.assertRaisesRegex(ConfigError, 'boundary'):
                 load(root)
 
+    def test_public_reference_has_separate_local_decode_proxy(self):
+        data = load(ROOT)
+        row, = [r for r in data['tables']['public']['rows']
+                if r['metric'] == 'Qwen C1 prose decode']
+        self.assertIn('local', row)
+        self.assertNotIn('local_pending', row)
+        rendered = render(ROOT)
+        self.assertIn('62.4 tokens/s', rendered)
+        self.assertIn('51.99 tokens/s', rendered)
+        self.assertIn('These timing definitions and source details differ', rendered)
+
     def test_charts_follow_evidence_and_detect_chart_drift(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -96,7 +107,7 @@ class ComparisonChecks(unittest.TestCase):
     def test_chart_structure_and_boundaries(self):
         data = load(ROOT)
         charts = chart_data(ROOT, data)
-        self.assertEqual(len(charts), 5)
+        self.assertEqual(len(charts), 6)
         for chart in charts:
             self.assertTrue(all(p['table'] != 'public' for p in chart['panels']))
             parsed = ET.fromstring(chart_outputs(ROOT, data)[chart['file']])
@@ -106,10 +117,58 @@ class ComparisonChecks(unittest.TestCase):
             self.assertTrue(parsed.find('svg:desc', ns).text)
             # All evidence bars share a true zero origin. No truncated bars.
             bars = [r for r in parsed.findall('.//svg:rect', ns) if r.attrib.get('height') == '25']
-            self.assertEqual(len(bars), 2 * len(chart['panels']))
+            self.assertEqual(len(bars), len(chart['series']) * len(chart['panels']))
             self.assertTrue(all(r.attrib['x'] == '24' for r in bars))
         tail = next(c for c in charts if c['file'].endswith('qwen-tails.svg'))
         self.assertEqual([round(v, 2) for v in tail['panels'][1]['values']], [25.06, 243.56])
+
+    def test_four_arm_chart_and_explained_null_values(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp).resolve()
+            (root / 'recipes').mkdir()
+            (root / 'comparisons').mkdir()
+            (root / 'evidence/runs').mkdir(parents=True)
+            values = [111.0, None, 222.0, 333.0]
+            missing_reason = ('Failed qualification: typed-tool gate did not pass; request produced no valid '
+                              'typed arguments and could not enter the timed cohort.')
+            cells = []
+            for index, number in enumerate(values):
+                relative = f'evidence/runs/arm-{index}.json'
+                (root / relative).write_text(json.dumps({'measurements': [{'value': number}]}))
+                cells.append({'refs': [{'file': relative, 'path': ['measurements', 0, 'value']}],
+                              'format': '{0:.2f}',
+                              **({'null_text': missing_reason} if number is None else {})})
+            self.assertEqual(cell(root, {'refs': cells[1]['refs'], 'format': '{0:.2f}',
+                                         'null_text': missing_reason}), missing_reason)
+            with self.assertRaisesRegex(ValueError, 'nonempty explanation'):
+                cell(root, {'refs': cells[1]['refs'], 'format': '{0:.2f}'})
+
+            names = ['Legacy cooperative EXL3', 'Native EXL3 overlap scheduling arm with long label',
+                     'Native EXL3 whole-pass scheduling arm', 'Retained Affine4']
+            chart = {
+                'file': 'comparisons/charts/synthetic.svg',
+                'title': 'Synthetic renderer fixture', 'subtitle': 'No benchmark results',
+                'description': 'Synthetic layout coverage only.', 'series': names,
+                'footer': 'Synthetic values are not published evidence.',
+                'panels': [{'table': 'overnight', 'metric': 'C1 group throughput',
+                            'label': 'Synthetic test', 'note': 'Layout fixture', 'unit': 'tokens/s'}]
+            }
+            (root / 'comparisons/charts.json').write_text(json.dumps({'charts': [chart]}))
+            data = {'tables': {'overnight': {'kind': 'matched-local', 'rows': [
+                {'metric': 'C1 group throughput', 'cells': cells}]}}}
+            mapped, = chart_data(root, data)
+            self.assertEqual(mapped['panels'][0]['values'], values)
+            self.assertEqual(mapped['panels'][0]['null_labels'][1], cells[1]['null_text'])
+            rendered = svg(mapped)
+        parsed = ET.fromstring(rendered)
+        ns = {'svg': 'http://www.w3.org/2000/svg'}
+        self.assertEqual(int(parsed.attrib['width']), 600)
+        rects = [r for r in parsed.findall('.//svg:rect', ns) if r.attrib.get('height') == '25']
+        self.assertEqual(len(rects), 3)
+        self.assertEqual(len({r.attrib['fill'] for r in rects}), 3)
+        visible_text = ' '.join(n.text or '' for n in parsed.findall('.//svg:text', ns))
+        self.assertIn(names[1], visible_text)
+        self.assertIn(missing_reason, visible_text)
 
     def test_chart_selection_rejects_unmatched_evidence_and_unsafe_paths(self):
         with tempfile.TemporaryDirectory() as temp:

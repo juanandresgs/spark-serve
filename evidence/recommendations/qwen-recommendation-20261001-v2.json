@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "kind": "recommendation",
+  "id": "qwen-recommendation-20261001-v2",
+  "model": "qwen",
+  "hardware_nodes": 1,
+  "selected": {
+    "id": "qwen-native-tensorfold-exl3-20261001-v1",
+    "fingerprint": "848dcfeb62b6e531874a6138387c38569f8a9b9718f0559ead1e72160963034a"
+  },
+  "alternatives": [
+    {
+      "catalog_id": "qwen38-flash-affine4-1spark",
+      "rationale": "Retain Affine4 for faster cold long-prefill observations and its separately tested opt-in buffered response_format normalization path; plain-prompt long-context format failures remain documented."
+    },
+    {
+      "catalog_id": "qwen-cooperative-exl3",
+      "rationale": "Retain the previously deployed cooperative EXL3 TensorFold 0.3.6.1 recipe as a rollback option; its throughput and quality runs are separate historical cohorts."
+    },
+    {
+      "catalog_id": "qwen38-flash-1spark",
+      "rationale": "Previous managed recipe retained for existing deployments."
+    }
+  ],
+  "evidence_runs": [
+    {
+      "id": "production-final1024-http8-speed-v2-20261001",
+      "fingerprint": "9108f304c15e831727edd6d5fb629b5670634670dc7d2cc2610abc7aa4da3268"
+    },
+    {
+      "id": "production-final1024-http8-quality-20261001",
+      "fingerprint": "30dfb366355f6665026323267577a97b31b4573d4f901f327c62919cbde052ac"
+    },
+    {
+      "id": "production-final1024-http8-acceptance-20261001",
+      "fingerprint": "151ae9aef0218d6bd188fad9915f018996d9f3c8b6154a771030eb4c147afb5b"
+    },
+    {
+      "id": "qwen-native-final-core-20261001",
+      "fingerprint": "00d39c295647a322f5ef997d1561677663c74e18105c5c15152936027887f5f8"
+    },
+    {
+      "id": "qwen-cooperative-exl3-speed-v2-20261001",
+      "fingerprint": "17fab2a0074fb52ae20fb42b83a78f4f12cb6d3b9c81665bfe4f84b1c074a3d7"
+    },
+    {
+      "id": "qwen-affine4-speed-v2-20261001",
+      "fingerprint": "3eebcfbfb5f72dfa9e0eec2f7af45d660a8aeb0f936c2d0a6baca7661c5b7bd3"
+    },
+    {
+      "id": "qwen-affine4-final-core-20261001",
+      "fingerprint": "85f241f4819e01444b69f51674846020df150ed82db11cd7259dbe4f64b45fbc"
+    }
+  ],
+  "rationale": "Recommend the patched TensorFold 0.6 + EXL3 complete recipe for the measured one-Spark throughput profile, with bounded synthetic quality, context, mixed-request, API/tool and named-client checks on the final production image. The October 1 C1/C4 primary production run is the headline measurement; separate second-host replication is not pooled. Affine4 remains a practical alternative for cold long prefills. This does not isolate runtime or quantization causality, establish broad quality superiority, or claim one-Spark/two-Spark parity.",
+  "review": {
+    "status": "reviewed",
+    "basis": "Operator-authorized recommendation; production speed, quality, API/tool and named client gates were completed on the exact final image. Destination acceptance and operational endurance/reboot scope remain separate.",
+    "date": "2026-10-01"
+  },
+  "limitations": [
+    "Throughput requests were all capped at 512 tokens and finish_reason length; they do not measure answer quality.",
+    "Reasoning and coding fixtures are bounded synthetic checks, not a broad quality benchmark.",
+    "The second native host is a separate build and run; results are not pooled.",
+    "Fresh destination acceptance, reboot recovery, and long-duration endurance remain untested.",
+    "No performance comparison establishes causal effects of runtime, weight format, or scheduling patches.",
+    "The GLM two-Spark recommendation is a separate model/workload and does not imply one-to-two Spark performance parity."
+  ],
+  "fingerprint": "b4fa781da0f743c0dd2ef7b38529bb32c683e5345f16d16f27e5d29a579241b3"
+}

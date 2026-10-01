@@ -1,0 +1,29 @@
+ARG PARENT_IMAGE
+FROM ${PARENT_IMAGE}
+ARG PARENT_LOCAL_IMAGE_ID
+LABEL org.spark-serve.parent-local-image-id="${PARENT_LOCAL_IMAGE_ID}"
+
+COPY inventory.py verify_runtime.py grammar-requirements.txt grammar-constraints.txt runtime-constraints.txt expected-primary-inventory.json expected-grammar-inventory.json /opt/spark-serve/
+RUN python /opt/spark-serve/inventory.py > /opt/spark-serve/grammar-parent-inventory.json && \
+    python /opt/spark-serve/verify_runtime.py \
+      --base /opt/spark-serve/grammar-parent-inventory.json \
+      --runtime /opt/spark-serve/grammar-parent-inventory.json \
+      --constraints /opt/spark-serve/runtime-constraints.txt \
+      --expected /opt/spark-serve/expected-primary-inventory.json \
+      --expected-base /opt/spark-serve/expected-primary-inventory.json \
+      --revision c4646171139ee8a3c38103eaa1699dad226ec12b \
+      --check-dependencies \
+      --output /opt/spark-serve/grammar-parent-inventory-receipt.json && \
+    python -m pip install --no-cache-dir --only-binary=:all: \
+      --constraint /opt/spark-serve/grammar-constraints.txt \
+      --requirement /opt/spark-serve/grammar-requirements.txt && \
+    python /opt/spark-serve/inventory.py > /opt/spark-serve/grammar-runtime-inventory.json && \
+    python /opt/spark-serve/verify_runtime.py \
+      --base /opt/spark-serve/grammar-parent-inventory.json \
+      --runtime /opt/spark-serve/grammar-runtime-inventory.json \
+      --constraints /opt/spark-serve/grammar-constraints.txt \
+      --expected /opt/spark-serve/expected-grammar-inventory.json \
+      --expected-base /opt/spark-serve/expected-primary-inventory.json \
+      --revision c4646171139ee8a3c38103eaa1699dad226ec12b \
+      --check-dependencies \
+      --output /opt/spark-serve/grammar-inventory-receipt.json

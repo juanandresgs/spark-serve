@@ -15,10 +15,14 @@ from spark_serve.recipes import asset, read_recipe, source_root
 from spark_serve.comparison_charts import outputs as chart_outputs
 
 
-def value(root, reference):
+def value(root, reference, allow_null=False):
     result = json.loads(asset(root, reference['file']).read_text())
     for key in reference['path']:
         result = result[key]
+    if result is None:
+        if allow_null:
+            return None
+        raise ValueError('Null comparison values need a nonempty explanation')
     if isinstance(result, bool) or not isinstance(result, (int, float)) or not math.isfinite(result):
         raise ValueError('Comparison evidence must resolve to a finite number')
     return result
@@ -27,10 +31,18 @@ def value(root, reference):
 def cell(root, spec):
     if '%' in spec['format']:
         raise ValueError('Percentage cells require the evidence.percent_change comparability gate')
+    null_text = spec.get('null_text')
+    if null_text is not None and (not isinstance(null_text, str) or not null_text.strip()):
+        raise ValueError('Null comparison values need a nonempty explanation')
     for ref in spec['refs']:
         if not ref['file'].startswith('evidence/runs/') or ref['path'][0] != 'measurements' or ref['path'][-1] != 'value':
             raise ValueError('Comparison values must reference structured run measurements')
-    return spec['format'].format(*(value(root, ref) for ref in spec['refs']))
+    values = [value(root, ref, allow_null=null_text is not None) for ref in spec['refs']]
+    if any(item is None for item in values):
+        if null_text is None:
+            raise ValueError('Null comparison values need a nonempty explanation')
+        return null_text
+    return spec['format'].format(*values)
 
 
 def load(root):
@@ -78,7 +90,10 @@ def load(root):
                     if not row['boundary']:
                         raise ValueError('Public row needs a comparison boundary')
                     cell(root, row['public'])
-                    cell(root, row['local'])
+                    if 'local' in row:
+                        cell(root, row['local'])
+                    elif not isinstance(row.get('local_pending'), str) or not row['local_pending'].strip():
+                        raise ValueError('Public row needs a local result or an explicit pending explanation')
             else:
                 if table['kind'] != 'matched-local':
                     raise ValueError('Unknown local comparison kind')
@@ -114,7 +129,7 @@ def render(root):
         hardware = f"{model['sparks']} Spark" + ('s' if model['sparks'] > 1 else '')
         choices.append([hardware, f"[**{model['name']} · {chosen['label']}**]({chosen['guide']})"])
     rendered = {'choices': table(['Your hardware', 'Recommended recipe · build and run'], choices)}
-    for name in ('qwen-restored-throughput', 'qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
+    for name in ('qwen-final-v2-throughput', 'qwen-restored-throughput', 'qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
         rendered[name] = f'![{name.replace("-", " ")} comparison; numeric equivalent in the table below](comparisons/charts/{name}.svg)'
     def row(table_id, metric):
         matches = [r for r in data['tables'][table_id]['rows'] if r['metric'] == metric]
@@ -140,7 +155,8 @@ def render(root):
         rows = []
         for row in spec['rows']:
             if spec['kind'] == 'unmatched-public':
-                rows.append([row['metric'], cell(root, row['public']), cell(root, row['local']), row['boundary']])
+                local = cell(root, row['local']) if 'local' in row else row['local_pending']
+                rows.append([row['metric'], cell(root, row['public']), local, row['boundary']])
             else:
                 rows.append([row['metric'], *(cell(root, c) for c in row['cells'])])
         rendered[key] = table(spec['columns'], rows) + '\n\n' + spec['scope']

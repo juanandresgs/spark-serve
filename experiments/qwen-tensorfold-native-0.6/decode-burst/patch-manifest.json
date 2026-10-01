@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+  "parent_cancellation_patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+  "patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+  "files": {
+    "src/tensorfold/families/qwen4_exp/cuda/multi.py": {
+      "before_sha256": "0c2383055511b0658965f8f073905ce8afc0710bf5c29691ac2bc5fea7c4ba60",
+      "after_sha256": "0b6b1a6c2e91076c626bd92009a785be54bb560fb799f323fb86306e031e4e0c"
+    }
+  }
+}

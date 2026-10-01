@@ -1,0 +1,7 @@
+annotated-doc==0.0.5
+hf-xet==1.6.0
+huggingface-hub==1.33.0
+shellingham==1.5.4
+transformers==5.18.0
+typer==0.27.2
+xgrammar==0.2.8

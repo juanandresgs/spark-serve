@@ -1,0 +1,226 @@
+{
+  "accounting": {
+    "cached_tokens": null,
+    "completion_tokens": null,
+    "prompt_tokens": null,
+    "requests_attempted": null,
+    "requests_completed": null,
+    "wall_seconds": null
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "memory_gb_per_node": 128,
+      "nodes": 1,
+      "topology": "single GPU"
+    },
+    "software": {
+      "model_format": "EXL3 3.05bpw_h5_ng5",
+      "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+      "runtime": "TensorFold 0.6.0 patched final variant",
+      "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+      "settings": {
+        "context_tokens": 262144,
+        "decode_burst": 4,
+        "default_thinking": false,
+        "engine_slots": 4,
+        "http_admission_limit": 8,
+        "kv_cache_dtype": "bf16",
+        "mtp_confidence": 0.7,
+        "mtp_drafts": 6,
+        "prefill_rows": 1024,
+        "reasoning_effort": "medium"
+      }
+    },
+    "unknowns": [
+      "This bounded acceptance record does not establish reboot or endurance behavior."
+    ]
+  },
+  "executed_at": "2026-10-01",
+  "external_sources": [],
+  "failures": [],
+  "fingerprint": "151ae9aef0218d6bd188fad9915f018996d9f3c8b6154a771030eb4c147afb5b",
+  "id": "production-final1024-http8-acceptance-20261001",
+  "identity": {
+    "attestation": "Sanitized production evaluator/operator evidence identifies the running final image and runtime/model revisions for API, client, and disconnect-recovery checks.",
+    "image_digest": "sha256:e7d7ffbffa4ae0e711d13e439da7a2f29c8676b31941b25e29152a0c7ce8e82b",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "relationship": "attested_exact",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b"
+  },
+  "kind": "run",
+  "limitations": [
+    "Production API matrix is capability evidence, not a latency benchmark.",
+    "Only one bounded Pi fixture and one two-request Hermes adapter/client fixture were run.",
+    "Reboot, endurance, and destination acceptance for a fresh installation remain untested."
+  ],
+  "measurements": [
+    {
+      "aggregation": "count",
+      "conditions": {
+        "cache": "unknown",
+        "concurrency": null,
+        "fixture_sha256": null,
+        "request": {},
+        "sampling": {},
+        "warmup": null,
+        "workload": "api-tool-checks-passed"
+      },
+      "definition": "Passed capability checks; count denotes checks, not HTTP requests.",
+      "id": "api-tool-checks-passed",
+      "metric": "correct",
+      "population": "12 basic and 36 typed-tool checks",
+      "sample_unit": "checks",
+      "samples": 48,
+      "source": {
+        "file": "evidence/sources/91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0.json",
+        "original_file": "sanitized production acceptance projection",
+        "path": [
+          "api_matrix",
+          "passed"
+        ],
+        "sha256": "91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0"
+      },
+      "unit": "count",
+      "value": 48
+    },
+    {
+      "aggregation": "count",
+      "conditions": {
+        "cache": "unknown",
+        "concurrency": null,
+        "fixture_sha256": null,
+        "request": {},
+        "sampling": {},
+        "warmup": null,
+        "workload": "front-cancel-recovery-passed"
+      },
+      "definition": "One disconnect-to-logical-idle check and recovery request passed; no GPU kernel preemption claim.",
+      "id": "front-cancel-recovery-passed",
+      "metric": "correct",
+      "population": "One production-image disconnect/recovery check",
+      "sample_unit": "check",
+      "samples": 1,
+      "source": {
+        "file": "evidence/sources/91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0.json",
+        "original_file": "sanitized production acceptance projection",
+        "path": [
+          "front_cancel",
+          "passed"
+        ],
+        "sha256": "91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0"
+      },
+      "unit": "count",
+      "value": 1
+    },
+    {
+      "aggregation": "count",
+      "conditions": {
+        "cache": "unknown",
+        "concurrency": null,
+        "fixture_sha256": null,
+        "request": {},
+        "sampling": {},
+        "warmup": null,
+        "workload": "pi-client-roundtrip-passed"
+      },
+      "definition": "One named-model synthetic typed-tool client roundtrip passed.",
+      "id": "pi-client-roundtrip-passed",
+      "metric": "correct",
+      "population": "One Pi client fixture",
+      "sample_unit": "fixture",
+      "samples": 1,
+      "source": {
+        "file": "evidence/sources/91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0.json",
+        "original_file": "sanitized production acceptance projection",
+        "path": [
+          "pi_client",
+          "passed_count"
+        ],
+        "sha256": "91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0"
+      },
+      "unit": "count",
+      "value": 1
+    },
+    {
+      "aggregation": "count",
+      "conditions": {
+        "cache": "unknown",
+        "concurrency": null,
+        "fixture_sha256": null,
+        "request": {},
+        "sampling": {},
+        "warmup": null,
+        "workload": "hermes-adapter-client-fixture-passed"
+      },
+      "definition": "Installed Hermes adapter/client fixture passed two model requests and a typed tool-result loop; not a full agent qualification.",
+      "id": "hermes-adapter-client-fixture-passed",
+      "metric": "correct",
+      "population": "One two-request Hermes adapter/client fixture",
+      "sample_unit": "fixture",
+      "samples": 1,
+      "source": {
+        "file": "evidence/sources/91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0.json",
+        "original_file": "sanitized production acceptance projection",
+        "path": [
+          "hermes_client",
+          "passed_count"
+        ],
+        "sha256": "91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0"
+      },
+      "unit": "count",
+      "value": 1
+    }
+  ],
+  "observations": [],
+  "origin": "historical_import",
+  "qualification": {
+    "api_tool": {
+      "scope": "Final production image passed 48/48 capability checks, front-cancel recovery, and Pi/Hermes client fixtures. This matrix is not timing eligible.",
+      "status": "passed"
+    },
+    "build": {
+      "scope": "Two independently built public source-kit images passed the 19-case CPU regression gate; see recipe qualification.",
+      "status": "passed"
+    },
+    "clean_install": {
+      "scope": "Fresh target acceptance and clean-download/reinstall workflow remain required.",
+      "status": "not_tested"
+    },
+    "correctness": {
+      "scope": "Separate final production quality run covers 200 reasoning request rows and 20 executable coding cases.",
+      "status": "passed"
+    },
+    "endurance": {
+      "scope": "Long-duration endurance not tested.",
+      "status": "not_tested"
+    },
+    "performance": {
+      "scope": "See separate final production fixed-cap throughput run.",
+      "status": "passed"
+    },
+    "reboot": {
+      "scope": "Reboot recovery remains untested.",
+      "status": "not_tested"
+    },
+    "restart": {
+      "scope": "Process/service restart recovery not tested here.",
+      "status": "not_tested"
+    }
+  },
+  "recipe": {
+    "fingerprint": "848dcfeb62b6e531874a6138387c38569f8a9b9718f0559ead1e72160963034a",
+    "id": "qwen-native-tensorfold-exl3-20261001-v1"
+  },
+  "recorded_at": "2026-10-01",
+  "schema_version": 1,
+  "sources": [
+    {
+      "file": "evidence/sources/91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0.json",
+      "original_file": "sanitized production API and named-client acceptance projection",
+      "path": [],
+      "sha256": "91b45050ecd2859668e7ebc89a25987cf24834443bd024fac30616f08c4f7fb0"
+    }
+  ],
+  "workload_version": "qwen-production-api-client-acceptance-20261001"
+}

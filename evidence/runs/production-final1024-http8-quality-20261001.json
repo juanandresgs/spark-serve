@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "kind": "run",
+  "id": "production-final1024-http8-quality-20261001",
+  "origin": "historical_import",
+  "recorded_at": "2026-10-01",
+  "executed_at": "2026-10-01",
+  "recipe": {
+    "id": "qwen-native-tensorfold-exl3-20261001-v1",
+    "fingerprint": "848dcfeb62b6e531874a6138387c38569f8a9b9718f0559ead1e72160963034a"
+  },
+  "identity": {
+    "relationship": "attested_exact",
+    "image_digest": "sha256:e7d7ffbffa4ae0e711d13e439da7a2f29c8676b31941b25e29152a0c7ce8e82b",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "attestation": "Sanitized receipts attest the running production-admission-8 image, exact source/model pins and quality checks."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {
+      "runtime": "TensorFold 0.6.0",
+      "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+      "model_format": "3.05bpw_h5_ng5",
+      "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+      "settings": {
+        "parallel": 4,
+        "context": 262144,
+        "kv_cache_dtype": "bf16",
+        "prompt_cache": "native memory-gated default; internal snapshot count8 per source",
+        "decode_burst": 4,
+        "prefill_rows": 1024,
+        "reasoning_effort": "medium",
+        "default_thinking": false,
+        "mtp": 6,
+        "mtp_confidence": 0.7,
+        "decode_share": 0,
+        "http_admission_limit": 8
+      },
+      "protocol": "dual-medium-v1 quality + formal rep200/201 mixed",
+      "kit_archive_sha256": "9688af15ee166db056d3ccc0b731c86dbc47623e6335649581c239aa3a3ae250"
+    },
+    "unknowns": [
+      "Host OS, kernel, driver, and CUDA versions are not in the sanitized public source projection."
+    ]
+  },
+  "workload_version": "qwen-final-formal-quality-context-mixed-20261001",
+  "measurements": [
+    {
+      "id": "reasoning-request-rows-passed",
+      "metric": "correct",
+      "value": 200,
+      "unit": "count",
+      "definition": "Completed reasoning request rows passing both logical-answer and strict JSON-format checks.",
+      "aggregation": "count",
+      "samples": 200,
+      "sample_unit": "request rows",
+      "population": "200 C4 sampled-thinking request rows covering 195 distinct prompts; all returned valid, correct completed answers.",
+      "conditions": {
+        "workload": "synthetic-reasoning-c4",
+        "fixture_sha256": "4536b2d82b43be0cc79f17eee26dc3e9963457ac9e427f70dbf3726fdc2bb5a8",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true
+        },
+        "sampling": {
+          "version": "dual-medium-v1",
+          "reasoning_effort": "medium",
+          "placement": "top_level_and_chat_template_kwargs",
+          "thinking": true,
+          "temperature": 1,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": "No timing warmup; correctness-only suite."
+      },
+      "source": {
+        "file": "evidence/sources/70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc.json",
+        "sha256": "70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc",
+        "path": [
+          "reasoning",
+          "passed_request_rows"
+        ],
+        "original_file": "sanitized production final reasoning aggregate"
+      }
+    },
+    {
+      "id": "reasoning-distinct-first-sample-passed",
+      "metric": "correct",
+      "value": 195,
+      "unit": "count",
+      "definition": "Number of distinct synthetic reasoning prompts answered correctly on the first sample; JSON format and logical answer must pass.",
+      "aggregation": "count",
+      "samples": 195,
+      "sample_unit": "distinct prompts",
+      "population": "195 distinct synthetic reasoning prompts, first sampled request per prompt.",
+      "conditions": {
+        "workload": "synthetic-reasoning-c4",
+        "fixture_sha256": "4536b2d82b43be0cc79f17eee26dc3e9963457ac9e427f70dbf3726fdc2bb5a8",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true
+        },
+        "sampling": {
+          "version": "dual-medium-v1",
+          "reasoning_effort": "medium",
+          "placement": "top_level_and_chat_template_kwargs",
+          "thinking": true,
+          "temperature": 1,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": "No timing warmup; correctness-only suite."
+      },
+      "source": {
+        "file": "evidence/sources/70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc.json",
+        "sha256": "70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc",
+        "path": [
+          "reasoning",
+          "distinct_first_sample_passed"
+        ],
+        "original_file": "sanitized production final reasoning aggregate"
+      }
+    },
+    {
+      "id": "coding-cases-passed",
+      "metric": "correct",
+      "value": 20,
+      "unit": "count",
+      "definition": "Executable synthetic coding cases passing in the pinned CPU sandbox (completed generation, execution exit 0, CHECKS_PASSED).",
+      "aggregation": "count",
+      "samples": 20,
+      "sample_unit": "distinct cases",
+      "population": "Twenty small executable Python cases in the pinned CPU sandbox.",
+      "conditions": {
+        "workload": "synthetic-coding-c4",
+        "fixture_sha256": "32e2c1e1434a0d943ede77b9c20595065fdb3898342ea0452db197df99236942",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true
+        },
+        "sampling": {
+          "version": "dual-medium-v1",
+          "reasoning_effort": "medium",
+          "placement": "top_level_and_chat_template_kwargs",
+          "thinking": true,
+          "temperature": 1,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": "Correctness-only suite."
+      },
+      "source": {
+        "file": "evidence/sources/70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc.json",
+        "sha256": "70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc",
+        "path": [
+          "coding",
+          "passed"
+        ],
+        "original_file": "sanitized production final coding aggregate"
+      }
+    }
+  ],
+  "failures": [
+    {
+      "category": "HTTP 429 during C4 gateway-admission cohort",
+      "count": 1,
+      "detail": "One reasoning request did not complete; no incorrect completed answer is attributed to it."
+    }
+  ],
+  "qualification": {
+    "build": {
+      "status": "passed",
+      "scope": "Publicly built native source variants were independently built on two hosts; source input, dependency inventory and CPU test gates passed. Local image IDs differ by host."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "Formal API/tool qualification is recorded separately; final production-admission gate pending."
+    },
+    "correctness": {
+      "status": "passed",
+      "scope": "Bounded synthetic reasoning/coding checks only; no broad quality claim."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "A clean user install was not part of these runs."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Restart behavior not measured by these results."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Reboot behavior not measured by these results."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "Fixed-cap throughput plus bounded response-latency/context/mixed cells, with sample sizes identified per measurement."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Long-duration soak not tested."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc.json",
+      "sha256": "70f52d58467a38da110e04faef283a426b04c5625fa0ea3e65eb347d81985ffc",
+      "path": []
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Synthetic exact-answer reasoning and twenty small executable coding cases are bounded checks, not broad model-quality benchmarks.",
+    "Four clients were active; these measurements are a C4 quality cohort.",
+    "This admission-8 quality cohort is distinct from the earlier admission-4 199/200 cohort."
+  ],
+  "accounting": {
+    "requests_attempted": 220,
+    "requests_completed": 220,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "fingerprint": "30dfb366355f6665026323267577a97b31b4573d4f901f327c62919cbde052ac"
+}

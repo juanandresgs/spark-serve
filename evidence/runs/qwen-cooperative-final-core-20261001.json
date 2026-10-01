@@ -1,0 +1,851 @@
+{
+  "schema_version": 1,
+  "kind": "run",
+  "id": "qwen-cooperative-final-core-20261001",
+  "origin": "historical_import",
+  "recorded_at": "2026-10-01",
+  "executed_at": "2026-10-01",
+  "recipe": {
+    "id": "qwen-exl3-source-20260930-v1",
+    "fingerprint": "5528f7e0c54af85e4fd564cd17f7f67df953ff5f71c4d2073701fa908f442489"
+  },
+  "identity": {
+    "relationship": "attested_exact",
+    "image_digest": "sha256:df4b6473b42eacb6ad22a784ceba7153456c92c2e3dd4bdde8e9161b7637e938",
+    "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "attestation": "Sanitized operator receipts attest this exact host-local image ID and pinned runtime/model revisions for the quality, context and mixed tests. Docker image IDs can differ by daemon storage and are not registry digests."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {
+      "runtime": "TensorFold 0.3.6.1",
+      "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+      "model_format": "3.05bpw_h5_ng5",
+      "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+      "settings": {
+        "slots": 4,
+        "context": 262144,
+        "prompt_cache_gib": 2,
+        "snapshots": false,
+        "prefill_rows": 2048,
+        "mtp": 6
+      },
+      "protocol": "dual-medium-v1 quality + formal rep200/201 mixed",
+      "kit_archive_sha256": null
+    },
+    "unknowns": [
+      "Host OS, kernel, driver, and CUDA versions are not in the sanitized public source projection."
+    ]
+  },
+  "workload_version": "qwen-final-formal-quality-context-mixed-20261001",
+  "measurements": [
+    {
+      "id": "reasoning-distinct-first-sample-correct",
+      "metric": "correct",
+      "value": 195,
+      "unit": "count",
+      "definition": "Number of distinct synthetic reasoning prompts answered correctly on the first sample; JSON format and logical answer must pass.",
+      "aggregation": "count",
+      "samples": 195,
+      "sample_unit": "distinct prompts",
+      "population": "195 distinct generated fixtures across 200 C4 request rows; repeated prompt fixtures are not unique tasks.",
+      "conditions": {
+        "workload": "synthetic-reasoning-c4",
+        "fixture_sha256": "4536b2d82b43be0cc79f17eee26dc3e9963457ac9e427f70dbf3726fdc2bb5a8",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true
+        },
+        "sampling": {
+          "version": "dual-medium-v1",
+          "reasoning_effort": "medium",
+          "placement": "top_level_and_chat_template_kwargs",
+          "thinking": true,
+          "temperature": 1,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": "No timing warmup; correctness-only suite."
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "quality",
+          "reasoning",
+          "distinct_first_passed"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "coding-cases-passed",
+      "metric": "correct",
+      "value": 20,
+      "unit": "count",
+      "definition": "Executable synthetic coding cases passing in the pinned CPU sandbox (completed generation, execution exit 0, CHECKS_PASSED).",
+      "aggregation": "count",
+      "samples": 20,
+      "sample_unit": "distinct cases",
+      "population": "Twenty small executable Python cases; not a broad coding benchmark.",
+      "conditions": {
+        "workload": "synthetic-coding-c4",
+        "fixture_sha256": "32e2c1e1434a0d943ede77b9c20595065fdb3898342ea0452db197df99236942",
+        "concurrency": 4,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true
+        },
+        "sampling": {
+          "version": "dual-medium-v1",
+          "reasoning_effort": "medium",
+          "placement": "top_level_and_chat_template_kwargs",
+          "thinking": true,
+          "temperature": 1,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": "Correctness-only suite."
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "quality",
+          "coding",
+          "passed_requests"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-131072-cold-observed",
+      "metric": "response_latency",
+      "value": 183.09526775899576,
+      "unit": "s",
+      "definition": "Observed whole-response latency for a completed context retrieval reply; strict-format pass is reported separately.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "131072-token target, cold context phase, one request at a time.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "cold",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "131072",
+          "cold",
+          "observed_response_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-131072-cold-strict-json",
+      "metric": "correct",
+      "value": 1,
+      "unit": "count",
+      "definition": "Bare-JSON retrieval format-and-answer gate passed (1) or failed (0).",
+      "aggregation": "count",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "131072-token target, cold context phase.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "cold",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "131072",
+          "cold",
+          "strict_json_pass"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-131072-resend-observed",
+      "metric": "response_latency",
+      "value": 183.20985284697963,
+      "unit": "s",
+      "definition": "Observed whole-response latency for a completed context retrieval reply; strict-format pass is reported separately.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "131072-token target, resend context phase, one request at a time.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "131072",
+          "resend",
+          "observed_response_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-131072-resend-strict-json",
+      "metric": "correct",
+      "value": 1,
+      "unit": "count",
+      "definition": "Bare-JSON retrieval format-and-answer gate passed (1) or failed (0).",
+      "aggregation": "count",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "131072-token target, resend context phase.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "131072",
+          "resend",
+          "strict_json_pass"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-131072-append-observed",
+      "metric": "response_latency",
+      "value": 1.1716713310452178,
+      "unit": "s",
+      "definition": "Observed whole-response latency for a completed context retrieval reply; strict-format pass is reported separately.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "131072-token target, append context phase, one request at a time.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "131072",
+          "append",
+          "observed_response_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-131072-append-strict-json",
+      "metric": "correct",
+      "value": 1,
+      "unit": "count",
+      "definition": "Bare-JSON retrieval format-and-answer gate passed (1) or failed (0).",
+      "aggregation": "count",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "131072-token target, append context phase.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "131072",
+          "append",
+          "strict_json_pass"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-253824-cold-observed",
+      "metric": "response_latency",
+      "value": 535.499086628959,
+      "unit": "s",
+      "definition": "Observed whole-response latency for a completed context retrieval reply; strict-format pass is reported separately.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "253824-token target, cold context phase, one request at a time.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "cold",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "253824",
+          "cold",
+          "observed_response_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-253824-cold-strict-json",
+      "metric": "correct",
+      "value": 1,
+      "unit": "count",
+      "definition": "Bare-JSON retrieval format-and-answer gate passed (1) or failed (0).",
+      "aggregation": "count",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "253824-token target, cold context phase.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "cold",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "253824",
+          "cold",
+          "strict_json_pass"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-253824-resend-observed",
+      "metric": "response_latency",
+      "value": 535.3574214300024,
+      "unit": "s",
+      "definition": "Observed whole-response latency for a completed context retrieval reply; strict-format pass is reported separately.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "253824-token target, resend context phase, one request at a time.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "253824",
+          "resend",
+          "observed_response_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-253824-resend-strict-json",
+      "metric": "correct",
+      "value": 1,
+      "unit": "count",
+      "definition": "Bare-JSON retrieval format-and-answer gate passed (1) or failed (0).",
+      "aggregation": "count",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "253824-token target, resend context phase.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "253824",
+          "resend",
+          "strict_json_pass"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-253824-append-observed",
+      "metric": "response_latency",
+      "value": 1.4129033259814605,
+      "unit": "s",
+      "definition": "Observed whole-response latency for a completed context retrieval reply; strict-format pass is reported separately.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "253824-token target, append context phase, one request at a time.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "253824",
+          "append",
+          "observed_response_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "context-253824-append-strict-json",
+      "metric": "correct",
+      "value": 1,
+      "unit": "count",
+      "definition": "Bare-JSON retrieval format-and-answer gate passed (1) or failed (0).",
+      "aggregation": "count",
+      "samples": 1,
+      "sample_unit": "single request",
+      "population": "253824-token target, append context phase.",
+      "conditions": {
+        "workload": "context-retrieval",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "mixed",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "context",
+          "253824",
+          "append",
+          "strict_json_pass"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "mixed-131072-active_short_code-e2e",
+      "metric": "response_latency",
+      "value": 140.4218258835317,
+      "unit": "s",
+      "definition": "Median observed end-to-end response time within this mixed-load cell; capped active-code/new-prose rows are latency gates, not completed-task quality scores.",
+      "aggregation": "median",
+      "samples": 2,
+      "sample_unit": "requests",
+      "population": "131072-token mixed request group; active_short_code; two repetitions; full response wall time.",
+      "conditions": {
+        "workload": "formal-mixed-rep200-201",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "mixed",
+        "request": {
+          "thinking": false,
+          "temperature": 0
+        },
+        "sampling": {
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "mixed",
+          "cells",
+          "131072-active_short_code",
+          "observed_e2e_median_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "mixed-131072-long_prefill-e2e",
+      "metric": "response_latency",
+      "value": 198.89165653850068,
+      "unit": "s",
+      "definition": "Median observed end-to-end response time within this mixed-load cell; capped active-code/new-prose rows are latency gates, not completed-task quality scores.",
+      "aggregation": "median",
+      "samples": 2,
+      "sample_unit": "requests",
+      "population": "131072-token mixed request group; long_prefill; two repetitions; full response wall time.",
+      "conditions": {
+        "workload": "formal-mixed-rep200-201",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "mixed",
+        "request": {
+          "thinking": false,
+          "temperature": 0
+        },
+        "sampling": {
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "mixed",
+          "cells",
+          "131072-long_prefill",
+          "observed_e2e_median_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "mixed-131072-new_short_prose-e2e",
+      "metric": "response_latency",
+      "value": 79.20089838845888,
+      "unit": "s",
+      "definition": "Median observed end-to-end response time within this mixed-load cell; capped active-code/new-prose rows are latency gates, not completed-task quality scores.",
+      "aggregation": "median",
+      "samples": 4,
+      "sample_unit": "requests",
+      "population": "131072-token mixed request group; new_short_prose; two repetitions; full response wall time.",
+      "conditions": {
+        "workload": "formal-mixed-rep200-201",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "mixed",
+        "request": {
+          "thinking": false,
+          "temperature": 0
+        },
+        "sampling": {
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "mixed",
+          "cells",
+          "131072-new_short_prose",
+          "observed_e2e_median_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "mixed-253824-active_short_code-e2e",
+      "metric": "response_latency",
+      "value": 140.50336570551735,
+      "unit": "s",
+      "definition": "Median observed end-to-end response time within this mixed-load cell; capped active-code/new-prose rows are latency gates, not completed-task quality scores.",
+      "aggregation": "median",
+      "samples": 2,
+      "sample_unit": "requests",
+      "population": "253824-token mixed request group; active_short_code; two repetitions; full response wall time.",
+      "conditions": {
+        "workload": "formal-mixed-rep200-201",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "mixed",
+        "request": {
+          "thinking": false,
+          "temperature": 0
+        },
+        "sampling": {
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "mixed",
+          "cells",
+          "253824-active_short_code",
+          "observed_e2e_median_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "mixed-253824-long_prefill-e2e",
+      "metric": "response_latency",
+      "value": 551.2723515554972,
+      "unit": "s",
+      "definition": "Median observed end-to-end response time within this mixed-load cell; capped active-code/new-prose rows are latency gates, not completed-task quality scores.",
+      "aggregation": "median",
+      "samples": 2,
+      "sample_unit": "requests",
+      "population": "253824-token mixed request group; long_prefill; two repetitions; full response wall time.",
+      "conditions": {
+        "workload": "formal-mixed-rep200-201",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "mixed",
+        "request": {
+          "thinking": false,
+          "temperature": 0
+        },
+        "sampling": {
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "mixed",
+          "cells",
+          "253824-long_prefill",
+          "observed_e2e_median_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    },
+    {
+      "id": "mixed-253824-new_short_prose-e2e",
+      "metric": "response_latency",
+      "value": 79.53753688299912,
+      "unit": "s",
+      "definition": "Median observed end-to-end response time within this mixed-load cell; capped active-code/new-prose rows are latency gates, not completed-task quality scores.",
+      "aggregation": "median",
+      "samples": 4,
+      "sample_unit": "requests",
+      "population": "253824-token mixed request group; new_short_prose; two repetitions; full response wall time.",
+      "conditions": {
+        "workload": "formal-mixed-rep200-201",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "mixed",
+        "request": {
+          "thinking": false,
+          "temperature": 0
+        },
+        "sampling": {
+          "reasoning_effort": "medium"
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+        "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+        "path": [
+          "mixed",
+          "cells",
+          "253824-new_short_prose",
+          "observed_e2e_median_seconds"
+        ],
+        "original_file": "sanitized public aggregate projection"
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "This record is not a fresh source-build qualification for the historical recipe."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "Formal API/tool qualification is recorded separately; final production-admission gate pending."
+    },
+    "correctness": {
+      "status": "passed",
+      "scope": "Bounded synthetic reasoning/coding checks only; no broad quality claim."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "A clean user install was not part of these runs."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Restart behavior not measured by these results."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Reboot behavior not measured by these results."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "Fixed-cap throughput plus bounded response-latency/context/mixed cells, with sample sizes identified per measurement."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Long-duration soak not tested."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/ef676bc06ba38402f16146772ecb489da8f86d12015cd6d7f38e635dbdf4b264.json",
+      "sha256": "f2cebd77895c76ac39204ca1acaae00a4e9d98ee5e4e8737c75eea8aab248749",
+      "path": [],
+      "original_file": "sanitized public aggregate projection from evaluator receipts"
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Synthetic exact-answer reasoning and 20 executable coding cases are bounded checks, not broad model-quality benchmarks.",
+    "Every timing cell is an observed complete-recipe result; no runtime-only or quantization-only effect is isolated.",
+    "Mixed cells have n=2 or n=4; no p95 estimate is supported.",
+    "Text and visible/reasoning strings match on paired completed rows; token-ID identity is not claimed."
+  ],
+  "accounting": {
+    "requests_attempted": 264,
+    "requests_completed": 264,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "fingerprint": "5ff7bf21080653412bb9de72b9e5c6c07dd22c67517b6f8a1e20285779d7457f"
+}

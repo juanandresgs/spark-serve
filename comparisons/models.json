@@ -5,14 +5,21 @@
       "id": "qwen",
       "name": "Qwen3.8 Flash Next",
       "sparks": 1,
-      "recommended": "qwen-cooperative-exl3",
-      "summary": "262,144-token context, four engine slots, cooperative prefill and MTP6",
+      "recommended": "qwen-tensorfold-native-exl3",
+      "summary": "Patched TensorFold 0.6 + EXL3; four engine slots, 262,144-token context; production-admission and client checks passed",
       "options": [
+        {
+          "id": "qwen-tensorfold-native-exl3",
+          "label": "Patched TensorFold 0.6 + EXL3",
+          "guide": "experiments/qwen-tensorfold-native-0.6/README.md",
+          "reason": "Recommended with caveats after same-image speed, synthetic quality, context, API/tool and named client checks; new installs still need destination acceptance.",
+          "recipe": "qwen-tensorfold-native-exl3"
+        },
         {
           "id": "qwen-cooperative-exl3",
           "label": "Cooperative EXL3",
           "guide": "experiments/qwen-tensorfold-cooperative/README.md",
-          "reason": "Recommended cooperative EXL3 configuration; see dated tests and source/build qualification limits in the guide.",
+          "reason": "Retained rollback and alternative using the previously deployed cooperative TensorFold 0.3.6.1 EXL3 recipe.",
           "recipe": "qwen-cooperative-exl3"
         },
         {
@@ -30,7 +37,7 @@
           "reason": "Previous managed recipe; retained for existing deployments."
         }
       ],
-      "recommendation_record": "qwen-recommendation-20261001-v1"
+      "recommendation_record": "qwen-recommendation-20261001-v2"
     },
     {
       "id": "glm",
@@ -61,15 +68,15 @@
     "qwen": {
       "kind": "matched-local",
       "date": "2026-09-29",
-      "scope": "Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians; context/mixed/quality checks have their own sample limits. Runtime and model pack differ; this does not establish exact image identity.",
+      "scope": "Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians. The historical quality and context receipts have separate sample limits, and the source does not attest their client concurrency. Runtime and model pack differ; this does not establish exact image identity.",
       "columns": [
         "Workload",
-        "Recommended Cooperative EXL3 \u00b7 Sep 29 test",
-        "Affine4 alternative \u00b7 Sep 29 test"
+        "Recommended Cooperative EXL3 · Sep 29 test",
+        "Affine4 alternative · Sep 29 test"
       ],
       "rows": [
         {
-          "metric": "C4 prose throughput \u2191",
+          "metric": "C4 prose throughput ↑",
           "cells": [
             {
               "refs": [
@@ -100,7 +107,7 @@
           ]
         },
         {
-          "metric": "C4 code throughput \u2191",
+          "metric": "C4 code throughput ↑",
           "cells": [
             {
               "refs": [
@@ -131,7 +138,7 @@
           ]
         },
         {
-          "metric": "Cold 253,843-token prompt, complete JSON response \u2193",
+          "metric": "Cold 253,843-token prompt, complete JSON response ↓",
           "cells": [
             {
               "refs": [
@@ -162,7 +169,7 @@
           ]
         },
         {
-          "metric": "Cached appended prompt, complete response \u2193",
+          "metric": "Cached appended prompt, complete response ↓",
           "cells": [
             {
               "refs": [
@@ -193,7 +200,7 @@
           ]
         },
         {
-          "metric": "Short-request p95 during mixed long/short traffic \u2193",
+          "metric": "Short-request p95 during mixed long/short traffic ↓",
           "cells": [
             {
               "refs": [
@@ -224,7 +231,7 @@
           ]
         },
         {
-          "metric": "Distinct reasoning answers correct \u2191",
+          "metric": "Distinct reasoning answers correct ↑",
           "cells": [
             {
               "refs": [
@@ -271,7 +278,7 @@
           ]
         },
         {
-          "metric": "Executable coding tasks correct \u2191",
+          "metric": "Executable coding tasks correct ↑",
           "cells": [
             {
               "refs": [
@@ -318,7 +325,7 @@
           ]
         },
         {
-          "metric": "Fresh reasoning latency, median / p95 \u2193",
+          "metric": "Fresh reasoning latency, median / p95 ↓",
           "cells": [
             {
               "refs": [
@@ -365,7 +372,7 @@
           ]
         },
         {
-          "metric": "Coding latency, median / p95 \u2193",
+          "metric": "Coding latency, median / p95 ↓",
           "cells": [
             {
               "refs": [
@@ -560,8 +567,38 @@
       ],
       "rows": [
         {
+          "metric": "Qwen C1 prose decode",
+          "boundary": "Pinned MiaAI-Lab C1 row: one active request on a four-stream backend. Its repetition count and exact decode-rate denominator are unstated. Local TensorFold 0.6.0 + EXL3 reports a separate first-to-last-output-event per-request decode proxy; its C1 full-group rate includes prompt processing and serial-group wall time. These timing definitions and source details differ; no cross-source winner is inferred.",
+          "public": {
+            "refs": [
+              {
+                "file": "evidence/runs/import-20261001-public-qwen-c1-reported-v1.json",
+                "path": [
+                  "measurements",
+                  0,
+                  "value"
+                ]
+              }
+            ],
+            "format": "{0:.1f} tokens/s"
+          },
+          "local": {
+            "refs": [
+              {
+                "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                "path": [
+                  "measurements",
+                  3,
+                  "value"
+                ]
+              }
+            ],
+            "format": "{0:.2f} tokens/s"
+          }
+        },
+        {
           "metric": "Qwen C4 prose",
-          "boundary": "Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. Public number is decode rate.",
+          "boundary": "Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. The public README does not state repetitions for its C4 decode row.",
           "local": {
             "refs": [
               {
@@ -720,12 +757,12 @@
       "scope": "Fresh October 1 test on the identified restored EXL3 image. C1 is one active client issuing four serial requests per group; C4 is four concurrent clients. Both used four configured backend slots. Each cell is the median of three groups; group rate is total output tokens divided by whole group wall time including prefill. All responses hit the 512-token cap (finish_reason=length), so this is throughput-only, not correctness or quality evidence. Prompt-cache state was uncontrolled.",
       "columns": [
         "Workload",
-        "C1 \u00b7 one active client",
-        "C4 \u00b7 four concurrent clients"
+        "C1 · one active client",
+        "C4 · four concurrent clients"
       ],
       "rows": [
         {
-          "metric": "Code group aggregate throughput \u2191",
+          "metric": "Code group aggregate throughput ↑",
           "cells": [
             {
               "refs": [
@@ -756,7 +793,7 @@
           ]
         },
         {
-          "metric": "Prose group aggregate throughput \u2191",
+          "metric": "Prose group aggregate throughput ↑",
           "cells": [
             {
               "refs": [
@@ -791,11 +828,11 @@
     "qwen-restored-decode": {
       "kind": "matched-local",
       "date": "2026-10-01",
-      "scope": "Per-request decode-rate proxy from the same test, shown separately from whole-group aggregate throughput. Median across three groups of each group\u2019s median per-request decode proxy; not a C1/C4 aggregate rate.",
+      "scope": "Per-request decode-rate proxy from the same test, shown separately from whole-group aggregate throughput. Median across three groups of each group’s median per-request decode proxy; not a C1/C4 aggregate rate.",
       "columns": [
         "Workload",
-        "C1 \u00b7 one active client",
-        "C4 \u00b7 four concurrent clients"
+        "C1 · one active client",
+        "C4 · four concurrent clients"
       ],
       "rows": [
         {
@@ -857,6 +894,1175 @@
                 }
               ],
               "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-final-v2-speed": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Median of four groups per cell, with 64 measured requests per recipe. C1 is one active request; C4 is the combined rate for four simultaneous clients. Rates use full-group wall time, including prefill. All responses reached the 512-token cap; this measures throughput, not task quality. The complete recipes differ; the second native host is shown separately. Gateway admission is separate from engine slots.",
+      "columns": [
+        "Cell · aggregate throughput",
+        "Patched TF0.6 EXL3",
+        "TF0.3.6.1 EXL3",
+        "Affine4"
+      ],
+      "rows": [
+        {
+          "metric": "Code · C1 · one active client",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose · C1 · one active client",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Code · C4 · four concurrent clients",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose · C4 · four concurrent clients",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    6,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    6,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    6,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-final-v2-decode": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Median per-request decode-rate proxy across 16 requests for each cell; completion tokens minus one divided by first-to-last output event interval. This excludes full-group prefill and queue time and is not the C1/C4 aggregate throughput shown above. All requests are fixed-cap and length-finished; values remain synthetic speed measurements, not correctness or quality.",
+      "columns": [
+        "Per-request decode proxy",
+        "TensorFold 0.6.0 + EXL3",
+        "TensorFold 0.3.6.1 + cooperative EXL3",
+        "TensorFold 0.3.6.2 + Affine4"
+      ],
+      "rows": [
+        {
+          "metric": "Code · C1 · one active client · per-request decode proxy",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose · C1 · one active client · per-request decode proxy",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Code · C4 · four concurrent clients · per-request decode proxy",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    5,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    5,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    5,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose · C4 · four concurrent clients · per-request decode proxy",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    7,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-exl3-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    7,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    7,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-final-v2-replication": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Earlier maintenance primary and independent second native host: separate runs of the same TensorFold 0.6.0 + EXL3 source variant, four engine slots, BF16 KV, burst4 and prefill1024. Both used HTTP admission 4; each has four groups per cell and 64 measured requests total. Ranges are in the linked source projections. Neither is pooled with the October 1 production-admission-8 primary.",
+      "columns": [
+        "Cell · aggregate",
+        "Earlier maintenance primary · HTTP4 · n=4",
+        "Second host · HTTP4 · n=4"
+      ],
+      "rows": [
+        {
+          "metric": "Code · C1 · group aggregate",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-primary-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-replica-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose · C1 · group aggregate",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-primary-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-replica-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Code · C4 · group aggregate",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-primary-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-replica-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose · C4 · group aggregate",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-primary-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    6,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/native-replica-speed-v2-20261001.json",
+                  "path": [
+                    "measurements",
+                    6,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-final-quality": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Final production-admission-8 C4 sample: 200 sampled-thinking reasoning request rows, 195 distinct generated prompts, plus 20 small executable Python cases. The other recipe columns are their separately identified quiet C4 cohorts. These bounded synthetic checks do not establish broad model quality.",
+      "columns": [
+        "Bounded synthetic check",
+        "Patched TensorFold 0.6 + EXL3",
+        "Cooperative TensorFold 0.3.6.1 + EXL3",
+        "Affine4 · TensorFold 0.3.6.2"
+      ],
+      "rows": [
+        {
+          "metric": "Reasoning prompts correct on first sample · of 195 distinct",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-quality-20261001.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 195"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 195"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 195"
+            }
+          ]
+        },
+        {
+          "metric": "Executable coding cases passed · of 20",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/production-final1024-http8-quality-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 20"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 20"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 20"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-final-context": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Formal single-request context retrieval at four configured engine slots, thinking off and temperature 0. The configured context is 262,144 tokens; the near-limit prompt contained 253,836 tokens. Observed response time and strict bare-JSON success are separate fields: an Affine4 response can retrieve the correct value yet fail the strict-format gate. The final-image tests ran under maintenance gateway admission 4 before cutover; the final production fixed-cap speed cohort used admission 8.",
+      "columns": [
+        "Context check",
+        "Patched TensorFold 0.6 + EXL3",
+        "Cooperative TensorFold 0.3.6.1 + EXL3",
+        "Affine4 · TensorFold 0.3.6.2"
+      ],
+      "rows": [
+        {
+          "metric": "131,091-token prompt (target 131,072) · observed completion",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    2,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "131,091-token prompt (target 131,072) · strict JSON pass · of 1",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            }
+          ]
+        },
+        {
+          "metric": "253,836-token prompt (target 253,824) · observed completion",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    8,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    8,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    8,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "253,836-token prompt (target 253,824) · strict JSON pass · of 1",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    9,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    9,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    9,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            }
+          ]
+        },
+        {
+          "metric": "253,836-token exact resend (target 253,824) · observed completion",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    10,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    10,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    10,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "253,836-token exact resend (target 253,824) · strict JSON pass · of 1",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    11,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    11,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    11,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.0f} / 1"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-final-mixed": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Two quiet repetitions of matched C4 mixed-load prompt sequences with the same prompt token counts and output caps across recipes. Values are median observed end-to-end response times, not p95. New short-prose and active-short-code requests are capped responsiveness gates, not completed-task quality tests. Long-prefill strict JSON success is reported separately; the Affine4 131,072-token long rows retrieved the correct value but failed strict bare-JSON formatting. The final-image tests ran under maintenance gateway admission 4 before cutover; the final production fixed-cap speed cohort used admission 8.",
+      "columns": [
+        "Mixed request · median response time",
+        "Patched TensorFold 0.6 + EXL3",
+        "Cooperative TensorFold 0.3.6.1 + EXL3",
+        "Affine4 · TensorFold 0.3.6.2"
+      ],
+      "rows": [
+        {
+          "metric": "131,072 context · active short code · n=2",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    14,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    14,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    14,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "131,072 context · new short prose · n=4",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    16,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    16,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    16,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "131,072 context · long retrieval · n=2",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    15,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    15,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    15,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "253,824 context · active short code · n=2",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    17,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    17,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    17,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "253,824 context · new short prose · n=4",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    19,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    19,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    19,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "253,824 context · long retrieval · n=2",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-native-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    18,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-cooperative-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    18,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-affine4-final-core-20261001.json",
+                  "path": [
+                    "measurements",
+                    18,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
             }
           ]
         }

@@ -1,0 +1,90 @@
+{
+  "docker_context_policy": "The .dockerignore uses an explicit allowlist. Speed replay and curator files are package assets but are excluded from the runtime image build context.",
+  "exported_burst4_build": {
+    "input_archive_sha256": "5923a65316d56aebb2e517bc1e3abe8e0bbd1c60ec5bcfe39f03bbe4df53673c",
+    "provenance_boundary": "The archive includes the then-current .dockerignore. The Dockerfile and the explicitly copied cancellation and burst patch/test inputs are hash-pinned in burst4_derivative_build; this records those build inputs and the archive identity without asserting that every public source-kit file was identical to a prior cancellation build.",
+    "public_receipt": "receipts/qwen-native-burst4-build-rank2-20261001-v1.json",
+    "public_receipt_sha256": "5304b82f10866613ffe60e31de94d94983b3277fcde22d93447580a36f295d6d",
+    "source_builder_receipt_sha256": "8c8fe8119a5c1cbd1763932c382dfdcac60988cfe5ac4bc72bc6c1e218e63804"
+  },
+  "exported_chunk1024_build": {
+    "input_archive_sha256": "9688af15ee166db056d3ccc0b731c86dbc47623e6335649581c239aa3a3ae250",
+    "parent_variant": "experimental-native-prefill-cancellation-decode-burst4",
+    "qualification_state": "Immutable 10-file public bundle created; exact-parent builds and structured 19-test CPU gates on both hosts are pending.",
+    "source_patch_sha256": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77"
+  },
+  "input_sha256": {
+    "burst4_derivative_build": {
+      ".dockerignore": "791022de32d1976edf3dd0b3755c6d65ca56439f6f84054c519a1485fe3395ca",
+      "Dockerfile.burst": "65986034088955d647e1f4036f56b90537d0680cd8fca0c7796bb5f917c6ad7b",
+      "build_burst.py": "4cc979551fd3d7f2c17554da0697eb297ba613f2a94f6a9e273f774988b67c5b",
+      "cancellation/patch-manifest.json": "19f8f7f263502f9cba3fe545ff9814b220a9cad37d41e5064f148edb6ff5c764",
+      "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d",
+      "decode-burst/decode-burst.patch": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+      "decode-burst/patch-manifest.json": "f89c0a40740a1e71efa39b0a542c2b51e432bddecce9c81bb64d68187d51f5b3",
+      "decode-burst/test_decode_burst.py": "ce3994859ef83e48a6e27a56b612cc5b9d7ae8bd4e740ce4e7367df3206274a1",
+      "test_burst_variant.py": "be03f7bd5f4d844723e7f574d2d4ebd21bbd86862c6c7b0290769ea917feaa2c"
+    },
+    "cancellation_derivative_build": {
+      "Dockerfile.cancellation": "faffd5141858b848c166f72e56b39f092bc4b060284bb505591931a60888a837",
+      "build_cancellation.py": "82deafec68b9f9caa671ad2bfcc1f6d422aec0470cb14d649c7989ed116db228",
+      "cancellation/patch-manifest.json": "19f8f7f263502f9cba3fe545ff9814b220a9cad37d41e5064f148edb6ff5c764",
+      "cancellation/prefill-cancellation.patch": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+      "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d"
+    },
+    "chunk1024_derivative_build": {
+      ".dockerignore": "b9e1adfa9cd60b466bbbbc33bde5ec439240f6b10d70b9544428178a27470cd3",
+      "Dockerfile.chunk": "d5c57a25c4ec631a126dda3254b0d96b8706dd3682acb9b1327ee7f1b7a62eb5",
+      "build_chunk.py": "a98b591d2fa663fd43a5dfe0756b06bf6aa1dc27fdc2d2411b3bc387682e269c",
+      "decode-burst/patch-manifest.json": "f89c0a40740a1e71efa39b0a542c2b51e432bddecce9c81bb64d68187d51f5b3",
+      "scheduling/chunk/README.md": "fad26ba519bb6359dc95b64b498902ac5b7651f07f88c1c04679b08c64623219",
+      "scheduling/chunk/patch-manifest.json": "a202b067d1fa5b54e9770fe936601b16a60377775baf93cfb7daac7b433e61ba",
+      "scheduling/chunk/prefill-rows.patch": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77",
+      "scheduling/chunk/test_prefill_rows.py": "7a20d16a29d13cb40febedad57f69ec9883df24e8e073ea8137bb3b158630f67",
+      "test_chunk_variant.py": "71c9de4db09fb5730d5eb131337c3e5eafe03665a1b03d85f613d54ee48be57f"
+    },
+    "public_quality_fixtures": {
+      "coding_cases.py": "d559fc184914d169523e981abe4aa69b520c71b5007d29ac4d35a8ae7f970ecb",
+      "quality-protocol.json": "c1a00eb68f5ecfc18d49b7811f6c6ee8ed3f37e306749f0486c08d198508ecdd",
+      "quality_contract.py": "564fc15156f2c0d0e8af5476e92ec5e8a010c2c29d28c338f390c3833ceb9300",
+      "quality_fixtures.py": "3e0ed07f0b6686c82bcdf5756f1afb877a6c30061ff819a1f7cbb4c836fdc70e",
+      "test_quality_contract.py": "285b37f0f1ae41f5920b0c8f23a12cdc92be6d76065b056e3b3f7ff1aade0729"
+    },
+    "public_speed_replay": {
+      "benchmark_speed.py": "9e5c2817c4157dd760b4e1216a65ac64f8d9418b0b8993af42e5df3e2c5f2da8",
+      "curate_speed.py": "7af6a2203489af88fc2c06177142b4dffcaea33de6e3d4ef721f3f64481e8c16",
+      "speed_protocol.py": "369ba023e58340121fec081957a8441d3156515cfa91336f804ffe8524e53e97",
+      "transport.py": "fc7d044ae3cf5851d21f7c2b3f37dd9f3218727f2123b3ddb2be1581689ac28f"
+    },
+    "stock_runtime_build": {
+      "Dockerfile": "778d6b507b20f372b387003cb5938266ae093a64277ba5d8ab1069ee36f75212",
+      "build.py": "75e85f6a3799c78767e723f8b9d322dccbf335d3328662e262e79271f0c32f34",
+      "expected-base-inventory.json": "bacf7911ad7a7a6098d3e83f7bf81f3b0f9a0b9bc56e3aefe1d1f6a729dc4b01",
+      "expected-primary-inventory.json": "6a969eb971198d3a131b69b421b874ce39c6f7142f646a884254cac0a6cb8f55",
+      "inventory.py": "71988e0d2b6a4f85c605d0bacd17a50233663d9df220068d62ea4ab6cd93fc53",
+      "pins.json": "e3b00bc2c301981b954ecd1e5b2e7d44943168818455bca3ac50fdab39cc5093",
+      "runtime-constraints.txt": "0d037b30f5e202a066e320eb47b281201db9c17022c2049636fc6cc9964f1336",
+      "verify_runtime.py": "90f0d327db9c7ecb83ec6cd8ad4d47eb7965cc83511fa42d203704150b3e8d76"
+    }
+  },
+  "runtime_pins": {
+    "base_image": "nvcr.io/nvidia/pytorch@sha256:2140e699b3beaf7f96a0081fd9c9406bc3832b435cdb60dfa2d261f7d2f34a1c",
+    "model_branch": "3.05bpw_h5_ng5",
+    "model_repository": "turboderp/Qwen3.8-Flash-Next-exl3",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "runtime_repository": "https://github.com/ashhart/TensorFold",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+    "runtime_version": "0.6.0"
+  },
+  "schema_version": 1,
+  "source_kit_scope": "Public allowlisted source inputs; no deployment configuration, route, host, or raw output capture.",
+  "speed_protocol": {
+    "canonical_fixture_map_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+    "canonical_reference_transport_sha256": "f626622413c9de1ec8b6b1ba9a01cbae4fd4a6795dea7e4b39f3225b19a05bff",
+    "canonical_schedule_module_sha256": "369ba023e58340121fec081957a8441d3156515cfa91336f804ffe8524e53e97",
+    "endpoint_policy": "Endpoint is supplied at runtime and is never copied into the receipt.",
+    "local_transport_change": "Adds optional Authorization bearer header from an environment variable; request JSON, fixture prompts, and stream parsing are otherwise unchanged.",
+    "raw_response_policy": "Response and reasoning text remain in memory only and are removed before the run receipt is written.",
+    "version": "cell-warmup-v2"
+  }
+}

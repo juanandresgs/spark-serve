@@ -1,0 +1,99 @@
+{
+  "api_matrix": {
+    "cells": {
+      "basic-quality/-/-/False": {
+        "passed": 6,
+        "total": 6
+      },
+      "basic-quality/-/-/True": {
+        "passed": 6,
+        "total": 6
+      },
+      "tool/auto/False/-": {
+        "passed": 12,
+        "total": 12
+      },
+      "tool/auto/True/-": {
+        "passed": 12,
+        "total": 12
+      },
+      "tool/named/False/-": {
+        "passed": 3,
+        "total": 3
+      },
+      "tool/named/True/-": {
+        "passed": 3,
+        "total": 3
+      },
+      "tool/required/False/-": {
+        "passed": 3,
+        "total": 3
+      },
+      "tool/required/True/-": {
+        "passed": 3,
+        "total": 3
+      }
+    },
+    "checks": 48,
+    "passed": 48,
+    "scope": "12 basic checks and 36 typed-tool checks across auto/required/named, streaming and non-streaming. Tool interactions include follow-up calls; 48 counts checks, not HTTP completions.",
+    "timing_eligible": false
+  },
+  "date": "2026-10-01",
+  "front_cancel": {
+    "checks": 1,
+    "disconnect_to_logical_idle_seconds": 0.2245740150101483,
+    "passed": 1,
+    "recovery_http_status": 200,
+    "recovery_passed": true,
+    "scope": "One production-image disconnect-to-logical-idle check and recovery request; does not prove GPU-kernel preemption."
+  },
+  "hermes_client": {
+    "context_tokens": 262144,
+    "final_acknowledgment_verified": true,
+    "finish_reason": "stop",
+    "model": "qwen3.8-flash-next",
+    "model_requests": 2,
+    "passed": true,
+    "passed_count": 1,
+    "scope": "Installed Hermes catalog/request adapter plus OpenAI client in a synthetic tool loop; not the full Hermes agent loop.",
+    "stream_chunks": 5,
+    "tool_result_id_matched": true,
+    "tool_result_quantity": 37,
+    "typed_tool_arguments_verified": true
+  },
+  "identity": {
+    "context_tokens": 262144,
+    "decode_burst": 4,
+    "default_thinking": false,
+    "engine_slots": 4,
+    "http_admission_limit": 8,
+    "image_digest": "sha256:e7d7ffbffa4ae0e711d13e439da7a2f29c8676b31941b25e29152a0c7ce8e82b",
+    "kv_cache_dtype": "bf16",
+    "model_format": "EXL3 3.05bpw_h5_ng5",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "mtp_confidence": 0.7,
+    "mtp_drafts": 6,
+    "prefill_rows": 1024,
+    "reasoning_effort": "medium",
+    "runtime": "TensorFold 0.6.0 patched cancellation/burst4/prefill1024",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b"
+  },
+  "kind": "production_acceptance_projection",
+  "limitations": [
+    "Production API matrix is capability evidence, not a latency benchmark.",
+    "Only one bounded Pi fixture and one two-request Hermes adapter/client fixture were run.",
+    "Reboot, endurance, and destination acceptance for a fresh installation remain untested."
+  ],
+  "pi_client": {
+    "context_tokens": 262144,
+    "model": "qwen3.8-flash-next",
+    "passed": true,
+    "passed_count": 1,
+    "scope": "One synthetic typed-tool roundtrip; not a general agent suite.",
+    "sdk": "@earendil-works/pi-coding-agent 0.85.1",
+    "sdk_unchanged_from_baseline": true,
+    "typed_tool_roundtrip": true
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1770" viewBox="0 0 600 1770" role="img" aria-labelledby="title desc">
+<title id="title">Qwen · three one-Spark recipes · Oct 1</title>
+<desc id="desc">Four final-v2 complete-recipe speed tests using the same cell-warmup-v2 protocol and fixed-cap synthetic prompts. C1 means one active request with four serial requests per group. C4 means four concurrent clients and shows total group output tokens per full group wall time, including prefill. All responses ended at the 512-token cap; this does not establish task correctness or answer quality. Recipe runtime, weight format and cache settings differ; this does not isolate a software or quantization effect. Synthetic code · C1 · one active client: Patched TensorFold 0.6.0 + EXL3 · production 91.108 tokens/s, TensorFold 0.3.6.1 + cooperative EXL3 88.011 tokens/s, Affine4 · 0.3.6.2 83.202 tokens/s; Synthetic prose · C1 · one active client: Patched TensorFold 0.6.0 + EXL3 · production 50.930 tokens/s, TensorFold 0.3.6.1 + cooperative EXL3 45.257 tokens/s, Affine4 · 0.3.6.2 48.929 tokens/s; Synthetic code · C4 · group aggregate: Patched TensorFold 0.6.0 + EXL3 · production 191.939 tokens/s, TensorFold 0.3.6.1 + cooperative EXL3 163.183 tokens/s, Affine4 · 0.3.6.2 142.122 tokens/s; Synthetic prose · C4 · group aggregate: Patched TensorFold 0.6.0 + EXL3 · production 120.424 tokens/s, TensorFold 0.3.6.1 + cooperative EXL3 88.648 tokens/s, Affine4 · 0.3.6.2 92.694 tokens/s</desc>
+<rect width="100%" height="100%" rx="12" fill="#ffffff"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#172c3d">
+<text x="24" y="36" font-size="26" font-weight="bold">Qwen · three one-Spark recipes · Oct 1</text>
+<text x="24" y="66" font-size="20" >Fixed 512-token speed screen · higher is faster</text>
+<text x="24" y="124" font-size="22" font-weight="bold">Synthetic code · C1 · one active client</text>
+<text x="24" y="150" font-size="18" >One active request; four serial requests per group</text>
+<text x="24" y="180" font-size="20" >Patched TensorFold 0.6.0 + EXL3 ·</text>
+<text x="24" y="200" font-size="20" >production</text>
+<rect x="24" y="208" width="428.209" height="25" rx="3" fill="#63778b"/>
+<text x="460.20933921503985" y="228" font-size="20" font-weight="bold">91.11</text>
+<text x="24" y="262" font-size="20" >TensorFold 0.3.6.1 + cooperative</text>
+<text x="24" y="282" font-size="20" >EXL3</text>
+<rect x="24" y="290" width="413.650" height="25" rx="3" fill="#007f79"/>
+<text x="445.6504540499206" y="310" font-size="20" font-weight="bold">88.01</text>
+<text x="24" y="344" font-size="20" >Affine4 · 0.3.6.2</text>
+<rect x="24" y="352" width="391.048" height="25" rx="3" fill="#8c5b9b"/>
+<text x="423.04819325820375" y="372" font-size="20" font-weight="bold">83.20</text>
+<path d="M 24 414 H 494" stroke="#687c8c"/>
+<path d="M 24 414 v 5" stroke="#687c8c"/>
+<text x="24" y="440" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 414 v 5" stroke="#687c8c"/>
+<text x="259.0" y="440" font-size="20" text-anchor="middle">50</text>
+<path d="M 494 414 v 5" stroke="#687c8c"/>
+<text x="494" y="440" font-size="20" text-anchor="middle">100</text>
+<text x="259.0" y="463" font-size="18" text-anchor="middle">tokens/s</text>
+<text x="24" y="502" font-size="22" font-weight="bold">Synthetic prose · C1 · one active client</text>
+<text x="24" y="528" font-size="18" >One active request; four serial requests per group</text>
+<text x="24" y="558" font-size="20" >Patched TensorFold 0.6.0 + EXL3 ·</text>
+<text x="24" y="578" font-size="20" >production</text>
+<rect x="24" y="586" width="398.955" height="25" rx="3" fill="#63778b"/>
+<text x="430.95511442072575" y="606" font-size="20" font-weight="bold">50.93</text>
+<text x="24" y="640" font-size="20" >TensorFold 0.3.6.1 + cooperative</text>
+<text x="24" y="660" font-size="20" >EXL3</text>
+<rect x="24" y="668" width="354.510" height="25" rx="3" fill="#007f79"/>
+<text x="386.50990940366455" y="688" font-size="20" font-weight="bold">45.26</text>
+<text x="24" y="722" font-size="20" >Affine4 · 0.3.6.2</text>
+<rect x="24" y="730" width="383.277" height="25" rx="3" fill="#8c5b9b"/>
+<text x="415.27700605949144" y="750" font-size="20" font-weight="bold">48.93</text>
+<path d="M 24 792 H 494" stroke="#687c8c"/>
+<path d="M 24 792 v 5" stroke="#687c8c"/>
+<text x="24" y="818" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 792 v 5" stroke="#687c8c"/>
+<text x="259.0" y="818" font-size="20" text-anchor="middle">30</text>
+<path d="M 494 792 v 5" stroke="#687c8c"/>
+<text x="494" y="818" font-size="20" text-anchor="middle">60</text>
+<text x="259.0" y="841" font-size="18" text-anchor="middle">tokens/s</text>
+<text x="24" y="880" font-size="22" font-weight="bold">Synthetic code · C4 · group aggregate</text>
+<text x="24" y="906" font-size="18" >Four concurrent clients; rate includes full group</text>
+<text x="24" y="928" font-size="18" >time</text>
+<text x="24" y="958" font-size="20" >Patched TensorFold 0.6.0 + EXL3 ·</text>
+<text x="24" y="978" font-size="20" >production</text>
+<rect x="24" y="986" width="451.057" height="25" rx="3" fill="#63778b"/>
+<text x="483.05736043227023" y="1006" font-size="20" font-weight="bold">191.94</text>
+<text x="24" y="1040" font-size="20" >TensorFold 0.3.6.1 + cooperative</text>
+<text x="24" y="1060" font-size="20" >EXL3</text>
+<rect x="24" y="1068" width="383.481" height="25" rx="3" fill="#007f79"/>
+<text x="415.48097671170075" y="1088" font-size="20" font-weight="bold">163.18</text>
+<text x="24" y="1122" font-size="20" >Affine4 · 0.3.6.2</text>
+<rect x="24" y="1130" width="333.986" height="25" rx="3" fill="#8c5b9b"/>
+<text x="365.9861185489841" y="1150" font-size="20" font-weight="bold">142.12</text>
+<path d="M 24 1192 H 494" stroke="#687c8c"/>
+<path d="M 24 1192 v 5" stroke="#687c8c"/>
+<text x="24" y="1218" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 1192 v 5" stroke="#687c8c"/>
+<text x="259.0" y="1218" font-size="20" text-anchor="middle">100</text>
+<path d="M 494 1192 v 5" stroke="#687c8c"/>
+<text x="494" y="1218" font-size="20" text-anchor="middle">200</text>
+<text x="259.0" y="1241" font-size="18" text-anchor="middle">tokens/s</text>
+<text x="24" y="1280" font-size="22" font-weight="bold">Synthetic prose · C4 · group aggregate</text>
+<text x="24" y="1306" font-size="18" >Four concurrent clients; rate includes full group</text>
+<text x="24" y="1328" font-size="18" >time</text>
+<text x="24" y="1358" font-size="20" >Patched TensorFold 0.6.0 + EXL3 ·</text>
+<text x="24" y="1378" font-size="20" >production</text>
+<rect x="24" y="1386" width="282.996" height="25" rx="3" fill="#63778b"/>
+<text x="314.9958846884308" y="1406" font-size="20" font-weight="bold">120.42</text>
+<text x="24" y="1440" font-size="20" >TensorFold 0.3.6.1 + cooperative</text>
+<text x="24" y="1460" font-size="20" >EXL3</text>
+<rect x="24" y="1468" width="208.323" height="25" rx="3" fill="#007f79"/>
+<text x="240.32255571089547" y="1488" font-size="20" font-weight="bold">88.65</text>
+<text x="24" y="1522" font-size="20" >Affine4 · 0.3.6.2</text>
+<rect x="24" y="1530" width="217.831" height="25" rx="3" fill="#8c5b9b"/>
+<text x="249.83148558821082" y="1550" font-size="20" font-weight="bold">92.69</text>
+<path d="M 24 1592 H 494" stroke="#687c8c"/>
+<path d="M 24 1592 v 5" stroke="#687c8c"/>
+<text x="24" y="1618" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 1592 v 5" stroke="#687c8c"/>
+<text x="259.0" y="1618" font-size="20" text-anchor="middle">100</text>
+<path d="M 494 1592 v 5" stroke="#687c8c"/>
+<text x="494" y="1618" font-size="20" text-anchor="middle">200</text>
+<text x="259.0" y="1641" font-size="18" text-anchor="middle">tokens/s</text>
+<text x="24" y="1702" font-size="18" >Median of four groups per cell; four requests per group.</text>
+<text x="24" y="1726" font-size="18" >C4 is whole-group aggregate. Production uses admission8;</text>
+<text x="24" y="1750" font-size="18" >HTTP4 maintenance runs are separate.</text>
+</g></svg>
