@@ -4,6 +4,14 @@
   "evidence_scope": "Pinned public source scaffold and sanitized package inventories from tested native images. The exported source kit has not been rebuilt; these inventory records alone do not qualify GPU behavior, model quality, throughput, full-context, or deployment behavior.",
   "source_build_gpu_qualified": false,
   "destination_acceptance_required": true,
-  "hold": "Experimental source path only. Await exported-kit GPU rebuild and separate correctness/serving qualification before consideration for recommendation.",
+  "hold": "Experimental source path only. Await exported-kit GPU rebuild and separate correctness/serving qualification before consideration for recommendation. The optional cancellation derivative is a separate variant and also requires exact-image GPU/API qualification.",
+  "cancellation_derivative": {
+    "status": "experimental",
+    "patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "cpu_test_suite": "Six-test gate includes actual App.run callback, scheduler, and MultiDecoder.round peer-progress coverage; GPU work mocked",
+    "candidate_cpu_result": "Previous five-test callback/scheduler suite passed on a candidate image; six-test suite awaits exported-image build gate",
+    "gpu_cancellation_latency_qualified": false,
+    "production_recommended": false
+  },
   "optional_grammar_qualified": false
 }

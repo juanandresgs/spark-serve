@@ -1,0 +1,34 @@
+ARG PARENT_IMAGE
+FROM ${PARENT_IMAGE}
+
+ARG TENSORFOLD_REV=c4646171139ee8a3c38103eaa1699dad226ec12b
+LABEL org.opencontainers.image.source="https://github.com/ashhart/TensorFold" \
+      org.opencontainers.image.revision="${TENSORFOLD_REV}" \
+      org.opencontainers.image.description="Experimental native prefill cancellation derivative"
+
+COPY cancellation/prefill-cancellation.patch cancellation/patch-manifest.json cancellation/test_prefill_cancel.py /opt/spark-serve/cancellation/
+RUN python - <<'PY'
+import hashlib, json, pathlib, subprocess
+m = json.loads(pathlib.Path('/opt/spark-serve/cancellation/patch-manifest.json').read_text())
+assert m['upstream_revision'] == 'c4646171139ee8a3c38103eaa1699dad226ec12b'
+src = pathlib.Path('/opt/tensorfold-source')
+assert subprocess.check_output(['git', '-C', str(src), 'rev-parse', 'HEAD'], text=True).strip() == m['upstream_revision']
+for rel, info in m['files'].items():
+    assert hashlib.sha256((src / rel).read_bytes()).hexdigest() == info['before_sha256'], rel
+patch = pathlib.Path('/opt/spark-serve/cancellation/prefill-cancellation.patch')
+assert hashlib.sha256(patch.read_bytes()).hexdigest() == m['patch_sha256']
+PY
+RUN cd /opt/tensorfold-source && \
+    git apply --check /opt/spark-serve/cancellation/prefill-cancellation.patch && \
+    git apply /opt/spark-serve/cancellation/prefill-cancellation.patch && \
+    python -m pip install --no-deps --no-build-isolation --no-cache-dir . && \
+    python - <<'PY'
+import hashlib, json, pathlib, tensorfold
+m = json.loads(pathlib.Path('/opt/spark-serve/cancellation/patch-manifest.json').read_text())
+src = pathlib.Path(tensorfold.__file__).resolve().parent.parent
+for rel, info in m['files'].items():
+    assert hashlib.sha256((src / rel.removeprefix('src/')).read_bytes()).hexdigest() == info['after_sha256'], rel
+PY
+RUN python /opt/spark-serve/cancellation/test_prefill_cancel.py
+
+LABEL org.dgx-spark-serve.tensorfold.variant="experimental-native-prefill-cancellation"

@@ -1,15 +1,26 @@
 {
+  "cancellation_derivative": {
+    "gpu_qualified": false,
+    "patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "status": "experimental"
+  },
   "files": {
-    ".dockerignore": "19c64a27d09b72dec25ea027a6f8b4e8246f4fa94f26eace1453354950d05d54",
+    ".dockerignore": "abd377df2162e329ef9130cddcbe29a8fd7c9185cba8aef376c622bf6e04acb6",
     ".gitignore": "88365bff662dc429e68cbfae5d14c19a5c756230a03d264d59394c5937ba7934",
     "Dockerfile": "778d6b507b20f372b387003cb5938266ae093a64277ba5d8ab1069ee36f75212",
+    "Dockerfile.cancellation": "faffd5141858b848c166f72e56b39f092bc4b060284bb505591931a60888a837",
     "Dockerfile.grammar": "fdbeb3accd198d5d92e7447683a76a570214c707f183eb2a4a340571bc134f0a",
     "LICENSE": "6fde45f1978fe8f7977e2634cb17b9db23b0f5ecf6c833cdcc51bee67dfe7e50",
-    "README.md": "e5711e3c2ca9047c5f65d706944231149ba61e84b8b8473cba27d7ca501d0bab",
+    "README.md": "7ce208e94d2f951c728584999858e97a21c78cc33599fda85f94f66da1fc7563",
     "THIRD_PARTY.md": "58f5c8bb18c01cf37af570d67e0e2ce64a9a33f19fef845b5e440ba0e64f67e8",
     "TensorFold-LICENSE.txt": "be6a9ee4462784a762b21790954b8e76c4dcacc9fb6da2a40d03a8a9bddec93e",
     "build.py": "75e85f6a3799c78767e723f8b9d322dccbf335d3328662e262e79271f0c32f34",
+    "build_cancellation.py": "937d30dc9b48b9cc62f11e6c8b8d22a3705ea1ce3237d395b76d203bda600bec",
     "build_grammar.py": "6a7e289afe7fe1e7494fbcc020c44dfa8afae7084372a454bd3bd7992adc1cbd",
+    "cancellation/TensorFold-LICENSE.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "cancellation/patch-manifest.json": "19f8f7f263502f9cba3fe545ff9814b220a9cad37d41e5064f148edb6ff5c764",
+    "cancellation/prefill-cancellation.patch": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d",
     "expected-base-inventory.json": "bacf7911ad7a7a6098d3e83f7bf81f3b0f9a0b9bc56e3aefe1d1f6a729dc4b01",
     "expected-grammar-inventory.json": "4de5283c65d04f3d1276fd587d29ab3d160101937561051c079a282fe374b6fb",
     "expected-primary-inventory.json": "6a969eb971198d3a131b69b421b874ce39c6f7142f646a884254cac0a6cb8f55",
@@ -19,6 +30,7 @@
     "inventory.py": "71988e0d2b6a4f85c605d0bacd17a50233663d9df220068d62ea4ab6cd93fc53",
     "pins.json": "e3b00bc2c301981b954ecd1e5b2e7d44943168818455bca3ac50fdab39cc5093",
     "runtime-constraints.txt": "0d037b30f5e202a066e320eb47b281201db9c17022c2049636fc6cc9964f1336",
+    "test_cancellation_variant.py": "0cb910155db94db60a578966663416543e8f282bbc44fe90577a7a67a6f81c18",
     "test_inventory.py": "f09da3302f30d78256bf3a8b9b0073b12cbe5694c7f3744424b43216cbfad7eb",
     "verify_runtime.py": "90f0d327db9c7ecb83ec6cd8ad4d47eb7965cc83511fa42d203704150b3e8d76"
   },

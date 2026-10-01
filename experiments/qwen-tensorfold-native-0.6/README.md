@@ -18,6 +18,38 @@ The build pulls the exact base digest, checks out the exact TensorFold commit, v
 
 This command builds the primary runtime only. It does not download model weights, create a serving configuration, or deploy anything. Use a separately reviewed model staging and launch procedure. Do not treat a successful build or matching package inventory as GPU or end-to-end qualification.
 
+## Separate prefill-cancellation variant
+
+The optional `Dockerfile.cancellation` builds an experimental derivative from
+the exact local image ID emitted by `build.py`. It preserves the stock source
+build and applies a small patch to TensorFold's CUDA scheduler and Qwen Flash
+Next prefill loop. The patch polls the existing cancellation callback between
+prefill passes so a disconnected request can release its slot before first
+token generation. It does not interrupt an already-running GPU kernel.
+
+Build and test this derivative on the same Docker host as the base image; local
+image IDs cannot be transferred between hosts:
+
+```sh
+PARENT_IMAGE_ID="$(python3 -c 'import json; print(json.load(open("./artifacts/build-receipt.json"))["local_image_id"])')"
+python3 build_cancellation.py --parent-image-id "$PARENT_IMAGE_ID" \
+  --tag local/qwen-tensorfold-native:0.6.0-cancel \
+  --receipt ./artifacts/cancellation-build-receipt.json
+```
+
+The derivative verifies the original and patched source-file hashes, applies
+the patch without network access, reinstalls TensorFold without dependency
+resolution, then runs six CPU-only tests against the real `App.run` callback,
+scheduler, and decoder round with GPU work mocked. They cover healthy streaming
+and nonstreaming callbacks, empty SSE behavior, disconnect cancellation, slot
+cleanup, and decoding-peer progress after a cancelled prefill. Passing them
+does not qualify GPU cancellation latency, quality, speed, tools, model API
+behavior beyond the tested callback, or production reliability. Those require
+tests against the exact built image.
+
+The complete patch and source hash manifest are under [`cancellation/`](cancellation/).
+This derivative is not the production recommendation.
+
 ## Optional grammar image
 
 Grammar support is a separate image and remains unqualified. Its pinned package delta is recorded in `grammar-requirements.txt`, with the complete tested 222-package inventory in `expected-grammar-inventory.json`. Build it only from the exact local image ID produced by the primary build:

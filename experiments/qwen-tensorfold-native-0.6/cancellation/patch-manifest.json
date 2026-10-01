@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "upstream_repository": "https://github.com/ashhart/TensorFold",
+  "upstream_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+  "patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+  "files": {
+    "src/tensorfold/cuda/scheduler.py": {
+      "before_sha256": "f83679e8dad563599bacae8c797e3e20613c4a484b029578a920fd241dbbf023",
+      "after_sha256": "fd24d949215c0e5c79f73d304b1d961e26d6aba6a462f1dbbc842a0cb982bf21"
+    },
+    "src/tensorfold/families/qwen4_exp/cuda/multi.py": {
+      "before_sha256": "fb3a790d0727e727674d7a3912a9481a18233398a804e8af5b71bcba22e159da",
+      "after_sha256": "0c2383055511b0658965f8f073905ce8afc0710bf5c29691ac2bc5fea7c4ba60"
+    }
+  },
+  "scope": "Separate native prefill-cancellation derivative; does not modify the stock TensorFold 0.6.0 source build."
+}

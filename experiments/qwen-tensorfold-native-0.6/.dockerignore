@@ -9,3 +9,7 @@
 !Dockerfile.grammar
 !inventory.py
 !verify_runtime.py
+!Dockerfile.cancellation
+!cancellation/prefill-cancellation.patch
+!cancellation/patch-manifest.json
+!cancellation/test_prefill_cancel.py
