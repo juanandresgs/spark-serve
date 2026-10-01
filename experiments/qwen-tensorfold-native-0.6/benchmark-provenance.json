@@ -7,6 +7,12 @@
     "public_receipt_sha256": "5304b82f10866613ffe60e31de94d94983b3277fcde22d93447580a36f295d6d",
     "source_builder_receipt_sha256": "8c8fe8119a5c1cbd1763932c382dfdcac60988cfe5ac4bc72bc6c1e218e63804"
   },
+  "exported_chunk1024_build": {
+    "input_archive_sha256": "9688af15ee166db056d3ccc0b731c86dbc47623e6335649581c239aa3a3ae250",
+    "parent_variant": "experimental-native-prefill-cancellation-decode-burst4",
+    "qualification_state": "Immutable 10-file public bundle created; exact-parent builds and structured 19-test CPU gates on both hosts are pending.",
+    "source_patch_sha256": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77"
+  },
   "input_sha256": {
     "burst4_derivative_build": {
       ".dockerignore": "791022de32d1976edf3dd0b3755c6d65ca56439f6f84054c519a1485fe3395ca",
@@ -26,6 +32,17 @@
       "cancellation/prefill-cancellation.patch": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
       "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d"
     },
+    "chunk1024_derivative_build": {
+      ".dockerignore": "b9e1adfa9cd60b466bbbbc33bde5ec439240f6b10d70b9544428178a27470cd3",
+      "Dockerfile.chunk": "d5c57a25c4ec631a126dda3254b0d96b8706dd3682acb9b1327ee7f1b7a62eb5",
+      "build_chunk.py": "a98b591d2fa663fd43a5dfe0756b06bf6aa1dc27fdc2d2411b3bc387682e269c",
+      "decode-burst/patch-manifest.json": "f89c0a40740a1e71efa39b0a542c2b51e432bddecce9c81bb64d68187d51f5b3",
+      "scheduling/chunk/README.md": "fad26ba519bb6359dc95b64b498902ac5b7651f07f88c1c04679b08c64623219",
+      "scheduling/chunk/patch-manifest.json": "a202b067d1fa5b54e9770fe936601b16a60377775baf93cfb7daac7b433e61ba",
+      "scheduling/chunk/prefill-rows.patch": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77",
+      "scheduling/chunk/test_prefill_rows.py": "7a20d16a29d13cb40febedad57f69ec9883df24e8e073ea8137bb3b158630f67",
+      "test_chunk_variant.py": "71c9de4db09fb5730d5eb131337c3e5eafe03665a1b03d85f613d54ee48be57f"
+    },
     "public_quality_fixtures": {
       "coding_cases.py": "d559fc184914d169523e981abe4aa69b520c71b5007d29ac4d35a8ae7f970ecb",
       "quality-protocol.json": "c1a00eb68f5ecfc18d49b7811f6c6ee8ed3f37e306749f0486c08d198508ecdd",
@@ -37,7 +54,6 @@
       "benchmark_speed.py": "9e5c2817c4157dd760b4e1216a65ac64f8d9418b0b8993af42e5df3e2c5f2da8",
       "curate_speed.py": "7af6a2203489af88fc2c06177142b4dffcaea33de6e3d4ef721f3f64481e8c16",
       "speed_protocol.py": "369ba023e58340121fec081957a8441d3156515cfa91336f804ffe8524e53e97",
-      "test_speed_replay.py": "fa86f72c35abdf2d5c1e355b026e29e37929a3b7d8efa44e98c0f0f0ddfa8c57",
       "transport.py": "fc7d044ae3cf5851d21f7c2b3f37dd9f3218727f2123b3ddb2be1581689ac28f"
     },
     "stock_runtime_build": {

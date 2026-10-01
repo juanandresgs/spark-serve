@@ -36,9 +36,22 @@
     "speed_or_quality_qualified": false,
     "status": "experimental source variant"
   },
-  "hold": "Experimental source variants only. The burst4 derivative has a public build/activation receipt and CPU gate; await GPU/API, correctness, throughput, context, recovery, and endurance qualification before consideration for recommendation. The cancellation-only image remains a separate baseline.",
+  "hold": "Experimental source variants only. Burst4 has a public build/activation receipt and CPU gate. The chained 1024-row derivative is source-only pending exact-parent builds on both native hosts, 19 CPU checks per image, then separate GPU/API, correctness, throughput, context, recovery, and endurance qualification. Keep burst4-only as the distinct 2048-row baseline.",
   "optional_grammar_qualified": false,
   "recipe_id": "qwen-tensorfold-native-exl3",
   "source_build_gpu_qualified": false,
-  "status": "experimental"
+  "status": "experimental",
+  "experimental_cancel_burst4_prefill1024_derivative": {
+    "status": "experimental source variant",
+    "setting": "TF_FLASH_DECODE_BURST=4 and TF_FLASH_PREFILL_ROWS=1024; burst4-only 2048-row image remains separate baseline",
+    "parent_burst_patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+    "patch_sha256": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77",
+    "cpu_test_gate": "Six cancellation, eight burst, and five chunk CPU tests; no skips allowed",
+    "exported_image_built": false,
+    "cpu_test_gate_passed": false,
+    "gpu_qualified": false,
+    "api_roundtrip_qualified": false,
+    "speed_or_quality_qualified": false,
+    "production_recommended": false
+  }
 }

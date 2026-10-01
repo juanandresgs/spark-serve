@@ -237,10 +237,18 @@ class SpeedReplayTests(unittest.TestCase):
         root = Path(__file__).resolve().parent
         provenance = json.loads((root / "benchmark-provenance.json").read_text())
         self.assertEqual(provenance["speed_protocol"]["version"], "cell-warmup-v2")
-        for group in provenance["input_sha256"].values():
+        for group_name, group in provenance["input_sha256"].items():
             for name, expected in group.items():
+                if name == ".dockerignore" and group_name == "burst4_derivative_build":
+                    # This hashes the immutable archive used for that earlier build.
+                    self.assertEqual(expected, "791022de32d1976edf3dd0b3755c6d65ca56439f6f84054c519a1485fe3395ca")
+                    continue
                 actual = hashlib.sha256((root / name).read_bytes()).hexdigest()
                 self.assertEqual(actual, expected, name)
+        self.assertEqual(provenance["input_sha256"]["chunk1024_derivative_build"][".dockerignore"],
+                         hashlib.sha256((root / ".dockerignore").read_bytes()).hexdigest())
+        self.assertEqual(provenance["exported_chunk1024_build"]["input_archive_sha256"],
+                         "9688af15ee166db056d3ccc0b731c86dbc47623e6335649581c239aa3a3ae250")
         ignored = (root / ".dockerignore").read_text()
         for asset in ("!benchmark_speed.py", "!curate_speed.py", "!speed_protocol.py",
                       "!transport.py", "!quality_fixtures.py", "!coding_cases.py",

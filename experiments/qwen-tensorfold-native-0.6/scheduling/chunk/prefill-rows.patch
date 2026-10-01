@@ -1,0 +1,14 @@
+--- a/src/tensorfold/families/qwen4_exp/cuda/multi.py
++++ b/src/tensorfold/families/qwen4_exp/cuda/multi.py
+@@ -54,6 +54,11 @@
+             raise ValueError("TF_FLASH_DECODE_BURST must be 1 or 4")
+         self.decode_burst = int(burst)
+         self._decode_since_fill = self.decode_burst
++        chunk = os.environ.get("TF_FLASH_PREFILL_ROWS")
++        if chunk is not None:
++            if chunk not in ("1024", "2048"):
++                raise ValueError("TF_FLASH_PREFILL_ROWS must be 1024 or 2048")
++            prefill_rows = int(chunk)
+         if w.comm is not None:
+             raise ValueError("concurrent Flash Next runs on one GPU for now")
+         self.w, self.depth, self.confidence, self.capacity = w, depth, confidence, capacity

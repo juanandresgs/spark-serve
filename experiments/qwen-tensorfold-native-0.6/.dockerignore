@@ -18,3 +18,9 @@
 !decode-burst/decode-burst.patch
 !decode-burst/patch-manifest.json
 !decode-burst/test_decode_burst.py
+!Dockerfile.chunk
+!build_chunk.py
+!scheduling/chunk/README.md
+!scheduling/chunk/prefill-rows.patch
+!scheduling/chunk/patch-manifest.json
+!scheduling/chunk/test_prefill_rows.py

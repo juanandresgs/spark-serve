@@ -198,3 +198,30 @@ The builder checks the requested local ID, binds a unique temporary Docker tag t
 The cancellation-plus-burst4 derivative has a linked public build and activation receipt and passed 14 mocked-GPU CPU checks. Its startup and direct health check were observed, but the receipt records no named API roundtrip. No GPU cancellation-latency, speed, quality, full-context, restart/reboot recovery, endurance, or serving qualification is established by that build. Quality fixtures are included for inspection, but this kit has no portable quality-evaluation runner or model-result receipt. Grammar support is deliberately not included in the base image. This experimental recipe makes no performance or recommendation claim.
 
 See the [recipe qualification record](../../recipes/qwen-tensorfold-native-exl3/qualification.json) and [third-party notices](THIRD_PARTY.md).
+
+## Separate burst4 plus 1024-row prefill derivative
+
+The optional `scheduling/chunk/` patch chains after the retained burst4 image.
+It validates `TF_FLASH_PREFILL_ROWS` as `1024` or `2048` before GPU allocation;
+when unset, the runtime's supplied constructor value remains unchanged. The
+public experimental derivative selects 1024 rows and keeps
+`TF_FLASH_DECODE_BURST=4`. The burst4-only 2048-row image remains a separate
+baseline. The patch changes one TensorFold source file and does not update
+dependencies.
+
+Build it on each Docker host from the exact local ID of that host's burst4
+image; local image IDs cannot be transferred between hosts:
+
+```sh
+PARENT_BURST_ID="$(python3 -c 'import json; print(json.load(open("./artifacts/burst4-build-receipt.json"))["local_image_id"])')"
+python3 build_chunk.py --parent-burst-image-id "$PARENT_BURST_ID" \
+  --tag local/qwen-tensorfold-native:0.6.0-cancel-burst4-prefill1024 \
+  --receipt ./artifacts/chunk-build-receipt.json
+```
+
+The builder binds the exact parent image, verifies the runtime and burst patch
+source hashes, applies the 1024-row patch without network access, checks the
+installed source hash, and runs 19 cancellation/scheduler CPU tests (six
+cancellation, eight burst, five prefill-row tests). CPU checks do not establish
+GPU behavior, speed, quality, or serving reliability. This variant remains
+experimental until separate GPU/API qualification.
