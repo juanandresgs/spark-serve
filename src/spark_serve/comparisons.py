@@ -15,10 +15,14 @@ from spark_serve.recipes import asset, read_recipe, source_root
 from spark_serve.comparison_charts import outputs as chart_outputs
 
 
-def value(root, reference):
+def value(root, reference, allow_null=False):
     result = json.loads(asset(root, reference['file']).read_text())
     for key in reference['path']:
         result = result[key]
+    if result is None:
+        if allow_null:
+            return None
+        raise ValueError('Null comparison values need a nonempty explanation')
     if isinstance(result, bool) or not isinstance(result, (int, float)) or not math.isfinite(result):
         raise ValueError('Comparison evidence must resolve to a finite number')
     return result
@@ -27,10 +31,18 @@ def value(root, reference):
 def cell(root, spec):
     if '%' in spec['format']:
         raise ValueError('Percentage cells require the evidence.percent_change comparability gate')
+    null_text = spec.get('null_text')
+    if null_text is not None and (not isinstance(null_text, str) or not null_text.strip()):
+        raise ValueError('Null comparison values need a nonempty explanation')
     for ref in spec['refs']:
         if not ref['file'].startswith('evidence/runs/') or ref['path'][0] != 'measurements' or ref['path'][-1] != 'value':
             raise ValueError('Comparison values must reference structured run measurements')
-    return spec['format'].format(*(value(root, ref) for ref in spec['refs']))
+    values = [value(root, ref, allow_null=null_text is not None) for ref in spec['refs']]
+    if any(item is None for item in values):
+        if null_text is None:
+            raise ValueError('Null comparison values need a nonempty explanation')
+        return null_text
+    return spec['format'].format(*values)
 
 
 def load(root):
