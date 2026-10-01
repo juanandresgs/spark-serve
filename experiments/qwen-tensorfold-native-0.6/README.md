@@ -1,6 +1,6 @@
 # TensorFold 0.6.0 native source build (experimental)
 
-This is a public, portable source-build scaffold for TensorFold 0.6.0 and the pinned Qwen EXL3 model. It is retained for evaluation only. It is not the production recommendation, and this public source kit has not yet been rebuilt on a DGX Spark or qualified for GPU behavior, model quality, throughput, or serving reliability.
+This is a public, portable source-build scaffold for TensorFold 0.6.0 and the pinned Qwen EXL3 model. It is retained for evaluation only, not as the production recommendation. The separate cancellation-plus-burst4 derivative was built from the archived public package and passed its 14-test CPU gate. Its image was started in a rank-2-only experimental maintenance slot with the burst setting verified; a named API roundtrip had not yet run in the activation receipt. GPU behavior, throughput, quality, and serving reliability are not qualified.
 
 The base image, runtime commit, and model revision are pinned in `pins.json`. The base image's 216-package inventory and the tested primary runtime's 217-package inventory differ only by TensorFold 0.6.0. `runtime-constraints.txt` pins the base inventory; it is not an install requirements file. The Dockerfile installs the pinned TensorFold source without dependency resolution, checks that every active TensorFold dependency is present and satisfies its declared version, then compares the complete result with `expected-primary-inventory.json`. A build fails for missing packages, extra packages, or version drift. Capture method and package deltas are recorded in [`inventory-provenance.json`](inventory-provenance.json).
 
@@ -99,6 +99,23 @@ checks the canonical fixture hash, request body, bearer-token handling, warmup
 exclusion, privacy boundary, and missing-result curation without calling a
 model endpoint.
 
+## Bounded synthetic quality sample definitions
+
+`quality_fixtures.py`, `coding_cases.py`, and `quality_contract.py` preserve the
+exact generated arithmetic, Python-semantics, FIFO-state, graph-distance, and
+20 small executable coding cases used by the bounded quality screen. The
+matching seeds, request settings, prompt wrappers, completion rule, and grading
+contract are summarized in `quality-protocol.json`. The two reasoning sets
+contain 200 rows each but 195 distinct prompts; they are separate seed repeats,
+not 390 unique questions. The coding cases are 20 synthetic tasks, not a broad
+coding benchmark.
+
+These files make prompts and grading inspectable, but this source kit does not
+include a portable quality-evaluation runner or execution sandbox. They do not
+reproduce a model result by themselves. The public result table identifies its
+seed set and counts; do not infer general model quality from these bounded
+fixtures.
+
 ## Separate prefill-cancellation variant
 
 The optional `Dockerfile.cancellation` builds an experimental derivative from
@@ -131,6 +148,38 @@ tests against the exact built image.
 The complete patch and source hash manifest are under [`cancellation/`](cancellation/).
 This derivative is not the production recommendation.
 
+## Optional cancellation plus decode-burst-4 derivative
+
+The separate `decode-burst/` patch applies only after the cancellation-only
+derivative. It adds `TF_FLASH_DECODE_BURST`, whose default remains `1`; the
+burst image sets it to `4`. The scheduler uses the same 2048-row EXL3 passes
+and runs up to four completed decode rounds between ordinary prompt-prefill
+passes while existing streams are active. A standalone fill and a newly
+admitted prompt after decode-only work still receive immediate fill priority.
+This is a prompt-latency versus active-stream responsiveness tradeoff, not a
+claimed optimization. The cancellation-only image and default behavior remain
+separate baselines.
+
+Build on the same Docker host as the exact cancellation-only image. Use its local
+image ID from the cancellation build receipt; the ID is not portable between
+Docker stores or hosts:
+
+```sh
+PARENT_CANCEL_ID="$(python3 -c 'import json; print(json.load(open("./artifacts/cancellation-build-receipt.json"))["local_image_id"])')"
+python3 build_burst.py --parent-cancellation-image-id "$PARENT_CANCEL_ID" \
+  --tag local/qwen-tensorfold-native:0.6.0-cancel-burst4 \
+  --receipt ./artifacts/burst4-build-receipt.json
+```
+
+The builder checks the parent variant and runtime revision, binds and rechecks a
+throwaway local tag, verifies the cancellation-patched source hashes before
+applying the burst patch, reinstalls without dependency resolution, verifies
+the resulting source hash, and runs both test suites. The expected result is
+eight scheduler and six cancellation CPU checks, with no skips. These mock-GPU
+checks validate code paths and source composition only; they do not establish
+GPU cancellation latency, prompt latency, decode rate, quality, or serving
+behavior.
+
 ## Optional grammar image
 
 Grammar support is a separate image and remains unqualified. Its pinned package delta is recorded in `grammar-requirements.txt`, with the complete tested 222-package inventory in `expected-grammar-inventory.json`. Build it only from the exact local image ID produced by the primary build:
@@ -146,6 +195,6 @@ The builder checks the requested local ID, binds a unique temporary Docker tag t
 
 ## Qualification boundary
 
-The scaffold still needs an actual build from this exported public kit on the target Spark, followed by model load and API/tool checks. Quality, speed, full-context behavior, restart/reboot recovery, endurance, and optional grammar support are unmeasured here. Grammar support is deliberately not included in this base image. No performance or recommendation claim is made by this experimental recipe.
+The cancellation-plus-burst4 derivative has a linked public build and activation receipt and passed 14 mocked-GPU CPU checks. Its startup and direct health check were observed, but the receipt records no named API roundtrip. No GPU cancellation-latency, speed, quality, full-context, restart/reboot recovery, endurance, or serving qualification is established by that build. Quality fixtures are included for inspection, but this kit has no portable quality-evaluation runner or model-result receipt. Grammar support is deliberately not included in the base image. This experimental recipe makes no performance or recommendation claim.
 
 See the [recipe qualification record](../../recipes/qwen-tensorfold-native-exl3/qualification.json) and [third-party notices](THIRD_PARTY.md).

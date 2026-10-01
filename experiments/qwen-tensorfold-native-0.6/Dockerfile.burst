@@ -1,0 +1,39 @@
+ARG PARENT_IMAGE
+FROM ${PARENT_IMAGE}
+ARG TENSORFOLD_REV=c4646171139ee8a3c38103eaa1699dad226ec12b
+ENV TF_FLASH_DECODE_BURST=4
+LABEL org.opencontainers.image.source="https://github.com/ashhart/TensorFold" \
+      org.opencontainers.image.revision="${TENSORFOLD_REV}" \
+      org.opencontainers.image.description="Experimental cancellation plus EXL3 decode-burst derivative" \
+      org.dgx-spark-serve.tensorfold.variant="experimental-native-prefill-cancellation-decode-burst4" \
+      org.dgx-spark-serve.tensorfold.decode-burst-patch-sha256="075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a"
+
+COPY cancellation/patch-manifest.json /opt/spark-serve/decode-burst/cancellation-patch-manifest.json
+COPY decode-burst/decode-burst.patch decode-burst/patch-manifest.json decode-burst/test_decode_burst.py /opt/spark-serve/decode-burst/
+RUN python - <<'PY'
+import hashlib, json, pathlib, subprocess
+root = pathlib.Path('/opt/spark-serve/decode-burst')
+cancel = json.loads((root / 'cancellation-patch-manifest.json').read_text())
+burst = json.loads((root / 'patch-manifest.json').read_text())
+assert burst['upstream_commit'] == 'c4646171139ee8a3c38103eaa1699dad226ec12b'
+assert burst['parent_cancellation_patch_sha256'] == cancel['patch_sha256']
+src = pathlib.Path('/opt/tensorfold-source')
+assert subprocess.check_output(['git', '-C', str(src), 'rev-parse', 'HEAD'], text=True).strip() == burst['upstream_commit']
+for rel, info in cancel['files'].items():
+    assert hashlib.sha256((src / rel).read_bytes()).hexdigest() == info['after_sha256'], rel
+for rel, info in burst['files'].items():
+    assert hashlib.sha256((src / rel).read_bytes()).hexdigest() == info['before_sha256'], rel
+patch = root / 'decode-burst.patch'
+assert hashlib.sha256(patch.read_bytes()).hexdigest() == burst['patch_sha256']
+PY
+RUN cd /opt/tensorfold-source && \
+    git apply --check /opt/spark-serve/decode-burst/decode-burst.patch && \
+    git apply /opt/spark-serve/decode-burst/decode-burst.patch && \
+    python -m pip install --no-deps --no-build-isolation --no-cache-dir . && \
+    python - <<'PY'
+import hashlib, json, pathlib, tensorfold
+m = json.loads(pathlib.Path('/opt/spark-serve/decode-burst/patch-manifest.json').read_text())
+src = pathlib.Path(tensorfold.__file__).resolve().parent.parent
+for rel, info in m['files'].items():
+    assert hashlib.sha256((src / rel.removeprefix('src/')).read_bytes()).hexdigest() == info['after_sha256'], rel
+PY

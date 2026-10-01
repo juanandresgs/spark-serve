@@ -21,10 +21,18 @@ separately.
 
 [The pinned README at 856bb6b](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md)
 and [the rechecked upstream README at a3aa898](https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/a3aa89835022c55ca8e55008c37785954834e04f/README.md)
-retain the same C4 prose and long-prompt prefill figures used in our table.
-The table labels these as decode throughput and time to first token respectively.
+retain the C1 and C4 prose decode rows and long-prompt prefill figures used in
+our table. The table labels decode rate and time to first token separately.
 Our local measurements count the whole request group or a completed JSON answer.
 They cannot be used to calculate a cross-source speedup.
+
+The pinned README also reports a C1 prose decode row: 62.4 aggregate/per-request
+tokens/s and 152 ms to first token. That row used one active request with four
+configured streams; its sample count and exact decode-rate denominator are not
+stated. We preserve it as a separate supplemental source snapshot and do not
+compare it directly with local full-request group throughput, which includes
+prefill and wall time for the whole group. A local C1 cell will be added only
+for the final selected-image run.
 
 Public C4 and prefill observations used four streams; the current five-stream
 default is a separate configuration. The public runtime is TensorFold 0.3.6.3,

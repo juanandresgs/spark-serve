@@ -1,17 +1,44 @@
 {
-  "recipe_id": "qwen-tensorfold-native-exl3",
-  "status": "experimental",
-  "evidence_scope": "Pinned public source scaffold and sanitized package inventories from tested native images. The exported source kit has not been rebuilt; these inventory records alone do not qualify GPU behavior, model quality, throughput, full-context, or deployment behavior.",
-  "source_build_gpu_qualified": false,
-  "destination_acceptance_required": true,
-  "hold": "Experimental source path only. Await exported-kit GPU rebuild and separate correctness/serving qualification before consideration for recommendation. The optional cancellation derivative is a separate variant and also requires exact-image GPU/API qualification.",
   "cancellation_derivative": {
-    "status": "experimental",
-    "patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "candidate_cpu_result": "Six cancellation CPU checks pass as part of the 14-test public burst4 derivative gate; cancellation-only GPU and serving behavior are not qualified.",
     "cpu_test_suite": "Six-test gate includes actual App.run callback, scheduler, and MultiDecoder.round peer-progress coverage; GPU work mocked",
-    "candidate_cpu_result": "Previous five-test callback/scheduler suite passed on a candidate image; six-test suite awaits exported-image build gate",
     "gpu_cancellation_latency_qualified": false,
-    "production_recommended": false
+    "patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "production_recommended": false,
+    "status": "experimental"
   },
-  "optional_grammar_qualified": false
+  "destination_acceptance_required": true,
+  "evidence_scope": "The pinned stock-source scaffold and separate cancellation-plus-burst4 derivative are experimental. The archived burst4 derivative build passed its 14-test mocked-GPU CPU gate and was started in a rank-2-only maintenance slot with TF_FLASH_DECODE_BURST=4 observed. A named API roundtrip had not yet run in the activation receipt. No GPU cancellation latency, speed, model quality, full-context, endurance, reboot-recovery, or serving qualification is established.",
+  "experimental_cancel_burst4_derivative": {
+    "activation_observed": true,
+    "activation_receipt_sha256": "e4ca2d43c2a9851999ccb3f4c32ca206f9f5ae700b56ce001cda9fe8230a9be4",
+    "api_roundtrip_qualified": false,
+    "build_receipt": "experiments/qwen-tensorfold-native-0.6/receipts/qwen-native-burst4-build-rank2-20261001-v1.json",
+    "build_receipt_sha256": "5304b82f10866613ffe60e31de94d94983b3277fcde22d93447580a36f295d6d",
+    "cpu_test_gate": "Eight scheduler and six cancellation tests required on the exact exported derivative image.",
+    "cpu_test_gate_passed": true,
+    "cpu_test_result": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "successful": true,
+      "tests_run": 14
+    },
+    "exported_image_built": true,
+    "gpu_cancellation_latency_qualified": false,
+    "local_image_id": "sha256:147f9fecc3edeae78efaf9bbf3c280f2addea47c141cedcb9dea3a527d205c66",
+    "local_image_id_semantics": "daemon-store-specific; may identify config or manifest",
+    "parent_cancellation_patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+    "production_recommended": false,
+    "setting": "TF_FLASH_DECODE_BURST=4; cancellation-only derivative remains the separate baseline",
+    "source_archive_sha256": "5923a65316d56aebb2e517bc1e3abe8e0bbd1c60ec5bcfe39f03bbe4df53673c",
+    "speed_or_quality_qualified": false,
+    "status": "experimental source variant"
+  },
+  "hold": "Experimental source variants only. The burst4 derivative has a public build/activation receipt and CPU gate; await GPU/API, correctness, throughput, context, recovery, and endurance qualification before consideration for recommendation. The cancellation-only image remains a separate baseline.",
+  "optional_grammar_qualified": false,
+  "recipe_id": "qwen-tensorfold-native-exl3",
+  "source_build_gpu_qualified": false,
+  "status": "experimental"
 }

@@ -1,0 +1,51 @@
+--- a/src/tensorfold/families/qwen4_exp/cuda/multi.py
++++ b/src/tensorfold/families/qwen4_exp/cuda/multi.py
+@@ -3,6 +3,7 @@
+ from __future__ import annotations
+ 
+ import time
++import os
+ 
+ import numpy as np
+ import torch
+@@ -42,9 +43,17 @@
+ class MultiDecoder:
+     """Rounds over the live streams; ``slots`` streams at most, each with ``capacity`` tokens of context."""
+ 
++    decode_burst = 1
++    _decode_since_fill = 1
++
+     def __init__(self, w, *, slots: int, capacity: int, depth: int = DEPTH, confidence: float = CONFIDENCE,
+                  stop_eos: bool = True, keep: int = 8, kv_dtype: str = "bf16", prefill_rows: int = PREFILL_ROWS,
+                  share: float = SHARE) -> None:
++        burst = os.environ.get("TF_FLASH_DECODE_BURST", "1")
++        if burst not in ("1", "4"):
++            raise ValueError("TF_FLASH_DECODE_BURST must be 1 or 4")
++        self.decode_burst = int(burst)
++        self._decode_since_fill = self.decode_burst
+         if w.comm is not None:
+             raise ValueError("concurrent Flash Next runs on one GPU for now")
+         self.w, self.depth, self.confidence, self.capacity = w, depth, confidence, capacity
+@@ -392,7 +401,12 @@
+             return stopped
+         ended = self._make_room()                      # every stream's caches hold this round, or the newest wait
+         live = [s for s in self.streams.values() if not s.done and not s.waiting]
+-        if self.filling and (not live or not self.converged):
++        # No outstanding mixed work: the next prompt gets its first pass immediately.
++        if not self.filling or not live:
++            self._decode_since_fill = self.decode_burst
++        fill_due = not live or self._decode_since_fill >= self.decode_burst
++        if self.filling and (not live or not self.converged) and fill_due:
++            self._decode_since_fill = 0
+             ended += self._fill()                      # passes alone; a prompt that ends here joins this round
+             live = [s for s in self.streams.values() if not s.done and not s.waiting]
+         if not live:
+@@ -478,6 +492,8 @@
+         done = [s for s in live if s.done]
+         for s in done:                                   # a finished stream's state is never read again
+             self.held.pop(s.sid, None)
++        if self.filling and not self.converged:
++            self._decode_since_fill += 1              # completed decode rounds, never host polling iterations
+         return failed + done + ended
+ 
+     def _draft_all(self, streams: list) -> None:

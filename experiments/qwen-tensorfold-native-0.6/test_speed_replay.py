@@ -135,7 +135,7 @@ class SpeedReplayTests(unittest.TestCase):
             path.write_text(json.dumps(good | {"endpoint": "https://private.invalid"}))
             with self.assertRaisesRegex(ValueError, "unknown"):
                 benchmark_speed.load_identity(path)
-            path.write_text(json.dumps(good | {"node": "rank3"}))
+            path.write_text(json.dumps(good | {"node": "node-placeholder"}))
             with self.assertRaisesRegex(ValueError, "unknown"):
                 benchmark_speed.load_identity(path)
             path.write_text(json.dumps(good | {"settings": {"parallel_slots": 4}}))
@@ -242,8 +242,12 @@ class SpeedReplayTests(unittest.TestCase):
                 actual = hashlib.sha256((root / name).read_bytes()).hexdigest()
                 self.assertEqual(actual, expected, name)
         ignored = (root / ".dockerignore").read_text()
-        self.assertNotIn("!benchmark_speed.py", ignored)
-        self.assertNotIn("!transport.py", ignored)
+        for asset in ("!benchmark_speed.py", "!curate_speed.py", "!speed_protocol.py",
+                      "!transport.py", "!quality_fixtures.py", "!coding_cases.py",
+                      "!quality_contract.py"):
+            self.assertNotIn(asset, ignored)
+        for asset in ("!Dockerfile.burst", "!build_burst.py", "!decode-burst/decode-burst.patch"):
+            self.assertIn(asset, ignored)
 
 
 if __name__ == "__main__":

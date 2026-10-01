@@ -318,7 +318,7 @@
           ]
         },
         {
-          "metric": "Fresh reasoning latency, median / p95 \u2193",
+          "metric": "Fresh reasoning latency, C4 median / p95 \u2193",
           "cells": [
             {
               "refs": [
@@ -365,7 +365,7 @@
           ]
         },
         {
-          "metric": "Coding latency, median / p95 \u2193",
+          "metric": "Coding latency, C4 median / p95 \u2193",
           "cells": [
             {
               "refs": [
@@ -559,6 +559,24 @@
         "Comparison boundary"
       ],
       "rows": [
+        {
+          "metric": "Qwen C1 prose decode",
+          "boundary": "Pinned MiaAI-Lab C1 row: one active request on a four-stream backend. The source does not state its repetition count or exact decode-rate denominator. The local result includes prefill and full request-group wall time, so these rates are not directly comparable.",
+          "local_pending": "Pending final selected-image C1 result",
+          "public": {
+            "refs": [
+              {
+                "file": "evidence/runs/import-20261001-public-qwen-c1-reported-v1.json",
+                "path": [
+                  "measurements",
+                  0,
+                  "value"
+                ]
+              }
+            ],
+            "format": "{0:.1f} tokens/s"
+          }
+        },
         {
           "metric": "Qwen C4 prose",
           "boundary": "Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. The public README does not state repetitions for its C4 decode row.",

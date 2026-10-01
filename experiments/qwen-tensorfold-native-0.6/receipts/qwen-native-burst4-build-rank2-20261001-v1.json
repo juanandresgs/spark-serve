@@ -1,0 +1,54 @@
+{
+  "activation_observation": {
+    "direct_health": "passed",
+    "gpu_cancellation_and_performance": "pending evaluator qualification",
+    "image_id_matches_build": true,
+    "named_api_roundtrip": "not yet run by evaluator at receipt time",
+    "observed_at_utc": "2026-10-01T09:11:45Z",
+    "production_changed": false,
+    "public_clients_changed": false,
+    "running_environment": {
+      "TF_FLASH_DECODE_BURST": "4"
+    },
+    "runtime_source_verification": "Docker build validated the pinned runtime source revision and parent cancellation file hashes, then applied the burst patch and checked installed source hashes against the burst manifest.",
+    "scope": "rank2-only experimental maintenance arm",
+    "source_receipt_sha256": "e4ca2d43c2a9851999ccb3f4c32ca206f9f5ae700b56ce001cda9fe8230a9be4"
+  },
+  "burst_patch_manifest_sha256": "f89c0a40740a1e71efa39b0a542c2b51e432bddecce9c81bb64d68187d51f5b3",
+  "burst_patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+  "burst_test_source_sha256": "ce3994859ef83e48a6e27a56b612cc5b9d7ae8bd4e740ce4e7367df3206274a1",
+  "cancellation_test_source_sha256": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d",
+  "cpu_test_result": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "successful": true,
+    "tests_run": 14
+  },
+  "id": "qwen-native-burst4-build-rank2-20261001-v1",
+  "local_image_id": "sha256:147f9fecc3edeae78efaf9bbf3c280f2addea47c141cedcb9dea3a527d205c66",
+  "local_image_id_semantics": "daemon-store-specific; may identify config or manifest",
+  "parent_cancellation_patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+  "platform": {
+    "architecture": "arm64",
+    "os": "linux"
+  },
+  "qualification": {
+    "build": "passed",
+    "cpu_gate": "passed",
+    "gpu_cancellation_latency": "not qualified",
+    "quality": "not qualified",
+    "serving": "not qualified",
+    "speed": "not qualified"
+  },
+  "record_type": "public_build_receipt",
+  "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+  "schema_version": 1,
+  "scope": "Allowlisted fields from the local builder receipt. Host paths, parent/host identifiers, rootfs layer lists, and raw test output are omitted. The local image ID is daemon-store-specific and is not a portable registry reference.",
+  "settings": {
+    "TF_FLASH_DECODE_BURST": 4
+  },
+  "source_archive_sha256": "5923a65316d56aebb2e517bc1e3abe8e0bbd1c60ec5bcfe39f03bbe4df53673c",
+  "source_receipt_sha256": "8c8fe8119a5c1cbd1763932c382dfdcac60988cfe5ac4bc72bc6c1e218e63804",
+  "variant": "experimental-native-prefill-cancellation-decode-burst4"
+}

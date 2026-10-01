@@ -90,7 +90,10 @@ def load(root):
                     if not row['boundary']:
                         raise ValueError('Public row needs a comparison boundary')
                     cell(root, row['public'])
-                    cell(root, row['local'])
+                    if 'local' in row:
+                        cell(root, row['local'])
+                    elif not isinstance(row.get('local_pending'), str) or not row['local_pending'].strip():
+                        raise ValueError('Public row needs a local result or an explicit pending explanation')
             else:
                 if table['kind'] != 'matched-local':
                     raise ValueError('Unknown local comparison kind')
@@ -152,7 +155,8 @@ def render(root):
         rows = []
         for row in spec['rows']:
             if spec['kind'] == 'unmatched-public':
-                rows.append([row['metric'], cell(root, row['public']), cell(root, row['local']), row['boundary']])
+                local = cell(root, row['local']) if 'local' in row else row['local_pending']
+                rows.append([row['metric'], cell(root, row['public']), local, row['boundary']])
             else:
                 rows.append([row['metric'], *(cell(root, c) for c in row['cells'])])
         rendered[key] = table(spec['columns'], rows) + '\n\n' + spec['scope']

@@ -75,6 +75,16 @@ class ComparisonChecks(unittest.TestCase):
             with self.assertRaisesRegex(ConfigError, 'boundary'):
                 load(root)
 
+    def test_public_reference_can_explain_pending_local_selected_image(self):
+        data = load(ROOT)
+        row, = [r for r in data['tables']['public']['rows']
+                if r['metric'] == 'Qwen C1 prose decode']
+        self.assertNotIn('local', row)
+        self.assertEqual(row['local_pending'], 'Pending final selected-image C1 result')
+        rendered = render(ROOT)
+        self.assertIn('62.4 tokens/s', rendered)
+        self.assertIn('Pending final selected-image C1 result', rendered)
+
     def test_charts_follow_evidence_and_detect_chart_drift(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

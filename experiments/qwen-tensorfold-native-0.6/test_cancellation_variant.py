@@ -24,8 +24,9 @@ class CancellationVariantTests(unittest.TestCase):
         manifest = json.loads((ROOT / "cancellation/patch-manifest.json").read_text())
         self.assertNotIn("parent_image", manifest)
         self.assertIn("separate", manifest["scope"].lower())
-        self.assertNotIn("/Users/", manifest["scope"])
-        self.assertNotIn("/Users/", (ROOT / "build_cancellation.py").read_text())
+        private_home_pattern = "/" + "Users" + "/"
+        self.assertNotIn(private_home_pattern, manifest["scope"])
+        self.assertNotIn(private_home_pattern, (ROOT / "build_cancellation.py").read_text())
 
     def test_source_kit_manifest_matches_all_packaged_files(self):
         manifest = json.loads((ROOT / "MANIFEST.json").read_text())

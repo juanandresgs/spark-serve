@@ -112,9 +112,7 @@ and [Affine4 performance and methodology](recipes/qwen38-flash-affine4-1spark/PE
 
 {{qwen}}
 
-Reasoning and coding correctness/latency use sampled thinking; C4 throughput
-and context checks use thinking off. Repeated reasoning fixtures are excluded
-from the totals. Correctness is separate from speed.
+Reasoning and coding correctness/latency rows use sampled thinking with C4 (four concurrent clients per group); no C1 quality-latency row is reported. C4 throughput and context checks use thinking off. Repeated reasoning fixtures are excluded from the totals. Correctness is separate from speed.
 
 </details>
 
@@ -169,6 +167,10 @@ new-site behavior. Recoverable startup allocation warnings remain unresolved.
 The following are **historical figures reported by MiaAI-Lab**, preserved at
 pinned source revisions. Public decode rates differ from our full-group Qwen
 rates, and public prefill latency differs from our completed-response latency.
+The public C1 reference is one active request on a four-stream backend; the
+source does not report its repetition count or exact decode-rate denominator.
+Its local selected-image C1 comparison is pending. We will preserve timing
+boundaries and will not infer a cross-source winner.
 
 {{public}}
 

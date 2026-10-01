@@ -13,3 +13,8 @@
 !cancellation/prefill-cancellation.patch
 !cancellation/patch-manifest.json
 !cancellation/test_prefill_cancel.py
+!Dockerfile.burst
+!build_burst.py
+!decode-burst/decode-burst.patch
+!decode-burst/patch-manifest.json
+!decode-burst/test_decode_burst.py

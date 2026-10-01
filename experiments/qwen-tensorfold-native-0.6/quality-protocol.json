@@ -1,0 +1,40 @@
+{
+  "coding_cases": 20,
+  "coding_cases_sha256": "32e2c1e1434a0d943ede77b9c20595065fdb3898342ea0452db197df99236942",
+  "coding_grade": "Remove one optional Python fence, execute solve(x) against every trusted input/expected pair in an isolated CPU sandbox, require exit code 0 and CHECKS_PASSED.",
+  "coding_prompt_seed_bases": [
+    61000,
+    72000
+  ],
+  "completion_gate": "finish_reason must be stop and the request must have no transport/API error.",
+  "generation": {
+    "enable_thinking": true,
+    "max_tokens": 8192,
+    "reasoning_effort_chat_template": "medium",
+    "reasoning_effort_top_level": "medium",
+    "temperature": 1,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "reasoning_fixture_seeds": [
+    937,
+    1459
+  ],
+  "reasoning_fixture_sha256": "4536b2d82b43be0cc79f17eee26dc3e9963457ac9e427f70dbf3726fdc2bb5a8",
+  "reasoning_grade": "Only a JSON object with exactly one integer key named answer is format-compliant; logical answer accepts an optional json fence, with booleans rejected as integers.",
+  "reasoning_prompt_seed_bases": [
+    61000,
+    72000
+  ],
+  "reasoning_prompts_per_seed_set": 200,
+  "reasoning_unique_prompts": 195,
+  "request": {
+    "clients_per_group": 4,
+    "concurrency": "C4: four concurrent client requests in each reasoning or coding latency group",
+    "prompt_seed": "base_seed + fixture_index",
+    "stream": true,
+    "stream_usage": true
+  },
+  "runner_included": false,
+  "scope": "Synthetic exact-answer reasoning and 20 executable coding cases; not a broad model-quality benchmark."
+}

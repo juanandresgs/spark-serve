@@ -133,14 +133,12 @@ and [Affine4 performance and methodology](recipes/qwen38-flash-affine4-1spark/PE
 | Short-request p95 during mixed long/short traffic ↓ | 2.721 s | 1.115 s |
 | Distinct reasoning answers correct ↑ | 294/296 | 296/296 |
 | Executable coding tasks correct ↑ | 20/20 | 20/20 |
-| Fresh reasoning latency, median / p95 ↓ | 7.09 / 34.31 s | 8.56 / 58.61 s |
-| Coding latency, median / p95 ↓ | 12.67 / 25.06 s | 14.80 / 243.56 s |
+| Fresh reasoning latency, C4 median / p95 ↓ | 7.09 / 34.31 s | 8.56 / 58.61 s |
+| Coding latency, C4 median / p95 ↓ | 12.67 / 25.06 s | 14.80 / 243.56 s |
 
 Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians; context/mixed/quality checks have their own sample limits. Runtime and model pack differ; this does not establish exact image identity.
 
-Reasoning and coding correctness/latency use sampled thinking; C4 throughput
-and context checks use thinking off. Repeated reasoning fixtures are excluded
-from the totals. Correctness is separate from speed.
+Reasoning and coding correctness/latency rows use sampled thinking with C4 (four concurrent clients per group); no C1 quality-latency row is reported. C4 throughput and context checks use thinking off. Repeated reasoning fixtures are excluded from the totals. Correctness is separate from speed.
 
 </details>
 
@@ -204,9 +202,14 @@ new-site behavior. Recoverable startup allocation warnings remain unresolved.
 The following are **historical figures reported by MiaAI-Lab**, preserved at
 pinned source revisions. Public decode rates differ from our full-group Qwen
 rates, and public prefill latency differs from our completed-response latency.
+The public C1 reference is one active request on a four-stream backend; the
+source does not report its repetition count or exact decode-rate denominator.
+Its local selected-image C1 comparison is pending. We will preserve timing
+boundaries and will not infer a cross-source winner.
 
 | Model / metric | Public reference | Our result | Comparison boundary |
 | --- | --- | --- | --- |
+| Qwen C1 prose decode | 62.4 tokens/s | Pending final selected-image C1 result | Pinned MiaAI-Lab C1 row: one active request on a four-stream backend. The source does not state its repetition count or exact decode-rate denominator. The local result includes prefill and full request-group wall time, so these rates are not directly comparable. |
 | Qwen C4 prose | 106.7 tokens/s | 85.99 tokens/s | Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. The public README does not state repetitions for its C4 decode row. |
 | Qwen long-prompt latency | 59.60 s at 131,110 tokens | 534.79 s at 253,843 tokens | Public time to first token; local EXL3 time to complete validated JSON, with a much longer prompt. Separate historical tests. |
 | GLM single-request prose | 32.1 tokens/s | 24.98 tokens/s | Public adaptive **FP8 dense** configuration; ours retains **BF16 dense** layers |

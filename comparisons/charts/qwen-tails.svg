@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="796" viewBox="0 0 600 796" role="img" aria-labelledby="title desc">
 <title id="title">Qwen · the reasoning latency tradeoff</title>
-<desc id="desc">P95 completed-response latencies for fresh reasoning and executable coding fixtures, lower is faster. The samples do not establish broad model quality. Each workload uses a separate zero-based axis. Fresh reasoning · p95 of 196 fixtures: Cooperative EXL3 · Sep 29 34.313 s, Affine4 · Sep 29 58.614 s; Executable coding · p95 of 20 tasks: Cooperative EXL3 · Sep 29 25.062 s, Affine4 · Sep 29 243.556 s</desc>
+<desc id="desc">P95 completed-response latencies for fresh reasoning and executable coding fixtures, lower is faster. The samples do not establish broad model quality. Each workload uses a separate zero-based axis. Fresh reasoning C4 · p95 of 196 fixtures: Cooperative EXL3 · Sep 29 34.313 s, Affine4 · Sep 29 58.614 s; Executable coding · p95 of 20 tasks: Cooperative EXL3 · Sep 29 25.062 s, Affine4 · Sep 29 243.556 s</desc>
 <rect width="100%" height="100%" rx="12" fill="#ffffff"/>
 <g font-family="Arial, Helvetica, sans-serif" fill="#172c3d">
 <text x="24" y="36" font-size="26" font-weight="bold">Qwen · the reasoning latency tradeoff</text>
 <text x="24" y="66" font-size="20" >One DGX Spark · thinking enabled; no extra reasoning</text>
 <text x="24" y="90" font-size="20" >cap · Sep 29, 2026</text>
-<text x="24" y="132" font-size="22" font-weight="bold">Fresh reasoning · p95 of 196 fixtures</text>
+<text x="24" y="132" font-size="22" font-weight="bold">Fresh reasoning C4 · p95 of 196 fixtures</text>
 <text x="24" y="158" font-size="18" >Sampled reasoning: temperature 1, top-p .95, top-k</text>
 <text x="24" y="180" font-size="18" >20</text>
 <text x="24" y="210" font-size="20" >Cooperative EXL3 · Sep 29</text>

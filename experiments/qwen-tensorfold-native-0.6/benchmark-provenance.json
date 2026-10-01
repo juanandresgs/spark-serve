@@ -1,6 +1,24 @@
 {
   "docker_context_policy": "The .dockerignore uses an explicit allowlist. Speed replay and curator files are package assets but are excluded from the runtime image build context.",
+  "exported_burst4_build": {
+    "input_archive_sha256": "5923a65316d56aebb2e517bc1e3abe8e0bbd1c60ec5bcfe39f03bbe4df53673c",
+    "provenance_boundary": "The archive includes the then-current .dockerignore. The Dockerfile and the explicitly copied cancellation and burst patch/test inputs are hash-pinned in burst4_derivative_build; this records those build inputs and the archive identity without asserting that every public source-kit file was identical to a prior cancellation build.",
+    "public_receipt": "receipts/qwen-native-burst4-build-rank2-20261001-v1.json",
+    "public_receipt_sha256": "5304b82f10866613ffe60e31de94d94983b3277fcde22d93447580a36f295d6d",
+    "source_builder_receipt_sha256": "8c8fe8119a5c1cbd1763932c382dfdcac60988cfe5ac4bc72bc6c1e218e63804"
+  },
   "input_sha256": {
+    "burst4_derivative_build": {
+      ".dockerignore": "791022de32d1976edf3dd0b3755c6d65ca56439f6f84054c519a1485fe3395ca",
+      "Dockerfile.burst": "65986034088955d647e1f4036f56b90537d0680cd8fca0c7796bb5f917c6ad7b",
+      "build_burst.py": "4cc979551fd3d7f2c17554da0697eb297ba613f2a94f6a9e273f774988b67c5b",
+      "cancellation/patch-manifest.json": "19f8f7f263502f9cba3fe545ff9814b220a9cad37d41e5064f148edb6ff5c764",
+      "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d",
+      "decode-burst/decode-burst.patch": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+      "decode-burst/patch-manifest.json": "f89c0a40740a1e71efa39b0a542c2b51e432bddecce9c81bb64d68187d51f5b3",
+      "decode-burst/test_decode_burst.py": "ce3994859ef83e48a6e27a56b612cc5b9d7ae8bd4e740ce4e7367df3206274a1",
+      "test_burst_variant.py": "be03f7bd5f4d844723e7f574d2d4ebd21bbd86862c6c7b0290769ea917feaa2c"
+    },
     "cancellation_derivative_build": {
       "Dockerfile.cancellation": "faffd5141858b848c166f72e56b39f092bc4b060284bb505591931a60888a837",
       "build_cancellation.py": "82deafec68b9f9caa671ad2bfcc1f6d422aec0470cb14d649c7989ed116db228",
@@ -8,11 +26,18 @@
       "cancellation/prefill-cancellation.patch": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
       "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d"
     },
+    "public_quality_fixtures": {
+      "coding_cases.py": "d559fc184914d169523e981abe4aa69b520c71b5007d29ac4d35a8ae7f970ecb",
+      "quality-protocol.json": "c1a00eb68f5ecfc18d49b7811f6c6ee8ed3f37e306749f0486c08d198508ecdd",
+      "quality_contract.py": "564fc15156f2c0d0e8af5476e92ec5e8a010c2c29d28c338f390c3833ceb9300",
+      "quality_fixtures.py": "3e0ed07f0b6686c82bcdf5756f1afb877a6c30061ff819a1f7cbb4c836fdc70e",
+      "test_quality_contract.py": "285b37f0f1ae41f5920b0c8f23a12cdc92be6d76065b056e3b3f7ff1aade0729"
+    },
     "public_speed_replay": {
       "benchmark_speed.py": "9e5c2817c4157dd760b4e1216a65ac64f8d9418b0b8993af42e5df3e2c5f2da8",
       "curate_speed.py": "7af6a2203489af88fc2c06177142b4dffcaea33de6e3d4ef721f3f64481e8c16",
       "speed_protocol.py": "369ba023e58340121fec081957a8441d3156515cfa91336f804ffe8524e53e97",
-      "test_speed_replay.py": "571b3b620cac4fff4b37e6da7616a675fa2b9ec4d930d6fc34a5c196a263980e",
+      "test_speed_replay.py": "fa86f72c35abdf2d5c1e355b026e29e37929a3b7d8efa44e98c0f0f0ddfa8c57",
       "transport.py": "fc7d044ae3cf5851d21f7c2b3f37dd9f3218727f2123b3ddb2be1581689ac28f"
     },
     "stock_runtime_build": {

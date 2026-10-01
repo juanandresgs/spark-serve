@@ -1,0 +1,22 @@
+{
+  "kind": "reported-public-supplement",
+  "observation": {
+    "active_requests": 1,
+    "configured_backend_streams": 4,
+    "id": "qwen-c1-prose-decode",
+    "reported_aggregate_tokens_per_second": 62.4,
+    "reported_per_request_tokens_per_second": 62.4,
+    "reported_sample_count": null,
+    "reported_time_to_first_token_seconds": 0.152,
+    "runtime": "TensorFold 0.3.6.3",
+    "sample_count_note": "The pinned README does not state a repetition/sample count for this decode row.",
+    "timing_note": "Published decode rate; exact wall-clock denominator and raw request accounting are not provided.",
+    "workload": "Qwen prose decode, one concurrent request"
+  },
+  "reviewed_on": "2026-10-01",
+  "schema_version": 1,
+  "source": {
+    "revision": "856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e",
+    "url": "https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold/blob/856bb6be4b58ce6a6727e6d071fb1c52f3f80e6e/README.md"
+  }
+}
