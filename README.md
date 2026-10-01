@@ -133,12 +133,12 @@ and [Affine4 performance and methodology](recipes/qwen38-flash-affine4-1spark/PE
 | Short-request p95 during mixed long/short traffic ↓ | 2.721 s | 1.115 s |
 | Distinct reasoning answers correct ↑ | 294/296 | 296/296 |
 | Executable coding tasks correct ↑ | 20/20 | 20/20 |
-| Fresh reasoning latency, C4 median / p95 ↓ | 7.09 / 34.31 s | 8.56 / 58.61 s |
-| Coding latency, C4 median / p95 ↓ | 12.67 / 25.06 s | 14.80 / 243.56 s |
+| Fresh reasoning latency, median / p95 ↓ | 7.09 / 34.31 s | 8.56 / 58.61 s |
+| Coding latency, median / p95 ↓ | 12.67 / 25.06 s | 14.80 / 243.56 s |
 
-Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians; context/mixed/quality checks have their own sample limits. Runtime and model pack differ; this does not establish exact image identity.
+Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians. The historical quality and context receipts have separate sample limits, and the source does not attest their client concurrency. Runtime and model pack differ; this does not establish exact image identity.
 
-Reasoning and coding correctness/latency rows use sampled thinking with C4 (four concurrent clients per group); no C1 quality-latency row is reported. C4 throughput and context checks use thinking off. Repeated reasoning fixtures are excluded from the totals. Correctness is separate from speed.
+Reasoning and coding correctness/latency use sampled thinking; concurrency for these historical quality rows is unknown. C4 throughput and context checks use thinking off. Repeated reasoning fixtures are excluded from the totals. Correctness is separate from speed.
 
 </details>
 

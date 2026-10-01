@@ -142,15 +142,15 @@
       "panels": [
         {
           "table": "qwen",
-          "metric": "Fresh reasoning latency, C4 median / p95 \u2193",
+          "metric": "Fresh reasoning latency, median / p95 \u2193",
           "ref_index": 1,
-          "label": "Fresh reasoning C4 \u00b7 p95 of 196 fixtures",
+          "label": "Fresh reasoning \u00b7 p95 of 196 fixtures",
           "note": "Sampled reasoning: temperature 1, top-p .95, top-k 20",
           "unit": "s"
         },
         {
           "table": "qwen",
-          "metric": "Coding latency, C4 median / p95 \u2193",
+          "metric": "Coding latency, median / p95 \u2193",
           "ref_index": 1,
           "label": "Executable coding \u00b7 p95 of 20 tasks",
           "note": "Both passed 20/20; no measured coding-quality gain",

@@ -61,7 +61,7 @@
     "qwen": {
       "kind": "matched-local",
       "date": "2026-09-29",
-      "scope": "Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians; context/mixed/quality checks have their own sample limits. Runtime and model pack differ; this does not establish exact image identity.",
+      "scope": "Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians. The historical quality and context receipts have separate sample limits, and the source does not attest their client concurrency. Runtime and model pack differ; this does not establish exact image identity.",
       "columns": [
         "Workload",
         "Recommended Cooperative EXL3 \u00b7 Sep 29 test",
@@ -318,7 +318,7 @@
           ]
         },
         {
-          "metric": "Fresh reasoning latency, C4 median / p95 \u2193",
+          "metric": "Fresh reasoning latency, median / p95 \u2193",
           "cells": [
             {
               "refs": [
@@ -365,7 +365,7 @@
           ]
         },
         {
-          "metric": "Coding latency, C4 median / p95 \u2193",
+          "metric": "Coding latency, median / p95 \u2193",
           "cells": [
             {
               "refs": [

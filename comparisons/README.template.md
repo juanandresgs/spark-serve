@@ -112,7 +112,7 @@ and [Affine4 performance and methodology](recipes/qwen38-flash-affine4-1spark/PE
 
 {{qwen}}
 
-Reasoning and coding correctness/latency rows use sampled thinking with C4 (four concurrent clients per group); no C1 quality-latency row is reported. C4 throughput and context checks use thinking off. Repeated reasoning fixtures are excluded from the totals. Correctness is separate from speed.
+Reasoning and coding correctness/latency use sampled thinking; concurrency for these historical quality rows is unknown. C4 throughput and context checks use thinking off. Repeated reasoning fixtures are excluded from the totals. Correctness is separate from speed.
 
 </details>
 
