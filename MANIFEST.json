@@ -63,7 +63,7 @@
     "deploy/stage.py": "a1918c60e6e1e79f7547cd2ad57b6326d389c1802ff21cc1a4bd7de7c0ac71c0",
     "deploy/test_comparisons.py": "bd3d8a4f44db5f93040ffec28ee2d20cf371459554019fae8d7785a431230bd5",
     "deploy/test_evidence.py": "066516bdb8176e40fa49bb90c47043c743026bcade79f6f7cec98d1318428b17",
-    "deploy/test_glm_research_evidence.py": "c850cc82804c2c1a9cfdeec49b7b0d6d83c611d11e4fea24c27a686da073f802",
+    "deploy/test_glm_research_evidence.py": "fede0b155051201a27b8d6c911de756be53d6e0ab7a3f945f18718227405e76b",
     "deploy/verify_artifacts.py": "cbe59c46c25f4b466df41d3516153056e6ce50a38e44d10482c44c4a1b3164a3",
     "evidence/GLM-RESEARCH-20260930.md": "771caae2afa3c250235240b99509517420717a70941b1c39d725b42d4df4c8bc",
     "evidence/README.md": "eaa33639ac092938251c54fd2d5ed94ef6464b920a05e86e0ffbbfc18c8b7e9d",

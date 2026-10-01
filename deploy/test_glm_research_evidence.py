@@ -41,6 +41,7 @@ class GlmResearchEvidence(unittest.TestCase):
    'qwen-recommendation-20260930-v1',
    'glm-recommendation-20260930-v1',
    'qwen-recommendation-20261001-v1',
+   'qwen-recommendation-20261001-v2',
   })
   self.assertFalse(any(ref['id'].startswith('glm-window') for d in decisions for ref in d['evidence_runs']))
 if __name__=='__main__':unittest.main()
