@@ -1,0 +1,103 @@
+{
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "glm-window-20260930-tf-startup-cold-graphs-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": null,
+  "recipe": {
+    "id": "glm-window-20260930-tf-graphs-v1",
+    "fingerprint": "b44f6fda0d4755ed9d0c7f239a44f75b680451bca3d7acadba05125fbec5ff4e"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": "9cd52ab4daba68ddd09be89be8f23ad43175e821",
+    "model_revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "attestation": "Imported completed research receipt; rank identities retained where captured. No new execution, deployment or qualification by this import."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 2,
+      "memory_gb_per_node": 128,
+      "topology": "tensor parallel pair"
+    },
+    "software": {
+      "rank_image_digests": null
+    },
+    "unknowns": [
+      "OS/driver/rank software parity not captured in this sanitized evidence.",
+      "Complete independently reproducible build/launcher source is not included in this research snapshot."
+    ]
+  },
+  "workload_version": "glm-window-20260930-v1",
+  "measurements": [],
+  "failures": [
+    {
+      "category": "startup_memory_floor",
+      "count": 1,
+      "detail": "Guard aborted startup below 5 GiB; no readiness."
+    }
+  ],
+  "qualification": {
+    "build": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "correctness": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "performance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/44ce6ed5a7e230aa0d1a76b28ad854d81386ee5e86b8554aa0c3d14193e21e62.json",
+      "sha256": "44ce6ed5a7e230aa0d1a76b28ad854d81386ee5e86b8554aa0c3d14193e21e62",
+      "path": [
+        "data"
+      ]
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Research evidence only; not a production finalist. No recommendation change.",
+    "Missing server environment/cache metadata and failures prevent percentage comparisons.",
+    "Final configuration pins are a historical association; exact image identity for this individual startup is not asserted.",
+    "Guard aborted startup below 5 GiB; no readiness."
+  ],
+  "fingerprint": "7e48d91f3622dba73dc5a0356b6b37e284b5bc04744b8a99ad1d5e9f3a33d2d5"
+}

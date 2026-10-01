@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "qwen-affine4-source-20260930-v1",
+  "catalog_id": "qwen38-flash-affine4-1spark",
+  "model": "qwen",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 1,
+    "memory_gb_per_node": 128,
+    "topology": "single GPU"
+  },
+  "pins": {
+    "runtime_repository": "ashhart/TensorFold",
+    "runtime_revision": "71377a5373ed7b394f1b480ba2a6a3986b03af1c",
+    "runtime_version": "0.3.6.2",
+    "target_repository": "Vontra/Qwen3.8-Flash-Next-MLX-4bit-MTP",
+    "target_revision": "dadefa8066e3be900a0d148d0f5a2f4eb1cf6534",
+    "context": 262144,
+    "parallel": 4,
+    "mtp_drafts": 6,
+    "base_image": "nvcr.io/nvidia/pytorch@sha256:2140e699b3beaf7f96a0081fd9c9406bc3832b435cdb60dfa2d261f7d2f34a1c",
+    "environment": {
+      "TORCH_CUDA_ARCH_LIST": "12.1",
+      "MAX_JOBS": "2",
+      "SPARK_TILED_SELECT": "1",
+      "SPARK_SSD_PIPELINE": "1"
+    },
+    "image": "sha256:34a5ffedbb9c73d6b5ee6ce8ea2fa6f277ccc41c6b3f75b24e8ec445a38863d2",
+    "base_runtime_image": "sha256:657d7adc91de16de2f0f1fb552af849899064d79ab5b45f4f089b516fe595f01",
+    "cooperative": 1,
+    "prefill_rows": 2048,
+    "kv_dtype": "int8",
+    "decode_burst": 4,
+    "packaged": true,
+    "mtp_confidence": 0.6,
+    "adapter_base_image": "sha256:1b8f753bfdff53e1a47268e3b7d752cd1a1cbc07e142a5474664fbdfacb2c416"
+  },
+  "settings": {
+    "reasoning": {
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "top_k": 20,
+      "max_tokens": 8192,
+      "chat_template_kwargs": {
+        "enable_thinking": true
+      }
+    },
+    "bounded_reasoning_experimental": {
+      "temperature": 1.0,
+      "top_p": 0.95,
+      "top_k": 20,
+      "max_tokens": 8192,
+      "chat_template_kwargs": {
+        "enable_thinking": true
+      },
+      "spark_reliability": {
+        "thinking_budget": 2048,
+        "answer_reserve": 1024
+      }
+    },
+    "json_object_contract": {
+      "response_format": {
+        "type": "json_object"
+      }
+    }
+  },
+  "requirements": {
+    "destination_acceptance_required": true,
+    "available_memory_gib_per_node": 100,
+    "disk_free": {
+      "value": 180,
+      "unit": "GB"
+    },
+    "runtime": "NVIDIA-enabled Docker; serving GPU free of other workloads"
+  },
+  "source_files": {
+    "recipes/qwen38-flash-affine4-1spark/pins.json": "be384d13f06004bac65bfe638b3bf58cba085c232864c13d7aca04a1dbe2fc42",
+    "recipes/qwen38-flash-affine4-1spark/Dockerfile": "6f3ae67b9688d0ca121c3b60455355cd435dab140a78a1ad53facccf240b126c",
+    "recipes/qwen38-flash-affine4-1spark/run.sh": "f112293ea0f659770d8f3d1a645de854e1a10e9aa90a623bbf2a071f3fe00ae7",
+    "recipes/qwen38-flash-affine4-1spark/serve.py": "53074dfb038c1f357e3f4dff2693a3d49a3855dc0eb126071345170d2cbc38f8",
+    "recipes/qwen38-flash-affine4-1spark/cooperative.py": "5a596036f55ef117e2532293478d8a0fed01820b1fb0b4056d2746dd65be9884",
+    "recipes/qwen38-flash-affine4-1spark/reliability.py": "a491036585f2a8b9aa276d8a6aec5ed680ee9f8b7dd922fe1a78189a0ceb6740",
+    "recipes/qwen38-flash-affine4-1spark/tool_adapter.py": "0f48c1e11045cc8c62c598313c18391cd7e071d9dd7922a3da533c137a473d1e",
+    "recipes/qwen38-flash-affine4-1spark/selection.py": "0021ad86810c3fe0d9734143f5e5b515321da235e217b276a37ebb1047cb7ce3",
+    "recipes/qwen38-flash-affine4-1spark/ssd_pipeline.py": "4293577f401cd88aa3256b0f67b713fe406ee5a5df12ee4e31fa0b72877c7786",
+    "recipes/qwen38-flash-affine4-1spark/reader.cpp": "1c8848d97a944764dbd8693048e1adf57400b4324b76cc45b32309615d39e6c4",
+    "recipes/qwen38-flash-affine4-1spark/stage.py": "1b4fb4c2375c5dc1c3d196546ea9a730c56ea2c673c35615e59f6c0af1cd7bd3"
+  },
+  "unknowns": [
+    "Source snapshot is not proof of the actual identity of every historical run."
+  ],
+  "scope": "Published source kit. Historical runs link by association unless actual identity was captured.",
+  "fingerprint": "1bc3a27cc210efb3e88bd01ba62809285cfe68d16790072e8456019f4089007c"
+}

@@ -1,0 +1,8 @@
+{
+  "label": "baseline-memory-abort",
+  "original_receipt_sha256": "f8143e2adb87f9050b1f6440eb254c2d79f0f435fc92760063a201156d70cd92",
+  "data": {
+    "observed_head_gib": 1.0289993286132812,
+    "observed_worker_gib": 7.981903076171875
+  }
+}

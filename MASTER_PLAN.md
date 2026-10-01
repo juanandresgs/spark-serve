@@ -60,3 +60,41 @@ provides API and optional disruptive restart acceptance.
 - Expose the same choices through `recipes options`, model filtering and JSON.
 - Verify generated-page freshness, missing evidence, recommendation consistency
   and actual CLI behavior. No new benchmark or deployment qualification is claimed.
+
+## Structured recipe and evidence contract — v1
+
+Implemented in isolated feature work: three linked JSON record types with content
+fingerprints, JSON Schema and semantic validation; immutable historical Qwen/GLM
+cohorts; separately pinned external reports; reviewed recommendation snapshots;
+existing table generation redirected to records; fail-closed percentage comparison;
+and sanitized, create-only Qwen speed/context-run output. Original receipts and failed
+mitigation evidence remain available. See `evidence/README.md`.
+
+Acceptance: schema/reference/receipt integrity, immutable-history checks, invalid
+comparison cases, real runner emission against a local synthetic HTTP boundary,
+existing comparison/CLI tests, offline source/recipe/site checks and adapter tests.
+These are software checks, not new hardware qualifications.
+
+Integration obligations (evidence maintainer owns reconciliation):
+
+| Dependency / owner | Resumption trigger | Acceptance |
+| --- | --- | --- |
+| README/graph presentation / evidence maintainer | Completed locally through presentation commit `a02b9f7` | Combined 15 evidence/chart tests pass; README and four SVGs are byte-identical to reviewed mobile presentation; numeric refs use validated records and percentage bypass is removed |
+| GLM bakeoff / evidence maintainer | Completed local import of the September 30 final window | Six research recipe snapshots and twenty run/cohort records preserve token accounting, failures and unknowns; recommendations and headline comparisons remain unchanged; see `evidence/GLM-RESEARCH-20260930.md` |
+| Remaining mixed-load, quality and lifecycle runners / evidence maintainer | Next authorized change to the corresponding runner | Emit the same run schema with domain-specific accounting and failure scopes; retain old receipts, do not pretend throughput/context emission covers those suites |
+
+Publication and production promotion remain explicit operator decisions. The
+initial normalization changes neither serving state nor the existing choices.
+
+## Approachable README and generated charts — issue #8
+
+- Rewrite the landing page around one-Spark Qwen Affine4 and two-Spark GLM
+  adaptive DFlash2, with clear setup paths and retained alternatives.
+- Generate four accessible SVGs from the existing comparison references. Keep
+  models/hardware/workloads separate, show code and reasoning tradeoffs, retain
+  numeric tables, and check page/chart freshness and evidence drift.
+- Independently audit local receipts, pinned/current public sources, and the final
+  README/charts with three Luna reviewers. Remove unsupported coding maxima;
+  explicitly date historical public GLM figures and link to newer reports.
+- Complete local checks and desktop/mobile visual review. Hold publication for
+  the user's review of the rendered preview; no infrastructure or new benchmark.

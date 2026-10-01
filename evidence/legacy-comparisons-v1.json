@@ -1,0 +1,710 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "qwen",
+      "name": "Qwen3.8 Flash Next",
+      "sparks": 1,
+      "recommended": "qwen38-flash-affine4-1spark",
+      "summary": "262,144-token context, four concurrent text requests, cooperative prefill and MTP6",
+      "options": [
+        {
+          "id": "qwen38-flash-affine4-1spark",
+          "label": "Affine4",
+          "recipe": "qwen38-flash-affine4-1spark",
+          "guide": "recipes/qwen38-flash-affine4-1spark/README.md",
+          "reason": "Best measured long-prompt and mixed-traffic performance; longer reasoning tails."
+        },
+        {
+          "id": "qwen-cooperative-exl3",
+          "label": "Cooperative EXL3",
+          "guide": "experiments/qwen-tensorfold-cooperative/README.md",
+          "reason": "Higher measured code throughput and shorter reasoning tails; exported build remains experimental."
+        },
+        {
+          "id": "qwen38-flash-1spark",
+          "label": "vLLM / NVFP4",
+          "recipe": "qwen38-flash-1spark",
+          "guide": "recipes/qwen38-flash-1spark/README.md",
+          "reason": "Previous managed recipe; retained for existing deployments."
+        }
+      ]
+    },
+    {
+      "id": "glm",
+      "name": "GLM-5.3-Flash",
+      "sparks": 2,
+      "recommended": "glm53-flash-adaptive-2spark",
+      "summary": "850K context, images, eight concurrent requests, EXL3 experts with BF16 dense layers",
+      "options": [
+        {
+          "id": "glm53-flash-adaptive-2spark",
+          "label": "Adaptive DFlash2",
+          "recipe": "glm53-flash-adaptive-2spark",
+          "guide": "recipes/glm53-flash-adaptive-2spark/README.md",
+          "reason": "Improved measured prose throughput with BF16 dense layers; new-site acceptance required."
+        },
+        {
+          "id": "glm53-flash-2spark",
+          "label": "Fixed draft length",
+          "recipe": "glm53-flash-2spark",
+          "guide": "recipes/glm53-flash-2spark/README.md",
+          "reason": "Retained historical GLM configuration; see its own qualification evidence."
+        }
+      ]
+    }
+  ],
+  "tables": {
+    "qwen": {
+      "kind": "matched-local",
+      "date": "2026-09-29",
+      "scope": "Complete one-Spark recipes with different runtime versions; four slots, 262K context. Throughput medians of three runs; small synthetic quality fixtures.",
+      "columns": [
+        "Workload",
+        "Previous cooperative EXL3",
+        "Recommended Affine4"
+      ],
+      "rows": [
+        {
+          "metric": "C4 prose throughput \u2191",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-speed",
+                    "prose",
+                    "median_aggregate_tps"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-packaged-speed",
+                    "prose",
+                    "median_aggregate_tps"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "C4 code throughput \u2191",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-speed",
+                    "code",
+                    "median_aggregate_tps"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-packaged-speed",
+                    "code",
+                    "median_aggregate_tps"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Cold 253,843-token prompt, complete JSON response \u2193",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-context-147",
+                    "complete_cold_s"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-context-147",
+                    "complete_cold_s"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "Cached appended prompt, complete response \u2193",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-context-147",
+                    "complete_warm_s"
+                  ]
+                }
+              ],
+              "format": "{0:.3f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-context-147",
+                    "complete_warm_s"
+                  ]
+                }
+              ],
+              "format": "{0:.3f} s"
+            }
+          ]
+        },
+        {
+          "metric": "Short-request p95 during mixed long/short traffic \u2193",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-mixed-147",
+                    "short_p95"
+                  ]
+                }
+              ],
+              "format": "{0:.3f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-mixed-147",
+                    "short_p95"
+                  ]
+                }
+              ],
+              "format": "{0:.3f} s"
+            }
+          ]
+        },
+        {
+          "metric": "Distinct reasoning answers correct \u2191",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "exl3",
+                    "correct"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "exl3",
+                    "unique"
+                  ]
+                }
+              ],
+              "format": "{0}/{1}"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "affine-default",
+                    "correct"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "affine-default",
+                    "unique"
+                  ]
+                }
+              ],
+              "format": "{0}/{1}"
+            }
+          ]
+        },
+        {
+          "metric": "Executable coding tasks correct \u2191",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-coding",
+                    "correct"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-coding",
+                    "cases"
+                  ]
+                }
+              ],
+              "format": "{0}/{1}"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-default-coding",
+                    "correct"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-default-coding",
+                    "cases"
+                  ]
+                }
+              ],
+              "format": "{0}/{1}"
+            }
+          ]
+        },
+        {
+          "metric": "Fresh reasoning latency, median / p95 \u2193",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "exl3",
+                    "fresh_median_s"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "exl3",
+                    "fresh_p95_s"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} / {1:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "affine-default",
+                    "fresh_median_s"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "path": [
+                    "affine-default",
+                    "fresh_p95_s"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} / {1:.2f} s"
+            }
+          ]
+        },
+        {
+          "metric": "Coding latency, median / p95 \u2193",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-coding",
+                    "median_s"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-exl3-coding",
+                    "p95_s"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} / {1:.2f} s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-default-coding",
+                    "median_s"
+                  ]
+                },
+                {
+                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "path": [
+                    "reliability-affine-default-coding",
+                    "p95_s"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} / {1:.2f} s"
+            }
+          ]
+        }
+      ]
+    },
+    "glm": {
+      "kind": "matched-local",
+      "date": "2026-09-11",
+      "scope": "Original-site two-Spark observations; portable package requires destination acceptance.",
+      "columns": [
+        "Workload",
+        "Previous fixed draft length",
+        "Recommended adaptive"
+      ],
+      "rows": [
+        {
+          "metric": "Single-request prose",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "fixed_k_full_graph",
+                    "prose_c1"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "adaptive_full_graph",
+                    "prose_c1"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Eight-request aggregate prose",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "fixed_k_full_graph",
+                    "prose_c8"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "adaptive_full_graph",
+                    "prose_c8"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Single-request code",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "fixed_k_full_graph",
+                    "code_c1"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "adaptive_full_graph",
+                    "code_c1"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Single-request counting",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "fixed_k_full_graph",
+                    "count_c1"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "path": [
+                    "observations",
+                    "matched_pair_b_output_tokens_per_second",
+                    "adaptive_full_graph",
+                    "count_c1"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
+    },
+    "public": {
+      "kind": "unmatched-public",
+      "scope": "Different prompts, timing definitions, runtime versions and dense precision; no cross-source winner or speedup may be inferred.",
+      "columns": [
+        "Model / metric",
+        "Public reference",
+        "Our result",
+        "Comparison boundary"
+      ],
+      "rows": [
+        {
+          "metric": "Qwen C4 prose",
+          "boundary": "Public decode rate; ours includes the whole request group, including prefill",
+          "local": {
+            "refs": [
+              {
+                "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                "path": [
+                  "reliability-affine-packaged-speed",
+                  "prose",
+                  "median_aggregate_tps"
+                ]
+              }
+            ],
+            "format": "{0:.2f} tokens/s"
+          },
+          "public": {
+            "refs": [
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_0",
+                  "values",
+                  0
+                ]
+              }
+            ],
+            "format": "{0:.1f} tokens/s"
+          }
+        },
+        {
+          "metric": "Qwen long-prompt latency",
+          "boundary": "Public time to first token; ours time to complete validated JSON, with a much longer prompt",
+          "local": {
+            "refs": [
+              {
+                "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                "path": [
+                  "reliability-affine-context-147",
+                  "complete_cold_s"
+                ]
+              }
+            ],
+            "format": "{0:.2f} s at 253,843 tokens"
+          },
+          "public": {
+            "refs": [
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_1",
+                  "values",
+                  0
+                ]
+              },
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_1",
+                  "values",
+                  1
+                ]
+              }
+            ],
+            "format": "{0:.2f} s at {1:,d} tokens"
+          }
+        },
+        {
+          "metric": "GLM single-request prose",
+          "boundary": "Public adaptive **FP8 dense** configuration; ours retains **BF16 dense** layers",
+          "local": {
+            "refs": [
+              {
+                "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                "path": [
+                  "observations",
+                  "matched_pair_b_output_tokens_per_second",
+                  "adaptive_full_graph",
+                  "prose_c1"
+                ]
+              }
+            ],
+            "format": "{0:.2f} tokens/s"
+          },
+          "public": {
+            "refs": [
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_2",
+                  "values",
+                  0
+                ]
+              }
+            ],
+            "format": "{0:.1f} tokens/s"
+          }
+        },
+        {
+          "metric": "GLM structured/code",
+          "boundary": "Different prompts; public high-acceptance decode workload, no matched C4 result here",
+          "local": {
+            "refs": [
+              {
+                "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                "path": [
+                  "observations",
+                  "matched_pair_b_output_tokens_per_second",
+                  "adaptive_full_graph",
+                  "code_c1"
+                ]
+              }
+            ],
+            "format": "{0:.2f} tokens/s at C1"
+          },
+          "public": {
+            "refs": [
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_3",
+                  "values",
+                  0
+                ]
+              },
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_3",
+                  "values",
+                  1
+                ]
+              },
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_3",
+                  "values",
+                  2
+                ]
+              },
+              {
+                "file": "comparisons/public-references.json",
+                "path": [
+                  "observations",
+                  "row_3",
+                  "values",
+                  3
+                ]
+              }
+            ],
+            "format": "{0:.1f} tokens/s at C{1:d}; {2:.1f} at C{3:d}"
+          }
+        }
+      ],
+      "sources_file": "comparisons/public-references.json"
+    }
+  }
+}

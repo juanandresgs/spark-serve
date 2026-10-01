@@ -28,7 +28,8 @@
           "guide": "recipes/qwen38-flash-1spark/README.md",
           "reason": "Previous managed recipe; retained for existing deployments."
         }
-      ]
+      ],
+      "recommendation_record": "qwen-recommendation-20260930-v1"
     },
     {
       "id": "glm",
@@ -51,7 +52,8 @@
           "guide": "recipes/glm53-flash-2spark/README.md",
           "reason": "Retained historical GLM configuration; see its own qualification evidence."
         }
-      ]
+      ],
+      "recommendation_record": "glm-recommendation-20260930-v1"
     }
   ],
   "tables": {
@@ -71,11 +73,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-0-0-v1.json",
                   "path": [
-                    "reliability-exl3-speed",
-                    "prose",
-                    "median_aggregate_tps"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -84,11 +86,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-0-1-v1.json",
                   "path": [
-                    "reliability-affine-packaged-speed",
-                    "prose",
-                    "median_aggregate_tps"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -102,11 +104,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-1-0-v1.json",
                   "path": [
-                    "reliability-exl3-speed",
-                    "code",
-                    "median_aggregate_tps"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -115,11 +117,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-1-1-v1.json",
                   "path": [
-                    "reliability-affine-packaged-speed",
-                    "code",
-                    "median_aggregate_tps"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -133,10 +135,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-2-0-v1.json",
                   "path": [
-                    "reliability-exl3-context-147",
-                    "complete_cold_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -145,10 +148,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-2-1-v1.json",
                   "path": [
-                    "reliability-affine-context-147",
-                    "complete_cold_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -162,10 +166,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-3-0-v1.json",
                   "path": [
-                    "reliability-exl3-context-147",
-                    "complete_warm_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -174,10 +179,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-3-1-v1.json",
                   "path": [
-                    "reliability-affine-context-147",
-                    "complete_warm_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -191,10 +197,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-4-0-v1.json",
                   "path": [
-                    "reliability-exl3-mixed-147",
-                    "short_p95"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -203,10 +210,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-4-1-v1.json",
                   "path": [
-                    "reliability-affine-mixed-147",
-                    "short_p95"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -220,17 +228,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-5-0-v1.json",
                   "path": [
-                    "exl3",
-                    "correct"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-5-0-v1.json",
                   "path": [
-                    "exl3",
-                    "unique"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -239,17 +249,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-5-1-v1.json",
                   "path": [
-                    "affine-default",
-                    "correct"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-5-1-v1.json",
                   "path": [
-                    "affine-default",
-                    "unique"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -263,17 +275,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-6-0-v1.json",
                   "path": [
-                    "reliability-exl3-coding",
-                    "correct"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-6-0-v1.json",
                   "path": [
-                    "reliability-exl3-coding",
-                    "cases"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -282,17 +296,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-6-1-v1.json",
                   "path": [
-                    "reliability-affine-default-coding",
-                    "correct"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-6-1-v1.json",
                   "path": [
-                    "reliability-affine-default-coding",
-                    "cases"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -306,17 +322,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-7-0-v1.json",
                   "path": [
-                    "exl3",
-                    "fresh_median_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-7-0-v1.json",
                   "path": [
-                    "exl3",
-                    "fresh_p95_s"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -325,17 +343,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-7-1-v1.json",
                   "path": [
-                    "affine-default",
-                    "fresh_median_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+                  "file": "evidence/runs/import-20260930-qwen-7-1-v1.json",
                   "path": [
-                    "affine-default",
-                    "fresh_p95_s"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -349,17 +369,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-8-0-v1.json",
                   "path": [
-                    "reliability-exl3-coding",
-                    "median_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-8-0-v1.json",
                   "path": [
-                    "reliability-exl3-coding",
-                    "p95_s"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -368,17 +390,19 @@
             {
               "refs": [
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-8-1-v1.json",
                   "path": [
-                    "reliability-affine-default-coding",
-                    "median_s"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 },
                 {
-                  "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                  "file": "evidence/runs/import-20260930-qwen-8-1-v1.json",
                   "path": [
-                    "reliability-affine-default-coding",
-                    "p95_s"
+                    "measurements",
+                    1,
+                    "value"
                   ]
                 }
               ],
@@ -404,12 +428,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-0-0-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "fixed_k_full_graph",
-                    "prose_c1"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -418,12 +441,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-0-1-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "adaptive_full_graph",
-                    "prose_c1"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -437,12 +459,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-1-0-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "fixed_k_full_graph",
-                    "prose_c8"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -451,12 +472,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-1-1-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "adaptive_full_graph",
-                    "prose_c8"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -470,12 +490,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-2-0-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "fixed_k_full_graph",
-                    "code_c1"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -484,12 +503,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-2-1-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "adaptive_full_graph",
-                    "code_c1"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -503,12 +521,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-3-0-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "fixed_k_full_graph",
-                    "count_c1"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -517,12 +534,11 @@
             {
               "refs": [
                 {
-                  "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                  "file": "evidence/runs/import-20260930-glm-3-1-v1.json",
                   "path": [
-                    "observations",
-                    "matched_pair_b_output_tokens_per_second",
-                    "adaptive_full_graph",
-                    "count_c1"
+                    "measurements",
+                    0,
+                    "value"
                   ]
                 }
               ],
@@ -548,11 +564,11 @@
           "local": {
             "refs": [
               {
-                "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                "file": "evidence/runs/import-20260930-qwen-0-1-v1.json",
                 "path": [
-                  "reliability-affine-packaged-speed",
-                  "prose",
-                  "median_aggregate_tps"
+                  "measurements",
+                  0,
+                  "value"
                 ]
               }
             ],
@@ -561,12 +577,11 @@
           "public": {
             "refs": [
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-0-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_0",
-                  "values",
-                  0
+                  "measurements",
+                  0,
+                  "value"
                 ]
               }
             ],
@@ -579,10 +594,11 @@
           "local": {
             "refs": [
               {
-                "file": "recipes/qwen38-flash-affine4-1spark/results.json",
+                "file": "evidence/runs/import-20260930-qwen-2-1-v1.json",
                 "path": [
-                  "reliability-affine-context-147",
-                  "complete_cold_s"
+                  "measurements",
+                  0,
+                  "value"
                 ]
               }
             ],
@@ -591,21 +607,19 @@
           "public": {
             "refs": [
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-1-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_1",
-                  "values",
-                  0
+                  "measurements",
+                  0,
+                  "value"
                 ]
               },
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-1-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_1",
-                  "values",
-                  1
+                  "measurements",
+                  1,
+                  "value"
                 ]
               }
             ],
@@ -618,12 +632,11 @@
           "local": {
             "refs": [
               {
-                "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                "file": "evidence/runs/import-20260930-glm-0-1-v1.json",
                 "path": [
-                  "observations",
-                  "matched_pair_b_output_tokens_per_second",
-                  "adaptive_full_graph",
-                  "prose_c1"
+                  "measurements",
+                  0,
+                  "value"
                 ]
               }
             ],
@@ -632,12 +645,11 @@
           "public": {
             "refs": [
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-2-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_2",
-                  "values",
-                  0
+                  "measurements",
+                  0,
+                  "value"
                 ]
               }
             ],
@@ -650,12 +662,11 @@
           "local": {
             "refs": [
               {
-                "file": "recipes/glm53-flash-adaptive-2spark/results.json",
+                "file": "evidence/runs/import-20260930-glm-2-1-v1.json",
                 "path": [
-                  "observations",
-                  "matched_pair_b_output_tokens_per_second",
-                  "adaptive_full_graph",
-                  "code_c1"
+                  "measurements",
+                  0,
+                  "value"
                 ]
               }
             ],
@@ -664,39 +675,35 @@
           "public": {
             "refs": [
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-3-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_3",
-                  "values",
-                  0
+                  "measurements",
+                  0,
+                  "value"
                 ]
               },
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-3-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_3",
-                  "values",
-                  1
+                  "measurements",
+                  1,
+                  "value"
                 ]
               },
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-3-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_3",
-                  "values",
-                  2
+                  "measurements",
+                  2,
+                  "value"
                 ]
               },
               {
-                "file": "comparisons/public-references.json",
+                "file": "evidence/runs/import-20260930-public-3-reported-v1.json",
                 "path": [
-                  "observations",
-                  "row_3",
-                  "values",
-                  3
+                  "measurements",
+                  3,
+                  "value"
                 ]
               }
             ],

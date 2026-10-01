@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "kind": "recommendation",
+  "id": "glm-recommendation-20260930-v1",
+  "model": "glm",
+  "hardware_nodes": 2,
+  "selected": {
+    "id": "glm-adaptive-source-20260930-v1",
+    "fingerprint": "7cfb765c4bc8bccaa66fd712b4b52b0255753b902fd83266f79cc2e4fc6a29b9"
+  },
+  "alternatives": [
+    {
+      "catalog_id": "glm53-flash-2spark",
+      "rationale": "Retained historical GLM configuration; see its own qualification evidence."
+    }
+  ],
+  "evidence_runs": [
+    {
+      "id": "import-20260930-glm-0-0-v1",
+      "fingerprint": "19b0432fa3b403cd91bc2bdde525f38dd4bc56319ff6487bf168afd332355857"
+    },
+    {
+      "id": "import-20260930-glm-0-1-v1",
+      "fingerprint": "ec7f2adb44cd3e8d7bc8b547ef7de1c34fa945c1e3aabd72901036a632684e21"
+    },
+    {
+      "id": "import-20260930-glm-1-0-v1",
+      "fingerprint": "169142f04e10344a020ec225e36bba48c1a2e5dea00a7c9d2f33a8d18eb98310"
+    },
+    {
+      "id": "import-20260930-glm-1-1-v1",
+      "fingerprint": "5884070def33af28625f76b3ffde6d539f49bec80e6a636d811a514443380138"
+    },
+    {
+      "id": "import-20260930-glm-2-0-v1",
+      "fingerprint": "11d11f4fdfcac91188933187f0ac90386e524257794a0cfcff63eb9b29794c27"
+    },
+    {
+      "id": "import-20260930-glm-2-1-v1",
+      "fingerprint": "8c833270a3eb60420275a61b11ed9c3334016b28783002ec9adc422bd42ecf21"
+    },
+    {
+      "id": "import-20260930-glm-3-0-v1",
+      "fingerprint": "4cadac2bb63584ce0326f849fa070a41731bca7c0f3e48cec27b4d8ffc977f25"
+    },
+    {
+      "id": "import-20260930-glm-3-1-v1",
+      "fingerprint": "fec5ba81292c90829944661fcdeb573fd0536b51e4dc6b0df213d2866ffafdd6"
+    }
+  ],
+  "rationale": "Improved measured prose throughput with BF16 dense layers; new-site acceptance required.",
+  "review": {
+    "status": "reviewed",
+    "basis": "Imported existing published selection at public commit 2a4d956; this migration makes no new recommendation decision.",
+    "date": "2026-09-30"
+  },
+  "limitations": [
+    "Destination install and reboot qualification remain separate.",
+    "Historical incomplete metadata prevents percentage claims from these imported records."
+  ],
+  "fingerprint": "b8a62dc474b341ef1b615ff4143ac3ba8e26eace5f160f03ca0944c26084f022"
+}

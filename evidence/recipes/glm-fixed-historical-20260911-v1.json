@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "glm-fixed-historical-20260911-v1",
+  "catalog_id": "glm53-flash-2spark",
+  "model": "glm",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 2,
+    "memory_gb_per_node": 128,
+    "topology": "tensor parallel pair"
+  },
+  "pins": {
+    "glm-5.3-flash-exl3-ablit": {
+      "context_tokens": 850000,
+      "repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+      "revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f"
+    }
+  },
+  "settings": {
+    "draft_policy": "fixed k=7, full graph",
+    "dense_precision": "BF16"
+  },
+  "requirements": {
+    "destination_acceptance_required": true,
+    "available_memory_gib_per_node": 100,
+    "disk_free": {
+      "value": 190,
+      "unit": "GiB"
+    },
+    "runtime": "NVIDIA-enabled Docker; serving GPU free of other workloads"
+  },
+  "source_files": {},
+  "unknowns": [
+    "Exact image digest and full runtime settings of matched fixed-k control not retained."
+  ],
+  "scope": "Reconstructed historical control, not a current source-build identity.",
+  "fingerprint": "2129e77fc9d2d11dfb4bc1bb5629fb01b0a1398619c57d7a9d72611e212896e5"
+}

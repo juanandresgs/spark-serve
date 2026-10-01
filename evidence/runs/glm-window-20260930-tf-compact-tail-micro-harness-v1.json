@@ -1,0 +1,154 @@
+{
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "glm-window-20260930-tf-compact-tail-micro-harness-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-30T16:43:54.091162+00:00",
+  "recipe": {
+    "id": "glm-window-20260930-tf-eager-v1",
+    "fingerprint": "b931e15d686296d57d26a854a2e9ffe36ba821838f2a962e531661c4a4e843ca"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": null,
+    "attestation": "Single-GPU component receipt bound to exact harness/patch source hashes; no model execution or per-rank image identity asserted."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU component harness"
+    },
+    "software": {
+      "torch": "2.13.0a0+9186a08b2c.nv26.07",
+      "tensorfold": "0.5.0",
+      "rank_image_digests": null
+    },
+    "unknowns": [
+      "OS/driver/rank software parity not captured in this sanitized evidence.",
+      "Complete independently reproducible build/launcher source is not included in this research snapshot."
+    ]
+  },
+  "workload_version": "glm-window-20260930-v1",
+  "measurements": [
+    {
+      "id": "cases",
+      "metric": "cases",
+      "value": 20,
+      "unit": "count",
+      "definition": "GPU compact-tail harness cases; not full-model generated answers.",
+      "aggregation": "count",
+      "samples": 20,
+      "sample_unit": "cases",
+      "population": "all twenty component harness cases",
+      "conditions": {
+        "workload": "single-gpu-index-tail-micro-harness",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/7a6c727f3ca73d8f1f4d27dcd0a4f52e5bc193096c2ed2cb9a743668027fb8aa.json",
+        "sha256": "7a6c727f3ca73d8f1f4d27dcd0a4f52e5bc193096c2ed2cb9a743668027fb8aa",
+        "path": [
+          "data",
+          "cases"
+        ]
+      }
+    },
+    {
+      "id": "correct",
+      "metric": "correct",
+      "value": 20,
+      "unit": "count",
+      "definition": "GPU compact-tail harness cases; not full-model generated answers.",
+      "aggregation": "count",
+      "samples": 20,
+      "sample_unit": "cases",
+      "population": "all twenty component harness cases",
+      "conditions": {
+        "workload": "single-gpu-index-tail-micro-harness",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {},
+        "sampling": {},
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/7a6c727f3ca73d8f1f4d27dcd0a4f52e5bc193096c2ed2cb9a743668027fb8aa.json",
+        "sha256": "7a6c727f3ca73d8f1f4d27dcd0a4f52e5bc193096c2ed2cb9a743668027fb8aa",
+        "path": [
+          "data",
+          "correct"
+        ]
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "correctness": {
+      "status": "passed",
+      "scope": "20 single-GPU pooling/ring/rollback/resume/graph cases only; full-model logits and two-rank generation untested."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "performance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/7a6c727f3ca73d8f1f4d27dcd0a4f52e5bc193096c2ed2cb9a743668027fb8aa.json",
+      "sha256": "7a6c727f3ca73d8f1f4d27dcd0a4f52e5bc193096c2ed2cb9a743668027fb8aa",
+      "path": [
+        "data"
+      ]
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Research evidence only; not a production finalist. No recommendation change.",
+    "Missing server environment/cache metadata and failures prevent percentage comparisons."
+  ],
+  "fingerprint": "af4a0ec6f2723ca68127f50091b4754bd3d5686ee044247c321f603d87c477a9"
+}

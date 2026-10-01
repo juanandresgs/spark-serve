@@ -12,6 +12,9 @@ license = {text = "MIT"}
 authors = [{name = "DGX Spark Serve contributors"}]
 dependencies = []
 
+[project.optional-dependencies]
+evidence = ["jsonschema==4.26.0"]
+
 [project.scripts]
 spark-serve = "spark_serve.cli:main"
 

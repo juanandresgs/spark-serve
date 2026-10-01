@@ -1,0 +1,45 @@
+{
+  "label": "eager-context",
+  "original_receipt_sha256": "f4831739f4e4a0d1e6bdd821d344257c810d0180502c1d2bf1b1768722210a96",
+  "data": {
+    "settings": {
+      "seed": 42,
+      "temperature": 0,
+      "thinking": false
+    },
+    "started_utc": "2026-09-30T16:32:30.021452+00:00",
+    "ended_utc": "2026-09-30T16:49:44.814887+00:00",
+    "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+    "tokenized_prompt_tokens": 841804,
+    "phases": {
+      "cached_continuation": {
+        "cached_tokens": null,
+        "completion_tokens": 8,
+        "prompt_tokens": 841820,
+        "ttft_seconds": 5.459,
+        "wall_seconds": 5.518,
+        "decode_tokens_per_second": 118.51,
+        "finish_reason": "stop",
+        "generation_complete": null,
+        "retrieval_pass": null,
+        "continuation_pass": true,
+        "status": "complete",
+        "tokenized_prompt_tokens": 841820
+      },
+      "near_limit_retrieval_and_generation": {
+        "cached_tokens": null,
+        "completion_tokens": 8192,
+        "prompt_tokens": 841804,
+        "ttft_seconds": 640.344,
+        "wall_seconds": 1022.98,
+        "decode_tokens_per_second": 21.407,
+        "finish_reason": "length",
+        "generation_complete": false,
+        "retrieval_pass": true,
+        "continuation_pass": null,
+        "status": "complete",
+        "tokenized_prompt_tokens": null
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "import-20260930-qwen-public-build-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-30",
+  "recipe": {
+    "id": "qwen-affine4-source-20260930-v1",
+    "fingerprint": "1bc3a27cc210efb3e88bd01ba62809285cfe68d16790072e8456019f4089007c"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": "sha256:00798fd9f2c752ab20d62bd31a00817950cf0835276d1e8af3c82cbb4859c286",
+    "runtime_revision": null,
+    "model_revision": null,
+    "attestation": "Independent public dependency build receipt; existing checksum-verified weights reused. Other identity metadata not inferred."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {},
+    "unknowns": [
+      "Exact installed software, runtime/image identity and physical host parity not established by the numeric receipt."
+    ]
+  },
+  "workload_version": "historical-qwen-v1",
+  "measurements": [],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "passed",
+      "scope": "Fresh dependency build and kernel compilation with existing verified checkpoint."
+    },
+    "api_tool": {
+      "status": "passed",
+      "scope": "11 HTTP and 36 typed API checks; six exact sampled replays."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "Not tested by the independent public build receipt."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "Not repeated by this bounded build qualification."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not repeated by this bounded build qualification."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not repeated by this bounded build qualification."
+    },
+    "performance": {
+      "status": "not_tested",
+      "scope": "Not repeated by this bounded build qualification."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Not repeated by this bounded build qualification."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/c126444c94318e6a97e2babdad0512dee04aa1ee2e3f1a3df0dc43452d8b98f7.json",
+      "original_file": "recipes/qwen38-flash-affine4-1spark/build-validation.json",
+      "path": [],
+      "sha256": "c126444c94318e6a97e2babdad0512dee04aa1ee2e3f1a3df0dc43452d8b98f7"
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Existing weights reused. No clean-machine download, full performance repeat, reboot or endurance qualification."
+  ],
+  "fingerprint": "ff532b8e4891e45863cc451939d4c9a8d9ae69281836a60d9690801cbb0b146b"
+}

@@ -66,6 +66,8 @@ python evaluate.py --base http://127.0.0.1:8898/v1 --out results/reasoning.json 
 python api_checks.py --base http://127.0.0.1:8898/v1 --out results/api.json
 ```
 
+For immutable sanitized speed/context output, see the [structured evidence guide](../../evidence/README.md). It records actual server identity, fixture hashes, request settings, accounting and failures separately from local response text.
+
 Repeat reasoning with fixture seed20260930 and with `--budget 2048` for the optional
 policy. `--draft off` enables serial controls. These programs store local synthetic
 responses; review before sharing. Quality fixtures check the result, not merely

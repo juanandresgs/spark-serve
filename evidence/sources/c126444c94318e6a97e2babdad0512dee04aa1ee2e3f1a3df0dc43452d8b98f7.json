@@ -1,0 +1,14 @@
+{
+  "at": 1790781839.2793984,
+  "image": "sha256:00798fd9f2c752ab20d62bd31a00817950cf0835276d1e8af3c82cbb4859c286",
+  "api": 11,
+  "typed_api": 36,
+  "exact_sampled_replays": 6,
+  "fresh_model_download_tested": false,
+  "new_context_performance_tested": false,
+  "gpu_smoke_passed": true,
+  "adapter_unit_tests": 10,
+  "real_file_reader_passed": true,
+  "weights": "Existing pinned checksum-verified checkpoint reused; fresh download not repeated",
+  "scope": "Fresh public dependency build, kernel compilation, HTTP/tool checks and six exact sampled replays; not a repeat of full performance/quality suite"
+}

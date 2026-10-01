@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "glm-window-20260930-tf-graphs-v1",
+  "catalog_id": "research-glm-tf-graphs",
+  "model": "glm",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 2,
+    "memory_gb_per_node": 128,
+    "topology": "tensor parallel pair"
+  },
+  "pins": {
+    "target_repository": "Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw",
+    "target_revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "donor_revision": "e90ef415a2bf1274f848965a61144eca1e99eabf",
+    "donor_target_layers": [
+      15,
+      44
+    ],
+    "runtime_repository": "ashhart/TensorFold",
+    "runtime_revision": "9cd52ab4daba68ddd09be89be8f23ad43175e821",
+    "runtime_version": "0.5.0",
+    "rank_image_digests": [
+      "sha256:d9c5e16c0d72bfaff93d91f2eeff648a4a3007bc826f070f1ee68eb6042438e1",
+      "sha256:fcb2c29d87dc7dabbe39c1dd433c03c9eb3c941439a4ba3caf5407aebdc68f6d"
+    ],
+    "compact_tail_source_sha256": {
+      "tf_capacity_patch.py": "a56f696cc0e5d575209f949416fd1329859aef99db79e79402eb101ad33ca6fe",
+      "tail_gpu_check.py": "f56f8f560e587b0fd1f774adf0b6c497a0bf16190e1f806bc3fa6daefccad605"
+    }
+  },
+  "settings": {
+    "context_tokens": 850000,
+    "output_reserve": 8192,
+    "slots": 1,
+    "graphs_enabled": true,
+    "kv_dtype": "BF16 latent",
+    "modalities": [
+      "text"
+    ],
+    "draft_policy": "MTP only",
+    "prefill_rows": 2048,
+    "index_ring_rows": 2115,
+    "max_rollback_rows": 64
+  },
+  "requirements": {
+    "minimum_available_memory_gib_per_rank": 5,
+    "production_acceptance_required": true
+  },
+  "source_files": {},
+  "unknowns": [
+    "OS/driver/rank software parity not captured in this sanitized evidence.",
+    "Complete independently reproducible build/launcher source is not included in this research snapshot."
+  ],
+  "scope": "Research configuration only. Not a deployable or recommended recipe; original source/launcher qualification is separate.",
+  "fingerprint": "b44f6fda0d4755ed9d0c7f239a44f75b680451bca3d7acadba05125fbec5ff4e"
+}

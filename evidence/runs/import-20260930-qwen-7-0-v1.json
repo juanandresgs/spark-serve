@@ -1,0 +1,166 @@
+{
+  "accounting": {
+    "requests_attempted": null,
+    "requests_completed": null,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "cached_tokens": null,
+    "wall_seconds": null
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "import-20260930-qwen-7-0-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-29",
+  "recipe": {
+    "id": "qwen-exl3-source-20260930-v1",
+    "fingerprint": "5528f7e0c54af85e4fd564cd17f7f67df953ff5f71c4d2073701fa908f442489"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": null,
+    "attestation": "Imported from pinned public receipts; no new execution or actual-identity attestation."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {},
+    "unknowns": [
+      "Exact installed software, runtime/image identity and physical host parity not established by the numeric receipt."
+    ]
+  },
+  "workload_version": "historical-qwen-v1",
+  "measurements": [
+    {
+      "id": "m0",
+      "metric": "response_latency",
+      "value": 7.0906780219957,
+      "unit": "s",
+      "definition": "Client elapsed seconds from request start until the complete response, including validation/buffering where enabled.",
+      "aggregation": "median",
+      "samples": 196,
+      "sample_unit": "requests",
+      "population": "published cohort; see original receipt",
+      "conditions": {
+        "workload": "qwen-7",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true,
+          "reasoning_cap": null
+        },
+        "sampling": {
+          "temperature": 1.0,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/f3ca65cd3e564249b91137b519897d2c081ee9297238d6a6231312a8c00ca2c8.json",
+        "original_file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+        "path": [
+          "exl3",
+          "fresh_median_s"
+        ],
+        "sha256": "f3ca65cd3e564249b91137b519897d2c081ee9297238d6a6231312a8c00ca2c8"
+      }
+    },
+    {
+      "id": "m1",
+      "metric": "response_latency",
+      "value": 34.312757828010945,
+      "unit": "s",
+      "definition": "Client elapsed seconds from request start until the complete response, including validation/buffering where enabled.",
+      "aggregation": "p95",
+      "samples": 196,
+      "sample_unit": "requests",
+      "population": "published cohort; see original receipt",
+      "conditions": {
+        "workload": "qwen-7",
+        "fixture_sha256": null,
+        "concurrency": 4,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "thinking": true,
+          "reasoning_cap": null
+        },
+        "sampling": {
+          "temperature": 1.0,
+          "top_p": 0.95,
+          "top_k": 20
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/f3ca65cd3e564249b91137b519897d2c081ee9297238d6a6231312a8c00ca2c8.json",
+        "original_file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+        "path": [
+          "exl3",
+          "fresh_p95_s"
+        ],
+        "sha256": "f3ca65cd3e564249b91137b519897d2c081ee9297238d6a6231312a8c00ca2c8"
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "api_tool": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "clean_install": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "restart": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "reboot": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "Historical bounded workload only; does not qualify this published kit on a fresh machine."
+    },
+    "endurance": {
+      "status": "unknown",
+      "scope": "Not established by this imported measurement cohort. See separate qualification receipts."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/f3ca65cd3e564249b91137b519897d2c081ee9297238d6a6231312a8c00ca2c8.json",
+      "original_file": "recipes/qwen38-flash-affine4-1spark/quality.json",
+      "path": [],
+      "sha256": "f3ca65cd3e564249b91137b519897d2c081ee9297238d6a6231312a8c00ca2c8"
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Imported aggregate/cohort, not a newly executed run. Unknown metadata is deliberately not reconstructed from current defaults.",
+    "No percentage comparison permitted until required matching metadata is available."
+  ],
+  "fingerprint": "ca13f34f49df3b40a13111579517d1da1816f043a2c99fcdb7dbd4063f2253f7"
+}

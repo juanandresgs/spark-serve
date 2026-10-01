@@ -1,0 +1,215 @@
+{
+  "accounting": {
+    "requests_attempted": 1,
+    "requests_completed": 1,
+    "prompt_tokens": 841804,
+    "completion_tokens": 8192,
+    "cached_tokens": null,
+    "wall_seconds": 1022.98
+  },
+  "observations": [],
+  "schema_version": 1,
+  "kind": "run",
+  "id": "glm-window-20260930-eager-context-near-limit-retrieval-and-generation-v1",
+  "origin": "historical_import",
+  "recorded_at": "2026-09-30",
+  "executed_at": "2026-09-30T16:32:30.021452+00:00",
+  "recipe": {
+    "id": "glm-window-20260930-eager-adaptive-v1",
+    "fingerprint": "86d5d3951d65722239c3dbc99d4057ef2811cda671c00af87a74fb9f76b66fe9"
+  },
+  "identity": {
+    "relationship": "historical_association",
+    "image_digest": null,
+    "runtime_revision": null,
+    "model_revision": "25a44fdbf16862a46b7cc9921142c6c81350af2f",
+    "attestation": "Imported completed research receipt; rank identities retained where captured. No new execution, deployment or qualification by this import."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 2,
+      "memory_gb_per_node": 128,
+      "topology": "tensor parallel pair"
+    },
+    "software": {
+      "rank_image_digests": null
+    },
+    "unknowns": [
+      "OS/driver/rank software parity not captured in this sanitized evidence.",
+      "Complete independently reproducible build/launcher source is not included in this research snapshot.",
+      "Actual vLLM runtime revision and per-rank image digest not asserted from ambiguous historical inventory."
+    ]
+  },
+  "workload_version": "glm-window-20260930-v1",
+  "measurements": [
+    {
+      "id": "ttft-seconds",
+      "metric": "ttft",
+      "value": 640.344,
+      "unit": "s",
+      "definition": "Client start to first nonempty streamed token delta; unknown when no first token was received.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "near_limit_retrieval_and_generation",
+        "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd.json",
+        "sha256": "185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd",
+        "path": [
+          "data",
+          "phases",
+          "near_limit_retrieval_and_generation",
+          "ttft_seconds"
+        ]
+      }
+    },
+    {
+      "id": "wall-seconds",
+      "metric": "response_latency",
+      "value": 1022.98,
+      "unit": "s",
+      "definition": "Client request start to completion or bounded timeout; a timeout is not completed-answer latency.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "near_limit_retrieval_and_generation",
+        "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd.json",
+        "sha256": "185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd",
+        "path": [
+          "data",
+          "phases",
+          "near_limit_retrieval_and_generation",
+          "wall_seconds"
+        ]
+      }
+    },
+    {
+      "id": "decode-tokens-per-second",
+      "metric": "decode_rate_proxy",
+      "value": 21.407,
+      "unit": "tokens/s",
+      "definition": "(completion_tokens - 1) / (last streamed token delta time - first delta time); client streaming proxy.",
+      "aggregation": "single",
+      "samples": 1,
+      "sample_unit": "requests",
+      "population": "all attempted requests in the stated cohort; truncations retained",
+      "conditions": {
+        "workload": "near_limit_retrieval_and_generation",
+        "fixture_sha256": "5486f85dfceb32399fa8e799b129c7ded5c0bfcbe89d4333514285e5275a058a",
+        "concurrency": 1,
+        "cache": "unknown",
+        "request": {
+          "max_tokens": 8192,
+          "stream": true,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed": 42
+        },
+        "warmup": null
+      },
+      "source": {
+        "file": "evidence/sources/185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd.json",
+        "sha256": "185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd",
+        "path": [
+          "data",
+          "phases",
+          "near_limit_retrieval_and_generation",
+          "decode_tokens_per_second"
+        ]
+      }
+    }
+  ],
+  "failures": [
+    {
+      "category": "answer_cap_truncation",
+      "count": 1,
+      "detail": "Retrieval passed but the requested structured answer truncated at 8192 output tokens."
+    }
+  ],
+  "qualification": {
+    "build": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "api_tool": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "correctness": {
+      "status": "failed",
+      "scope": "Retrieval passed; complete requested answer failed because of cap truncation."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "Single near-limit capped-generation measurement only; not completed-task goodput."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "Not established by this bounded research cohort."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd.json",
+      "sha256": "185082e1bb1008ac839f1c43f7ebff86f88ce866a90a1dc877551aaa28af43dd",
+      "path": [
+        "data"
+      ]
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "Research evidence only; not a production finalist. No recommendation change.",
+    "Missing server environment/cache metadata and failures prevent percentage comparisons.",
+    "Cached tokens are unreported; continuation speed does not prove an instrumented cache hit. Same user-content fixture renders seven tokens differently between engines."
+  ],
+  "fingerprint": "344f88e1dbfeae9791ae2b81d196f0dc239651011570ce3445fe0d1a20678e0c"
+}
