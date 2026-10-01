@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -18,6 +19,35 @@ class InventoryVerifierTests(unittest.TestCase):
         source = (ROOT / "stage_model.py").read_text()
         self.assertIn(f'REPOSITORY = "{pins["model_repository"]}"', source)
         self.assertIn(f'REVISION = "{pins["model_revision"]}"', source)
+
+    def test_launch_example_matches_observed_native_runtime_flags(self):
+        guide = (ROOT / "README.md").read_text()
+        section = re.search(r"## Run a local experimental endpoint\s+.*?```sh\n(.*?)\n```", guide, re.S)
+        self.assertIsNotNone(section)
+        command = shlex.split(section.group(1).replace("\\\n", " "))
+        args = command[command.index("serve") + 2:]
+        options = {}
+        index = 0
+        while index < len(args):
+            option = args[index]
+            if not option.startswith("--"):
+                index += 1
+                continue
+            if index + 1 < len(args) and not args[index + 1].startswith("--"):
+                options[option] = args[index + 1]
+                index += 2
+            else:
+                options[option] = None
+                index += 1
+        expected = {
+            "--context": "262144", "--parallel": "4", "--max-tokens": "8192",
+            "--mtp-drafts": "6", "--mtp-confidence": "0.7", "--kv-dtype": "bf16",
+            "--decode-share": "0.0", "--no-thinking": None,
+            "--reasoning-effort": "medium", "--no-update-check": None,
+        }
+        self.assertEqual({key: options.get(key) for key in expected}, expected)
+        self.assertNotIn("--prompt-cache-gib", options)
+        self.assertNotIn("--snapshot-dir", options)
 
     def test_real_inventory_pins_encode_only_recorded_package_deltas(self):
         def inventory(name):

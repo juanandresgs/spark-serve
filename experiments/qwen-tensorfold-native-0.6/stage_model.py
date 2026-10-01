@@ -12,6 +12,27 @@ REVISION = "69e33439ae950f17bcbe95c98f117d80f759ab6d"
 
 
 def check(directory: Path, siblings: list[dict]) -> tuple[int, int]:
+    if not siblings:
+        raise ValueError("The pinned model revision returned no files")
+    for item in siblings:
+        relative = Path(item.get("rfilename", ""))
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ValueError("The model repository returned an unsafe path")
+    expected = {item.get("rfilename") for item in siblings}
+    if None in expected or len(expected) != len(siblings):
+        raise ValueError("The pinned model revision returned missing or duplicate file names")
+    actual = set()
+    for path in directory.rglob("*"):
+        relative = path.relative_to(directory).as_posix()
+        if relative == ".cache/huggingface" or relative.startswith(".cache/huggingface/"):
+            continue
+        if path.is_file() or path.is_symlink():
+            actual.add(relative)
+    if actual != expected:
+        extra = sorted(actual - expected)
+        missing = sorted(expected - actual)
+        raise ValueError(f"Model snapshot file set differs (extra={extra[:3]}, missing={missing[:3]})")
+
     count = total = 0
     for item in siblings:
         relative = Path(item["rfilename"])

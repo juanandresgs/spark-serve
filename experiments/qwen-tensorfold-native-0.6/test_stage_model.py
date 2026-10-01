@@ -41,6 +41,19 @@ class ModelStagerTests(unittest.TestCase):
                 check(Path(temp), [{"rfilename": "../outside", "size": 0,
                                     "lfs": {"sha256": hashlib.sha256(b"").hexdigest()}}])
 
+    def test_rejects_empty_manifest_and_extra_payload_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            with self.assertRaisesRegex(ValueError, "returned no files"):
+                check(root, [])
+            body = b"fixture"
+            (root / "expected.bin").write_bytes(body)
+            (root / "stale-model.bin").write_bytes(body)
+            with self.assertRaisesRegex(ValueError, "file set differs"):
+                check(root, [{"rfilename": "expected.bin", "size": len(body),
+                              "lfs": {"sha256": hashlib.sha256(body).hexdigest()}}])
+
+
     def test_rejects_symlink_escape(self):
         with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as outside:
             root = Path(temp)

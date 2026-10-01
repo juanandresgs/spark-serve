@@ -36,9 +36,9 @@ python stage_model.py --directory "$QWEN_DATA/target" --verify-only
 ```
 
 The model repository and commit are pinned in `pins.json`; the helper refuses a
-different commit. For a gated repository, authenticate with Hugging Face's
-standard token environment or credential store. Keep tokens outside shell
-history and source files.
+different commit. If Hugging Face requires authentication, export `HF_TOKEN`
+for both the manifest lookup and download. Keep the token outside shell history
+and source files.
 
 ## Run a local experimental endpoint
 
@@ -63,8 +63,8 @@ docker run --rm --name qwen-tensorfold-native \
   "$IMAGE" serve /model --backend cuda --name qwen3.8-flash-next \
   --host 127.0.0.1 --port 8080 --context 262144 --parallel 4 \
   --max-tokens 8192 --mtp-drafts 6 --mtp-confidence 0.7 \
-  --kv-dtype bf16 --prompt-cache-gib 2 --snapshot-dir none \
-  --no-thinking --no-update-check
+  --kv-dtype bf16 --decode-share 0.0 --no-thinking \
+  --reasoning-effort medium --no-update-check
 ```
 
 The endpoint binds loopback only and has no authentication layer. In another
@@ -78,6 +78,13 @@ curl --fail http://127.0.0.1:8080/v1/chat/completions \
   -H 'Content-Type: application/json' \
   -d '{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Return exactly READY"}],"max_tokens":32,"temperature":0}'
 ```
+
+These runtime options match the tested native launch profile. `--parallel 4`
+sets the engine's concurrent decode slots. Prefix retention and snapshots use
+TensorFold's native memory-managed defaults here; this command does not impose
+the older fixed 2 GiB prefix-cache cap or disable snapshots. A separate HTTP
+gateway's admission limit is not set by `--parallel` and must be configured
+independently when one is used.
 
 Stop the foreground container with Ctrl-C. This manual run command is for
 evaluation and acceptance; it does not install another service manager or
