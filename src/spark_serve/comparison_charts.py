@@ -43,7 +43,7 @@ def chart_data(root, data):
 def svg(chart):
     """Each workload has its own zero-based axis; labels never rely on color."""
     width = 600
-    height = 164 + 248 * len(chart['panels'])
+    height = 204 + 248 * len(chart['panels'])
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
              f'<title id="title">{escape(chart["title"])}</title>',
              f'<desc id="desc">{escape(chart["description"])} ' + escape('; '.join(
@@ -82,8 +82,9 @@ def svg(chart):
             text(x, axis_y + 26, f'{limit * fraction:g}', 20, text_anchor='middle')
         text(left + span / 2, axis_y + 49, panel['unit'], 18, text_anchor='middle')
     lines = textwrap.wrap(chart['footer'], 58)
+    footer_y = height - 20 - 24 * (len(lines) - 1)
     for j, line in enumerate(lines):
-        text(24, height - 38 + j * 24, line, 18)
+        text(24, footer_y + j * 24, line, 18)
     parts.append('</g></svg>\n')
     return '\n'.join(parts)
 

@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ComparisonChecks(unittest.TestCase):
     def test_page_and_choices(self):
         check_page(ROOT)
-        for name, expected in [('qwen', 'qwen38-flash-affine4-1spark'),
+        for name, expected in [('qwen', 'qwen-cooperative-exl3'),
                                ('glm', 'glm53-flash-adaptive-2spark')]:
             model, = options(ROOT, name)
             self.assertEqual([o['id'] for o in model['options'] if o['recommended']], [expected])
@@ -96,7 +96,7 @@ class ComparisonChecks(unittest.TestCase):
     def test_chart_structure_and_boundaries(self):
         data = load(ROOT)
         charts = chart_data(ROOT, data)
-        self.assertEqual(len(charts), 4)
+        self.assertEqual(len(charts), 5)
         for chart in charts:
             self.assertTrue(all(p['table'] != 'public' for p in chart['panels']))
             parsed = ET.fromstring(chart_outputs(ROOT, data)[chart['file']])

@@ -37,6 +37,10 @@ class GlmResearchEvidence(unittest.TestCase):
   self.assertIsNone(r['environment']['software']['rank_image_digests'])
   self.assertIn('full-model',r['qualification']['correctness']['scope'])
   decisions=[r for r in self.records.values() if r['kind']=='recommendation']
-  self.assertEqual(len(decisions),2)
+  self.assertEqual({d['id'] for d in decisions}, {
+   'qwen-recommendation-20260930-v1',
+   'glm-recommendation-20260930-v1',
+   'qwen-recommendation-20261001-v1',
+  })
   self.assertFalse(any(ref['id'].startswith('glm-window') for d in decisions for ref in d['evidence_runs']))
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,571 @@
+{
+  "schema_version": 1,
+  "kind": "run",
+  "id": "qwen-exl3-restored-c1-20261001-v1",
+  "origin": "local",
+  "recorded_at": "2026-10-01",
+  "executed_at": "2026-10-01",
+  "recipe": {
+    "id": "qwen-exl3-source-20260930-v1",
+    "fingerprint": "5528f7e0c54af85e4fd564cd17f7f67df953ff5f71c4d2073701fa908f442489"
+  },
+  "identity": {
+    "relationship": "attested_exact",
+    "image_digest": "sha256:df4b6473b42eacb6ad22a784ceba7153456c92c2e3dd4bdde8e9161b7637e938",
+    "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "attestation": "Separate sanitized ops identity receipt links the observed running image and pinned runtime/model revisions to the restored profile/rendered hashes and reviewed source verification; independent live container inspection confirmed the image digest."
+  },
+  "environment": {
+    "hardware": {
+      "accelerator": "NVIDIA GB10",
+      "nodes": 1,
+      "memory_gb_per_node": 128,
+      "topology": "single GPU"
+    },
+    "software": {
+      "runtime": "TensorFold 0.3.6.1",
+      "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+      "image_digest": "sha256:df4b6473b42eacb6ad22a784ceba7153456c92c2e3dd4bdde8e9161b7637e938",
+      "context_tokens": 262144,
+      "slots": 4,
+      "mtp_drafts": 6,
+      "cooperative_prefill_rows": 2048,
+      "decode_burst": 4,
+      "headskip": true,
+      "prompt_cache_gib": 2,
+      "snapshot_directory": "none",
+      "thinking_default": false
+    },
+    "unknowns": [
+      "Host OS and driver versions are not included in the sanitized benchmark receipt."
+    ]
+  },
+  "workload_version": "qwen-exl3-restored-speed-20261001",
+  "measurements": [
+    {
+      "id": "code-group-throughput",
+      "metric": "end_to_end_throughput",
+      "value": 86.39097030222648,
+      "unit": "tokens/s",
+      "definition": "Median across three request groups of total completion tokens divided by whole group wall time, including prefill; C1 groups run four requests serially and C4 groups run four concurrently.",
+      "aggregation": "median",
+      "samples": 3,
+      "sample_unit": "request groups",
+      "population": "3 groups \u00d7 4 synthetic code requests; C1 concurrency; all completions hit the 512-token cap.",
+      "conditions": {
+        "workload": "code-c1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed_policy": "fixed per prompt"
+        },
+        "warmup": "One exact-fixture warmup passed before measurements."
+      },
+      "source": {
+        "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+        "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+        "path": [
+          "groups",
+          0,
+          "aggregate_tokens_per_second_median"
+        ],
+        "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+      }
+    },
+    {
+      "id": "code-decode-proxy",
+      "metric": "decode_rate_proxy",
+      "value": 91.8234380665067,
+      "unit": "tokens/s",
+      "definition": "Median across three groups of the within-group median per-request decode-rate proxy; this is per-request decode timing, not group throughput.",
+      "aggregation": "median",
+      "samples": 3,
+      "sample_unit": "request groups",
+      "population": "3 groups \u00d7 4 synthetic code requests; C1 concurrency; all completions hit the 512-token cap.",
+      "conditions": {
+        "workload": "code-c1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed_policy": "fixed per prompt"
+        },
+        "warmup": "One exact-fixture warmup passed before measurements."
+      },
+      "source": {
+        "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+        "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+        "path": [
+          "groups",
+          0,
+          "median_decode_tokens_per_second_median"
+        ],
+        "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+      }
+    },
+    {
+      "id": "code-ttft",
+      "metric": "ttft",
+      "value": 0.24891430349089205,
+      "unit": "s",
+      "definition": "Median across three groups of the within-group median time to first token.",
+      "aggregation": "median",
+      "samples": 3,
+      "sample_unit": "request groups",
+      "population": "3 groups \u00d7 4 synthetic code requests; C1 concurrency; all completions hit the 512-token cap.",
+      "conditions": {
+        "workload": "code-c1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed_policy": "fixed per prompt"
+        },
+        "warmup": "One exact-fixture warmup passed before measurements."
+      },
+      "source": {
+        "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+        "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+        "path": [
+          "groups",
+          0,
+          "median_ttft_seconds_median"
+        ],
+        "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+      }
+    },
+    {
+      "id": "prose-group-throughput",
+      "metric": "end_to_end_throughput",
+      "value": 43.94001557347816,
+      "unit": "tokens/s",
+      "definition": "Median across three request groups of total completion tokens divided by whole group wall time, including prefill; C1 groups run four requests serially and C4 groups run four concurrently.",
+      "aggregation": "median",
+      "samples": 3,
+      "sample_unit": "request groups",
+      "population": "3 groups \u00d7 4 synthetic prose requests; C1 concurrency; all completions hit the 512-token cap.",
+      "conditions": {
+        "workload": "prose-c1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed_policy": "fixed per prompt"
+        },
+        "warmup": "One exact-fixture warmup passed before measurements."
+      },
+      "source": {
+        "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+        "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+        "path": [
+          "groups",
+          1,
+          "aggregate_tokens_per_second_median"
+        ],
+        "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+      }
+    },
+    {
+      "id": "prose-decode-proxy",
+      "metric": "decode_rate_proxy",
+      "value": 45.02555983113011,
+      "unit": "tokens/s",
+      "definition": "Median across three groups of the within-group median per-request decode-rate proxy; this is per-request decode timing, not group throughput.",
+      "aggregation": "median",
+      "samples": 3,
+      "sample_unit": "request groups",
+      "population": "3 groups \u00d7 4 synthetic prose requests; C1 concurrency; all completions hit the 512-token cap.",
+      "conditions": {
+        "workload": "prose-c1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed_policy": "fixed per prompt"
+        },
+        "warmup": "One exact-fixture warmup passed before measurements."
+      },
+      "source": {
+        "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+        "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+        "path": [
+          "groups",
+          1,
+          "median_decode_tokens_per_second_median"
+        ],
+        "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+      }
+    },
+    {
+      "id": "prose-ttft",
+      "metric": "ttft",
+      "value": 0.23461405996931717,
+      "unit": "s",
+      "definition": "Median across three groups of the within-group median time to first token.",
+      "aggregation": "median",
+      "samples": 3,
+      "sample_unit": "request groups",
+      "population": "3 groups \u00d7 4 synthetic prose requests; C1 concurrency; all completions hit the 512-token cap.",
+      "conditions": {
+        "workload": "prose-c1",
+        "fixture_sha256": null,
+        "concurrency": 1,
+        "cache": "uncontrolled",
+        "request": {
+          "max_tokens": 512,
+          "thinking": false
+        },
+        "sampling": {
+          "temperature": 0,
+          "seed_policy": "fixed per prompt"
+        },
+        "warmup": "One exact-fixture warmup passed before measurements."
+      },
+      "source": {
+        "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+        "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+        "path": [
+          "groups",
+          1,
+          "median_ttft_seconds_median"
+        ],
+        "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+      }
+    }
+  ],
+  "failures": [],
+  "qualification": {
+    "build": {
+      "status": "unknown",
+      "scope": "This record uses an identified existing image; it does not qualify a fresh public-source GPU build."
+    },
+    "api_tool": {
+      "status": "unknown",
+      "scope": "Not asserted by this speed run; operational roundtrip evidence is kept in the separate identity receipt."
+    },
+    "correctness": {
+      "status": "unknown",
+      "scope": "Every completion hit the 512-token cap with finish_reason length; the nonempty transport gate is not a correctness test."
+    },
+    "clean_install": {
+      "status": "not_tested",
+      "scope": "No fresh clean-machine install in this run."
+    },
+    "restart": {
+      "status": "not_tested",
+      "scope": "No restart test in this run."
+    },
+    "reboot": {
+      "status": "not_tested",
+      "scope": "No reboot test in this run."
+    },
+    "performance": {
+      "status": "passed",
+      "scope": "Three-repetition synthetic fixed-cap speed workload at C1/C4; no quality or uncapped completion claim."
+    },
+    "endurance": {
+      "status": "not_tested",
+      "scope": "No endurance test in this run."
+    }
+  },
+  "sources": [
+    {
+      "file": "evidence/sources/qwen-exl3-restoration-20261001-benchmark.json",
+      "sha256": "201f5aadc73838d2e37e4edfa9bde0273980525aa183f58ab5b10a8cb5be9ce5",
+      "path": [],
+      "original_file": "ops-sanitized-qwen-exl3-bench-summary.json"
+    },
+    {
+      "file": "evidence/sources/qwen-exl3-restoration-20261001-identity.json",
+      "sha256": "c3adc163561caada98c7ce4d0b96032363db528bc2581e549562ee2f56587d8d",
+      "path": [],
+      "original_file": "ops-sanitized-qwen-exl3-deployment-identity.json"
+    }
+  ],
+  "external_sources": [],
+  "limitations": [
+    "All 48 responses returned 512 tokens and finish_reason length by design; these are throughput-only results, not completed-answer correctness or quality evidence.",
+    "The benchmark process stayed running and no prompt-cache reset was performed; cache was uncontrolled even though runtime_stats.cached was zero for measured requests.",
+    "C1 denotes one active client making four serial requests per group; C4 denotes four simultaneous requests per group. Both use the four-slot backend.",
+    "Throughput is aggregate tokens per whole request-group second; per-request decode-rate proxy is a separate measurement.",
+    "This run does not establish fresh-source GPU build, clean install, reboot or endurance qualification."
+  ],
+  "accounting": {
+    "requests_attempted": 24,
+    "requests_completed": 24,
+    "prompt_tokens": 1644,
+    "completion_tokens": 12288,
+    "cached_tokens": 0,
+    "wall_seconds": null
+  },
+  "observations": [
+    {
+      "fixture_sha256": "3c109111357a7363a54c5511eddb2cf7548e4f40ba79c4bad104669bfeaa782c",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2480143749853596,
+      "response_seconds": 6.189554815995507,
+      "decode_rate_proxy": 86.0180121503033,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "4de1a2cbd10a3800adcad2854d6b881a5c1daf450b1374149632671dff075868",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2508747059619054,
+      "response_seconds": 5.817507572995964,
+      "decode_rate_proxy": 91.80873938008206,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "9c15296b5579edd2790b96f1b9b7d2b7e20b04431bc53ade5a6e7b7ea2dc4489",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.24632994399871677,
+      "response_seconds": 5.8925112939905375,
+      "decode_rate_proxy": 90.51426077981685,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "00fd5dc78c9b3879d224885d9310ee9f4ab47ecf6b8c66e71dd0ae9e6af4e17e",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2498142319964245,
+      "response_seconds": 5.7930581260006875,
+      "decode_rate_proxy": 92.19165474734912,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "87859a9c0640451c9168a3f9f9472a4d5195887c2f3dd628c1b2ef496da44c2a",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.24622229201486334,
+      "response_seconds": 5.901185862021521,
+      "decode_rate_proxy": 90.38433822216713,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "ed1f30e31cfee620f81f67599f781b59184ebd2320237b2a48ea9208904805b4",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2542309089913033,
+      "response_seconds": 5.811322879977524,
+      "decode_rate_proxy": 91.98204351187529,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "50f8c78db5d42059e236599451fd80be1dd4530338af1a391e030fb85415eba2",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23771927098277956,
+      "response_seconds": 5.813557249028236,
+      "decode_rate_proxy": 91.66483262113812,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "130effe018c9c7e7b51cbef872423533852d15339aa059e2fcc88cae1bdd4e9d",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2451613710145466,
+      "response_seconds": 5.768692515033763,
+      "decode_rate_proxy": 92.53112597338286,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "80b2a2bb7c1eb80246f885b7a5262ae5145770c4eeeff3d1a998ab421c8d57d2",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.25241519295377657,
+      "response_seconds": 6.593758595990948,
+      "decode_rate_proxy": 80.59839925971572,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "1042bd85995bd50069d0bdf829b07f0c21c2772a3ed39d991d1446b7debc9dc3",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2523744099889882,
+      "response_seconds": 5.767615552991629,
+      "decode_rate_proxy": 92.6537118246764,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "dae7bfe808c7e26e9282be46c4989d10dfe1a276c04b5900a32755407a1d4862",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.25229019997641444,
+      "response_seconds": 5.741137597011402,
+      "decode_rate_proxy": 93.111307846627,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "c1100481adfbc766bedfbf4c238b30540b6c1dbb11d48d02869493004ae2d6bd",
+      "prompt_tokens": 74,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.25812039797892794,
+      "response_seconds": 5.709637497959193,
+      "decode_rate_proxy": 93.75162214616356,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "da4a0ad75a15d8ee0719c01d6ed534b54d33b65b76a79b1d7d820cb10d613e05",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.24095827800920233,
+      "response_seconds": 11.46029582497431,
+      "decode_rate_proxy": 45.550357791997214,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "b586c7e39c460e41636c2c4204e56eac358f825fb924be318346f19de46af3d1",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23383765295147896,
+      "response_seconds": 12.068966961000115,
+      "decode_rate_proxy": 43.179872060161024,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "c2bd9b05d1c3b9e931522f50c7230f24b17bcd37032b76929486ba34a38712f4",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2316012799856253,
+      "response_seconds": 11.063458185992204,
+      "decode_rate_proxy": 47.18812240046728,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "0c5ee1e8dc9e3a47f659df3ceeb257dcbdab19b570bbf68e30699eca58262e4c",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23539046698715538,
+      "response_seconds": 12.191301878949162,
+      "decode_rate_proxy": 42.74288226158509,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "a270821b4c050a90b24ad94f62e24aae0471ab2d7e05f5191ffac94b5f95337a",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23045398900285363,
+      "response_seconds": 11.220252561965026,
+      "decode_rate_proxy": 46.501653811174535,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "aa4b11eaf191ce05433b99f7640bb8850ffaef02cab19b1a51ca0c882f84a9b2",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23337403096957132,
+      "response_seconds": 11.32349731301656,
+      "decode_rate_proxy": 46.081966924703835,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "19960e00ed5538533d64c34fce5b8833995541974ee1ffd2e7ec01cb32b76deb",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.22845532902283594,
+      "response_seconds": 12.200279779033735,
+      "decode_rate_proxy": 42.68696273325472,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "c345cd7220103dc1377dae3bba11541cb54179e61dd5597032e1db6ba95664a4",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2417585370130837,
+      "response_seconds": 11.86443350504851,
+      "decode_rate_proxy": 43.96915273755638,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "2bd0dc5e77ac70f10c674c15074dcd03c708d89278e4b3dfea1ee17778e26cf6",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.24355410400312394,
+      "response_seconds": 11.477146714983974,
+      "decode_rate_proxy": 45.49430011583591,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "1db7b804444abad6962dbfeeea4fb38b33a4122bff85e4a31c776936d0030c1b",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23270558996591717,
+      "response_seconds": 12.004001113004051,
+      "decode_rate_proxy": 43.41561670042607,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "a7397f989a84d5d2dd792e57dbeca873a3ffb11336d56d44ac6f9aab0fe3d593",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.23089517204789445,
+      "response_seconds": 10.983596791047603,
+      "decode_rate_proxy": 47.52785695074329,
+      "outcome": "passed_basic_gate"
+    },
+    {
+      "fixture_sha256": "5b284cdd5eebf94e006557377b966af5783a0d956553c9092b0e2452216e7e66",
+      "prompt_tokens": 63,
+      "completion_tokens": 512,
+      "cached_tokens": 0,
+      "ttft_seconds": 0.2403512590099126,
+      "response_seconds": 11.23870462202467,
+      "decode_rate_proxy": 46.46530663792599,
+      "outcome": "passed_basic_gate"
+    }
+  ],
+  "fingerprint": "bfd65d8d97e1d267b62ceeada19eb8e0cd4bcf98174fa05f9b261b34bd14cfbd"
+}

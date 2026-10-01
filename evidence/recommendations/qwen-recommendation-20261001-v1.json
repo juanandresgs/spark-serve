@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "kind": "recommendation",
+  "id": "qwen-recommendation-20261001-v1",
+  "model": "qwen",
+  "hardware_nodes": 1,
+  "selected": {
+    "id": "qwen-exl3-source-20260930-v1",
+    "fingerprint": "5528f7e0c54af85e4fd564cd17f7f67df953ff5f71c4d2073701fa908f442489"
+  },
+  "alternatives": [
+    {
+      "catalog_id": "qwen38-flash-affine4-1spark",
+      "rationale": "Stronger measured long-prompt completion and mixed-traffic short-request latency in its September 29 test; fresh public-source build checks apply to Affine4 only."
+    },
+    {
+      "catalog_id": "qwen38-flash-1spark",
+      "rationale": "Previous managed recipe; retained for existing deployments."
+    }
+  ],
+  "evidence_runs": [
+    {
+      "id": "import-20260930-qwen-0-0-v1",
+      "fingerprint": "153b1364e97adba6aab77480e5ee4e65d8c950714f9cc126cf2b0b7b616b7ede"
+    },
+    {
+      "id": "import-20260930-qwen-1-0-v1",
+      "fingerprint": "b8fda35fc16e86cd0768cf26cc55c3d0deb3e1635e590ead1733e257eec1369e"
+    },
+    {
+      "id": "import-20260930-qwen-2-0-v1",
+      "fingerprint": "1e124e6807509477f78617743c2758c84c4299ee327674cca61a84041ab0a1cd"
+    },
+    {
+      "id": "import-20260930-qwen-3-0-v1",
+      "fingerprint": "8a70c91949649d2940d64594091672eb16645731e1eb741855ecb36526b0c457"
+    },
+    {
+      "id": "import-20260930-qwen-4-0-v1",
+      "fingerprint": "ff6bbc2f7fa1dd178b39b4c5d6d9e43fe0c7168601f58a8761d5bd75e9416857"
+    },
+    {
+      "id": "import-20260930-qwen-5-0-v1",
+      "fingerprint": "5559dc81dbc6c3f6b097fd0bae4ccd2b5e3a8f1d52a663c2e628ca8809dc3852"
+    },
+    {
+      "id": "import-20260930-qwen-6-0-v1",
+      "fingerprint": "7438d2b9a4e426d8d2c235b0586d81d18de4135effffd1af0fec1d6ac343d3d8"
+    },
+    {
+      "id": "import-20260930-qwen-7-0-v1",
+      "fingerprint": "ca13f34f49df3b40a13111579517d1da1816f043a2c99fcdb7dbd4063f2253f7"
+    },
+    {
+      "id": "import-20260930-qwen-8-0-v1",
+      "fingerprint": "5eae243a6850e41fa84e0637f2bd14972490b8fecc5d8da4f1ce2e22db22f883"
+    },
+    {
+      "id": "qwen-exl3-restored-c1-20261001-v1",
+      "fingerprint": "bfd65d8d97e1d267b62ceeada19eb8e0cd4bcf98174fa05f9b261b34bd14cfbd"
+    },
+    {
+      "id": "qwen-exl3-restored-c4-20261001-v1",
+      "fingerprint": "b8c3a8a344cda68cd9553239770b9f91aa4a0766c6134f1e865cb7831d1a12e8"
+    }
+  ],
+  "rationale": "Recommend cooperative EXL3 for measured coding throughput and reasoning latency. This decision uses the same-image October 1 C1/C4 throughput runs plus the retained September 29 full-recipe comparison; it does not claim broad quality superiority or qualify a fresh public-source GPU build.",
+  "review": {
+    "status": "reviewed",
+    "basis": "Operator authorized the cooperative EXL3 recommendation. The decision is supported by same-image October 1 C1/C4 throughput records and retained historical comparisons; fresh-source build qualification remains separate.",
+    "date": "2026-10-01"
+  },
+  "limitations": [
+    "The September 29 historical C4 aggregate has incomplete image identity; October 1 C1/C4 receipts are linked to the identified restored EXL3 image.",
+    "A fresh public-source GPU build and install of this recipe remain unqualified.",
+    "The alternative Affine4 source-build qualification does not qualify the EXL3 source kit.",
+    "October 1 requests all reached the 512-token cap and ended with finish_reason length; this is not task correctness or quality evidence.",
+    "Fresh public-source GPU build qualification and destination acceptance remain distinct from this existing-image speed test."
+  ],
+  "fingerprint": "541e42a3c66c6c5146a2ffe3e2413fb0ad25e8b21f96b8f454676cb9e1a95195"
+}
