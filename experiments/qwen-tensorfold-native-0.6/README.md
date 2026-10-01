@@ -1,8 +1,8 @@
 # TensorFold 0.6.0 native source build (experimental)
 
-This is a public, portable source-build scaffold for TensorFold 0.6.0 and the pinned Qwen EXL3 model. It is retained for evaluation only, not as the production recommendation. The separate cancellation-plus-burst4 derivative was built from the archived public package and passed its 14-test CPU gate. Its image was started in a rank-2-only experimental maintenance slot with the burst setting verified; a named API roundtrip had not yet run in the activation receipt. GPU behavior, throughput, quality, and serving reliability are not qualified.
+TensorFold is the serving software; EXL3 is the model's compressed weight format. This is a public source-build scaffold for TensorFold 0.6.0 and the pinned Qwen EXL3 model. It remains experimental while final-image speed, quality, context and mixed-traffic checks complete. The retained cancellation-plus-burst4 parent is a separate baseline; see the dated qualification record for which checks apply to each image.
 
-The base image, runtime commit, and model revision are pinned in `pins.json`. The base image's 216-package inventory and the tested primary runtime's 217-package inventory differ only by TensorFold 0.6.0. `runtime-constraints.txt` pins the base inventory; it is not an install requirements file. The Dockerfile installs the pinned TensorFold source without dependency resolution, checks that every active TensorFold dependency is present and satisfies its declared version, then compares the complete result with `expected-primary-inventory.json`. A build fails for missing packages, extra packages, or version drift. Capture method and package deltas are recorded in [`inventory-provenance.json`](inventory-provenance.json).
+The base image, runtime commit, and model revision are pinned in `pins.json`. The base image's 216-package inventory and the tested primary runtime's 217-package inventory differ only by TensorFold 0.6.0. `runtime-constraints.txt` pins the base inventory; it is not an install requirements file. The primary Dockerfile installs the pinned TensorFold source under those constraints, checks that active dependencies satisfy their declared versions, then compares the complete result with `expected-primary-inventory.json`. A build fails for missing packages, extra packages, or version drift. Patched derivative Dockerfiles reinstall the local source with `--no-deps`; their complete input hashes and package inventory checks are recorded separately. Capture method and package deltas are recorded in [`inventory-provenance.json`](inventory-provenance.json).
 
 ## Build and inspect
 
@@ -17,6 +17,72 @@ python3 build.py --tag local/qwen-tensorfold-native:0.6.0 \
 The build pulls the exact base digest, checks out the exact TensorFold commit, validates the runtime version and complete package inventory, then records the local image ID, repository digests when available, rootfs diff IDs, source hashes, and pinned model/runtime identity. Image IDs are daemon-store-specific: compare repository and rootfs provenance across Docker stores rather than requiring `.Id` equality. The local `.Id` is not treated as a config digest.
 
 This command builds the primary runtime only. It does not download model weights, create a serving configuration, or deploy anything. Use a separately reviewed model staging and launch procedure. Do not treat a successful build or matching package inventory as GPU or end-to-end qualification.
+
+## Stage the pinned model snapshot
+
+The model weights are downloaded separately from Hugging Face. `stage_model.py`
+pins the exact repository revision and checks every file against its published
+LFS SHA-256 or Git blob ID. It does not write an absolute path or credential to
+a receipt. Install `huggingface_hub` in a host Python environment, then run:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install 'huggingface_hub==1.24.0'
+QWEN_DATA=/srv/qwen-tensorfold-native
+mkdir -p "$QWEN_DATA/target"
+python stage_model.py --directory "$QWEN_DATA/target"
+python stage_model.py --directory "$QWEN_DATA/target" --verify-only
+```
+
+The model repository and commit are pinned in `pins.json`; the helper refuses a
+different commit. For a gated repository, authenticate with Hugging Face's
+standard token environment or credential store. Keep tokens outside shell
+history and source files.
+
+## Run a local experimental endpoint
+
+After building the cancellation, burst-4 and 1024-row prefill derivatives below,
+this command starts the final image in the foreground. That image sets
+`TF_FLASH_DECODE_BURST=4` and `TF_FLASH_PREFILL_ROWS=1024`; its model files are
+the pinned EXL3 weight pack. Image labels and settings are part of the recipe
+identity.
+
+```sh
+QWEN_DATA=/srv/qwen-tensorfold-native
+QWEN_CACHE="$QWEN_DATA/cache"
+IMAGE=local/qwen-tensorfold-native:0.6.0-cancel-burst4-prefill1024
+mkdir -p "$QWEN_CACHE"
+docker run --rm --name qwen-tensorfold-native \
+  --gpus all --network host --ipc host --cap-add IPC_LOCK --ulimit memlock=-1 \
+  -v "$QWEN_DATA/target:/model:ro" -v "$QWEN_CACHE:/cache" \
+  -e OMP_NUM_THREADS=4 -e TORCH_CUDA_ARCH_LIST=12.1 -e MAX_JOBS=2 \
+  -e HF_HUB_OFFLINE=1 -e HF_HOME=/cache/hf \
+  -e TRITON_CACHE_DIR=/cache/triton -e TORCH_EXTENSIONS_DIR=/cache/torch \
+  -e PYTHONUNBUFFERED=1 \
+  "$IMAGE" serve /model --backend cuda --name qwen3.8-flash-next \
+  --host 127.0.0.1 --port 8080 --context 262144 --parallel 4 \
+  --max-tokens 8192 --mtp-drafts 6 --mtp-confidence 0.7 \
+  --kv-dtype bf16 --prompt-cache-gib 2 --snapshot-dir none \
+  --no-thinking --no-update-check
+```
+
+The endpoint binds loopback only and has no authentication layer. In another
+terminal, wait for startup and check health, model discovery, and a simple
+completion:
+
+```sh
+curl --fail http://127.0.0.1:8080/health
+curl --fail http://127.0.0.1:8080/v1/models
+curl --fail http://127.0.0.1:8080/v1/chat/completions \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Return exactly READY"}],"max_tokens":32,"temperature":0}'
+```
+
+Stop the foreground container with Ctrl-C. This manual run command is for
+evaluation and acceptance; it does not install another service manager or
+replace an existing lifecycle authority. A passing health check or sample
+request is not a substitute for the bounded workload and recovery checks below.
 
 ## Reproduce the fixed-cap C1/C4 speed screen
 

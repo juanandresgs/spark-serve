@@ -13,6 +13,12 @@ ROOT = SCRIPT.parent
 
 
 class InventoryVerifierTests(unittest.TestCase):
+    def test_model_stager_uses_the_recipe_repository_and_revision(self):
+        pins = json.loads((ROOT / "pins.json").read_text())
+        source = (ROOT / "stage_model.py").read_text()
+        self.assertIn(f'REPOSITORY = "{pins["model_repository"]}"', source)
+        self.assertIn(f'REVISION = "{pins["model_revision"]}"', source)
+
     def test_real_inventory_pins_encode_only_recorded_package_deltas(self):
         def inventory(name):
             return {row["name"]: row["version"] for row in
