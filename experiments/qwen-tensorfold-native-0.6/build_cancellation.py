@@ -22,6 +22,12 @@ def inspect(image):
     return json.loads(output(["docker", "image", "inspect", image]))[0]
 
 
+def valid_cpu_test_result(result, expected=6):
+    return (result.get("tests_run") == expected and result.get("failures") == 0 and
+            result.get("errors") == 0 and result.get("skipped") == 0 and
+            result.get("successful") is True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--parent-image-id", required=True,
@@ -56,14 +62,37 @@ def main():
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     child = inspect(args.tag)
-    test_output = output(["docker", "run", "--rm", "--network=none", "--entrypoint",
-                          "python", child["Id"],
-                          "/opt/spark-serve/cancellation/test_prefill_cancel.py"])
+    test_code = r'''
+import importlib.util, io, json, pathlib, sys, unittest
+path = pathlib.Path('/opt/spark-serve/cancellation/test_prefill_cancel.py')
+spec = importlib.util.spec_from_file_location('test_prefill_cancel', path)
+module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+suite = unittest.defaultTestLoader.loadTestsFromModule(module)
+stream = io.StringIO()
+result = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
+payload = {'tests_run': result.testsRun, 'failures': len(result.failures),
+           'errors': len(result.errors), 'skipped': len(result.skipped),
+           'successful': result.wasSuccessful(), 'log': stream.getvalue()}
+print(json.dumps(payload, sort_keys=True))
+if result.testsRun != 6 or not result.wasSuccessful() or result.skipped:
+    sys.exit(1)
+'''
+    tested = subprocess.run(["docker", "run", "--rm", "--network=none", "--entrypoint",
+                             "python", child["Id"], "-c", test_code],
+                            check=False, capture_output=True, text=True)
+    if tested.returncode:
+        raise SystemExit("six-test cancellation CPU gate failed; inspect stderr and unittest log")
+    try:
+        cpu_result = json.loads(tested.stdout.strip().splitlines()[-1])
+    except (IndexError, json.JSONDecodeError) as exc:
+        raise SystemExit("CPU test command did not emit a structured result") from exc
+    if not valid_cpu_test_result(cpu_result):
+        raise SystemExit("structured CPU test result failed validation")
     rootfs = child.get("RootFS", {}).get("Layers", [])
     receipt = {
         "schema_version": 1,
         "variant": "experimental-native-prefill-cancellation",
-        "qualification": "CPU App.run/scheduler regression passed; GPU cancellation latency and serving qualification pending",
+        "qualification": "CPU App.run/scheduler/decoder-round regression passed; GPU cancellation latency and serving qualification pending",
         "local_parent_image_id": parent["Id"],
         "local_image_id": child["Id"],
         "local_image_id_semantics": "daemon-store-specific; may identify config or manifest",
@@ -75,8 +104,8 @@ def main():
         "patch_sha256": manifest["patch_sha256"],
         "patch_manifest_sha256": sha(manifest_path),
         "test_source_sha256": sha(test_path),
-        "cpu_test_output": test_output,
-        "cpu_tests": "5 passed; real App.run callback wrapper, scheduler, socket-pair cancellation; GPU work mocked",
+        "cpu_test_result": cpu_result,
+        "cpu_test_stderr": tested.stderr,
     }
     out = args.receipt.resolve()
     out.parent.mkdir(parents=True, exist_ok=True)

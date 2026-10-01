@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import unittest
+from build_cancellation import valid_cpu_test_result
 
 ROOT = Path(__file__).resolve().parent
 
@@ -32,6 +33,13 @@ class CancellationVariantTests(unittest.TestCase):
         for rel, expected in manifest["files"].items():
             actual = hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
             self.assertEqual(actual, expected, rel)
+
+    def test_cpu_gate_requires_six_successful_tests_and_no_skips(self):
+        good = {"tests_run": 6, "failures": 0, "errors": 0, "skipped": 0, "successful": True}
+        self.assertTrue(valid_cpu_test_result(good))
+        for change in ({"tests_run": 5}, {"failures": 1}, {"errors": 1},
+                       {"skipped": 1}, {"successful": False}):
+            self.assertFalse(valid_cpu_test_result(good | change), change)
 
 
 if __name__ == "__main__":
