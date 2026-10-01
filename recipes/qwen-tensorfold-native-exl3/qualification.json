@@ -1,0 +1,9 @@
+{
+  "recipe_id": "qwen-tensorfold-native-exl3",
+  "status": "experimental",
+  "evidence_scope": "Pinned public source scaffold and sanitized package inventories from tested native images. The exported source kit has not been rebuilt; these inventory records alone do not qualify GPU behavior, model quality, throughput, full-context, or deployment behavior.",
+  "source_build_gpu_qualified": false,
+  "destination_acceptance_required": true,
+  "hold": "Experimental source path only. Await exported-kit GPU rebuild and separate correctness/serving qualification before consideration for recommendation.",
+  "optional_grammar_qualified": false
+}

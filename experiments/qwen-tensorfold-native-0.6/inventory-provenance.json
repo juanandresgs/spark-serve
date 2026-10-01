@@ -1,0 +1,43 @@
+{
+  "base_to_primary": {
+    "added": {
+      "tensorfold": "0.6.0"
+    },
+    "changed": {},
+    "removed": {}
+  },
+  "capture_method": "python -m pip list --format=json; package names and versions only",
+  "inventory_counts": {
+    "pinned_base": 216,
+    "tested_optional_grammar_runtime": 222,
+    "tested_primary_native_runtime": 217
+  },
+  "primary_to_grammar": {
+    "added": {
+      "annotated-doc": "0.0.5",
+      "shellingham": "1.5.4",
+      "transformers": "5.18.0",
+      "typer": "0.27.2",
+      "xgrammar": "0.2.8"
+    },
+    "changed": {
+      "hf-xet": {
+        "after": "1.6.0",
+        "before": "1.5.2"
+      },
+      "huggingface-hub": {
+        "after": "1.33.0",
+        "before": "1.24.0"
+      }
+    },
+    "removed": {}
+  },
+  "public_content_scope": "Counts, normalized names, versions, and source artifact checksums; no image IDs, hosts, paths, or environment details.",
+  "qualification": "Package inventory parity targets only. They do not qualify a build from this public kit or GPU/serving behavior.",
+  "schema_version": 1,
+  "source_artifact_sha256": {
+    "packages-base.json": "ce88a76790856706f176860661a1676a2c6d151fcb3437d33b793667c5e01645",
+    "packages-grammar.json": "454a6ae28015bce92bb5975cf05b6edf02aa201880373066c36c3ae202b815a5",
+    "packages-primary.json": "dfe96f7ec5c49ce20bf0f9787aaddd7093d5de44889804dfdf6f94cda850ec20"
+  }
+}

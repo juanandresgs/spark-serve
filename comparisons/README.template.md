@@ -1,6 +1,6 @@
 # spark-serve
 
-**Put your DGX Spark to work: Qwen on one, GLM on two.**
+**Choose a one-Spark Qwen recipe or a two-Spark GLM recipe.**
 
 Build a local, OpenAI-compatible model server with pinned sources and settings,
 practical run guides, and measurements you can inspect. Start with the recipes
@@ -9,7 +9,9 @@ separately from their publishers.
 
 {{choices}}
 
-These are our recommended starting points for each model. Context and request
+These are our recommended starting points for each model. They are deployment
+choices; the measurements below do not establish performance parity between
+one- and two-Spark systems. Context and request
 counts are configured limits, not a promise of simultaneous maximum-length
 capacity. The results below help choose a **recipe**; they do not rank the two
 models' quality.
@@ -39,10 +41,11 @@ PYTHONPATH=src python3 -m spark_serve recipes options
 
 ## Qwen: cooperative EXL3 is the recommended starting point
 
-Choose cooperative EXL3 for its measured coding throughput and reasoning
-latency. Choose Affine4 when long-prompt completion and mixed-traffic latency
-matter more. These one-Spark tests do not establish overall parity with a
-two-Spark system.
+Choose cooperative EXL3 when the October 1 capped code-throughput result fits
+your workload. The September 29 reasoning and latency results are historical,
+small-sample observations, not a matched-medium quality claim. Choose Affine4
+when its measured long-prompt completion and mixed-traffic latency fit your
+workload.
 
 ### Fresh C1/C4 test on the restored EXL3 image · October 1
 
@@ -80,7 +83,9 @@ isolate runtime-engine effects from quantization effects.
 {{qwen-waiting}}
 
 The historical September 29 figures do not establish the exact image identity of
-every run. The long-prompt figure measures a **completed, validated JSON answer**, not time
+every run or effective reasoning effort across the runtime versions. Their
+reasoning scores and latencies are not a matched-medium quality comparison. The
+long-prompt figure measures a **completed, validated JSON answer**, not time
 to first token. Latency is elapsed waiting time; lower is faster. The median is
 the middle result; p95 describes the slow end. Single context/mixed runs and
 small tail samples are observations, not guarantees.

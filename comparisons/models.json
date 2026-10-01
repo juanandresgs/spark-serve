@@ -561,7 +561,7 @@
       "rows": [
         {
           "metric": "Qwen C4 prose",
-          "boundary": "Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. Public number is decode rate.",
+          "boundary": "Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. The public README does not state repetitions for its C4 decode row.",
           "local": {
             "refs": [
               {

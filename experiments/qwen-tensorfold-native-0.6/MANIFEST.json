@@ -1,0 +1,27 @@
+{
+  "files": {
+    ".dockerignore": "19c64a27d09b72dec25ea027a6f8b4e8246f4fa94f26eace1453354950d05d54",
+    ".gitignore": "88365bff662dc429e68cbfae5d14c19a5c756230a03d264d59394c5937ba7934",
+    "Dockerfile": "778d6b507b20f372b387003cb5938266ae093a64277ba5d8ab1069ee36f75212",
+    "Dockerfile.grammar": "fdbeb3accd198d5d92e7447683a76a570214c707f183eb2a4a340571bc134f0a",
+    "LICENSE": "6fde45f1978fe8f7977e2634cb17b9db23b0f5ecf6c833cdcc51bee67dfe7e50",
+    "README.md": "e5711e3c2ca9047c5f65d706944231149ba61e84b8b8473cba27d7ca501d0bab",
+    "THIRD_PARTY.md": "58f5c8bb18c01cf37af570d67e0e2ce64a9a33f19fef845b5e440ba0e64f67e8",
+    "TensorFold-LICENSE.txt": "be6a9ee4462784a762b21790954b8e76c4dcacc9fb6da2a40d03a8a9bddec93e",
+    "build.py": "75e85f6a3799c78767e723f8b9d322dccbf335d3328662e262e79271f0c32f34",
+    "build_grammar.py": "6a7e289afe7fe1e7494fbcc020c44dfa8afae7084372a454bd3bd7992adc1cbd",
+    "expected-base-inventory.json": "bacf7911ad7a7a6098d3e83f7bf81f3b0f9a0b9bc56e3aefe1d1f6a729dc4b01",
+    "expected-grammar-inventory.json": "4de5283c65d04f3d1276fd587d29ab3d160101937561051c079a282fe374b6fb",
+    "expected-primary-inventory.json": "6a969eb971198d3a131b69b421b874ce39c6f7142f646a884254cac0a6cb8f55",
+    "grammar-constraints.txt": "e74ae01c8a2280e8c6e39fe597f29e2516eaaed46298bd253c4d49a83139509b",
+    "grammar-requirements.txt": "41a49a7483179da76ff5853be5663b67bfd846d105b43950c6af338b5c816c54",
+    "inventory-provenance.json": "5668ac2b79828eb75854dc1f3a64022943555c709dccb28a269bb9eb71112322",
+    "inventory.py": "71988e0d2b6a4f85c605d0bacd17a50233663d9df220068d62ea4ab6cd93fc53",
+    "pins.json": "e3b00bc2c301981b954ecd1e5b2e7d44943168818455bca3ac50fdab39cc5093",
+    "runtime-constraints.txt": "0d037b30f5e202a066e320eb47b281201db9c17022c2049636fc6cc9964f1336",
+    "test_inventory.py": "f09da3302f30d78256bf3a8b9b0073b12cbe5694c7f3744424b43216cbfad7eb",
+    "verify_runtime.py": "90f0d327db9c7ecb83ec6cd8ad4d47eb7965cc83511fa42d203704150b3e8d76"
+  },
+  "kind": "qwen-tensorfold-native-source-scaffold",
+  "public_build_gpu_qualified": false
+}

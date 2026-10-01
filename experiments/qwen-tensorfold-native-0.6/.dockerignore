@@ -1,0 +1,11 @@
+*
+!Dockerfile
+!runtime-constraints.txt
+!expected-base-inventory.json
+!expected-primary-inventory.json
+!expected-grammar-inventory.json
+!grammar-constraints.txt
+!grammar-requirements.txt
+!Dockerfile.grammar
+!inventory.py
+!verify_runtime.py

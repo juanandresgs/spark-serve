@@ -37,6 +37,8 @@ jobs:
         run: spark-serve --help
       - name: Check standalone recipe contract
         run: python3 deploy/check_source_recipe.py
+      - name: Check pinned native source inventories
+        run: python3 -m unittest discover -s experiments/qwen-tensorfold-native-0.6 -p 'test_*.py'
       - name: Check Affine4 CPU adapters and launcher syntax
         run: |
           python3 -m pip install jsonschema==4.26.0
