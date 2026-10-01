@@ -1,0 +1,49 @@
+{
+  "docker_context_policy": "The .dockerignore uses an explicit allowlist. Speed replay and curator files are package assets but are excluded from the runtime image build context.",
+  "input_sha256": {
+    "cancellation_derivative_build": {
+      "Dockerfile.cancellation": "faffd5141858b848c166f72e56b39f092bc4b060284bb505591931a60888a837",
+      "build_cancellation.py": "82deafec68b9f9caa671ad2bfcc1f6d422aec0470cb14d649c7989ed116db228",
+      "cancellation/patch-manifest.json": "19f8f7f263502f9cba3fe545ff9814b220a9cad37d41e5064f148edb6ff5c764",
+      "cancellation/prefill-cancellation.patch": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+      "cancellation/test_prefill_cancel.py": "ba6480da73e1f6f042f536df703cc579182fd39e1a90b268c552dfd68a6ce97d"
+    },
+    "public_speed_replay": {
+      "benchmark_speed.py": "9e5c2817c4157dd760b4e1216a65ac64f8d9418b0b8993af42e5df3e2c5f2da8",
+      "curate_speed.py": "7af6a2203489af88fc2c06177142b4dffcaea33de6e3d4ef721f3f64481e8c16",
+      "speed_protocol.py": "369ba023e58340121fec081957a8441d3156515cfa91336f804ffe8524e53e97",
+      "test_speed_replay.py": "571b3b620cac4fff4b37e6da7616a675fa2b9ec4d930d6fc34a5c196a263980e",
+      "transport.py": "fc7d044ae3cf5851d21f7c2b3f37dd9f3218727f2123b3ddb2be1581689ac28f"
+    },
+    "stock_runtime_build": {
+      "Dockerfile": "778d6b507b20f372b387003cb5938266ae093a64277ba5d8ab1069ee36f75212",
+      "build.py": "75e85f6a3799c78767e723f8b9d322dccbf335d3328662e262e79271f0c32f34",
+      "expected-base-inventory.json": "bacf7911ad7a7a6098d3e83f7bf81f3b0f9a0b9bc56e3aefe1d1f6a729dc4b01",
+      "expected-primary-inventory.json": "6a969eb971198d3a131b69b421b874ce39c6f7142f646a884254cac0a6cb8f55",
+      "inventory.py": "71988e0d2b6a4f85c605d0bacd17a50233663d9df220068d62ea4ab6cd93fc53",
+      "pins.json": "e3b00bc2c301981b954ecd1e5b2e7d44943168818455bca3ac50fdab39cc5093",
+      "runtime-constraints.txt": "0d037b30f5e202a066e320eb47b281201db9c17022c2049636fc6cc9964f1336",
+      "verify_runtime.py": "90f0d327db9c7ecb83ec6cd8ad4d47eb7965cc83511fa42d203704150b3e8d76"
+    }
+  },
+  "runtime_pins": {
+    "base_image": "nvcr.io/nvidia/pytorch@sha256:2140e699b3beaf7f96a0081fd9c9406bc3832b435cdb60dfa2d261f7d2f34a1c",
+    "model_branch": "3.05bpw_h5_ng5",
+    "model_repository": "turboderp/Qwen3.8-Flash-Next-exl3",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "runtime_repository": "https://github.com/ashhart/TensorFold",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+    "runtime_version": "0.6.0"
+  },
+  "schema_version": 1,
+  "source_kit_scope": "Public allowlisted source inputs; no deployment configuration, route, host, or raw output capture.",
+  "speed_protocol": {
+    "canonical_fixture_map_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+    "canonical_reference_transport_sha256": "f626622413c9de1ec8b6b1ba9a01cbae4fd4a6795dea7e4b39f3225b19a05bff",
+    "canonical_schedule_module_sha256": "369ba023e58340121fec081957a8441d3156515cfa91336f804ffe8524e53e97",
+    "endpoint_policy": "Endpoint is supplied at runtime and is never copied into the receipt.",
+    "local_transport_change": "Adds optional Authorization bearer header from an environment variable; request JSON, fixture prompts, and stream parsing are otherwise unchanged.",
+    "raw_response_policy": "Response and reasoning text remain in memory only and are removed before the run receipt is written.",
+    "version": "cell-warmup-v2"
+  }
+}

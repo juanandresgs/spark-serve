@@ -18,6 +18,87 @@ The build pulls the exact base digest, checks out the exact TensorFold commit, v
 
 This command builds the primary runtime only. It does not download model weights, create a serving configuration, or deploy anything. Use a separately reviewed model staging and launch procedure. Do not treat a successful build or matching package inventory as GPU or end-to-end qualification.
 
+## Reproduce the fixed-cap C1/C4 speed screen
+
+The standalone `benchmark_speed.py` replays the portable `cell-warmup-v2`
+protocol used for the October 2026 comparison. It sends one exact-answer
+128-token canary, then four excluded warmup cells (C1 code, C1 prose, C4 code,
+C4 prose; four requests each), then 64 measured requests: four repetitions of
+those same four cells, with the cell order reversed on alternating repetitions.
+C1 uses one active client for four serial requests; C4 uses four simultaneous
+clients. All code and prose requests use the same two fixed prompts with unique
+numbered fixture identifiers, a 512-token cap, temperature 0, thinking off,
+medium effort fields, and the recorded deterministic seed formula. Warmups are
+kept separately and are never included in the measured rates.
+
+Create a local identity file containing only the pinned recipe identity and
+public setting values. For example:
+
+```json
+{
+  "schema_version": 1,
+  "image_digest": "sha256:<64 lowercase hex digits>",
+  "runtime_repository": "https://github.com/ashhart/TensorFold",
+  "runtime_revision": "<40 lowercase hex digits>",
+  "runtime_version": "0.6.0",
+  "model_repository": "turboderp/Qwen3.8-Flash-Next-exl3",
+  "model_revision": "<40 lowercase hex digits>",
+  "model_branch": "3.05bpw_h5_ng5",
+  "configuration_sha256": "<64 lowercase hex digits>",
+  "settings": {
+    "context_tokens": 262144,
+    "parallel_slots": 4,
+    "max_output_tokens": 8192,
+    "kv_cache": "bfloat16",
+    "mtp_tokens": 6,
+    "reasoning_effort": "medium",
+    "thinking": "off"
+  }
+}
+```
+
+Then run the same command for each arm, changing only the endpoint, served
+model alias, label, and identity file to match the arm actually measured:
+
+```sh
+python3 benchmark_speed.py \
+  --base "$SPARK_SERVE_BASE" \
+  --model qwen3.8-flash-next \
+  --label native-cancel \
+  --identity ./identity.json \
+  --out ./results/native-cancel.json \
+  --timing-condition quiet
+python3 curate_speed.py ./results/native-cancel.json \
+  --out ./results/native-cancel-summary.json
+```
+
+The base URL must be user supplied and end in `/v1`. An optional bearer token
+comes from `SPARK_SERVE_API_KEY`; neither its value nor the endpoint or identity
+file path is written to the receipt. The identity schema rejects endpoint,
+host, node, credential, and arbitrary setting fields. Receipts retain only the
+allowlisted recipe identity, request and response hashes, token counts, finish
+reasons, event timings, cache counters when exposed, and numeric group
+summaries. Model response and reasoning text are discarded before any receipt
+is written. Keep each arm's receipt separate and preserve failed or incomplete
+results.
+
+Rates are total completion tokens divided by the full four-request group wall
+time, including prefill and queueing. A cell receives a numeric rate only when
+all four repetitions pass valid token-usage, visible-output, finish-reason, and
+no-reasoning gates. Failed or incomplete cells remain `null`; they are not
+treated as zero or silently dropped. A `length` finish is accepted for this
+throughput-only 512-token screen only when all 512 completion tokens are
+reported. This does not measure task correctness or answer quality. No prompt
+cache reset is performed; the receipt records any cache counters the endpoint
+provides. Mark a run `quiet` only after the operators confirm no competing
+benchmark or staging traffic.
+
+The schedule is pinned in `speed_protocol.py`; the two prompt fixtures and
+OpenAI-compatible streaming request logic are in `transport.py`. The test suite
+checks the canonical fixture hash, request body, bearer-token handling, warmup
+exclusion, privacy boundary, and missing-result curation without calling a
+model endpoint.
+
 ## Separate prefill-cancellation variant
 
 The optional `Dockerfile.cancellation` builds an experimental derivative from
