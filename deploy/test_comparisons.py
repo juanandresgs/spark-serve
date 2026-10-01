@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ComparisonChecks(unittest.TestCase):
     def test_page_and_choices(self):
         check_page(ROOT)
-        for name, expected in [('qwen', 'qwen-cooperative-exl3'),
+        for name, expected in [('qwen', 'qwen-tensorfold-native-exl3'),
                                ('glm', 'glm53-flash-adaptive-2spark')]:
             model, = options(ROOT, name)
             self.assertEqual([o['id'] for o in model['options'] if o['recommended']], [expected])
@@ -75,15 +75,16 @@ class ComparisonChecks(unittest.TestCase):
             with self.assertRaisesRegex(ConfigError, 'boundary'):
                 load(root)
 
-    def test_public_reference_can_explain_pending_local_selected_image(self):
+    def test_public_reference_has_separate_local_decode_proxy(self):
         data = load(ROOT)
         row, = [r for r in data['tables']['public']['rows']
                 if r['metric'] == 'Qwen C1 prose decode']
-        self.assertNotIn('local', row)
-        self.assertEqual(row['local_pending'], 'Pending final selected-image C1 result')
+        self.assertIn('local', row)
+        self.assertNotIn('local_pending', row)
         rendered = render(ROOT)
         self.assertIn('62.4 tokens/s', rendered)
-        self.assertIn('Pending final selected-image C1 result', rendered)
+        self.assertIn('51.99 tokens/s', rendered)
+        self.assertIn('These timing definitions and source details differ', rendered)
 
     def test_charts_follow_evidence_and_detect_chart_drift(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -106,7 +107,7 @@ class ComparisonChecks(unittest.TestCase):
     def test_chart_structure_and_boundaries(self):
         data = load(ROOT)
         charts = chart_data(ROOT, data)
-        self.assertEqual(len(charts), 5)
+        self.assertEqual(len(charts), 6)
         for chart in charts:
             self.assertTrue(all(p['table'] != 'public' for p in chart['panels']))
             parsed = ET.fromstring(chart_outputs(ROOT, data)[chart['file']])
@@ -116,7 +117,7 @@ class ComparisonChecks(unittest.TestCase):
             self.assertTrue(parsed.find('svg:desc', ns).text)
             # All evidence bars share a true zero origin. No truncated bars.
             bars = [r for r in parsed.findall('.//svg:rect', ns) if r.attrib.get('height') == '25']
-            self.assertEqual(len(bars), 2 * len(chart['panels']))
+            self.assertEqual(len(bars), len(chart['series']) * len(chart['panels']))
             self.assertTrue(all(r.attrib['x'] == '24' for r in bars))
         tail = next(c for c in charts if c['file'].endswith('qwen-tails.svg'))
         self.assertEqual([round(v, 2) for v in tail['panels'][1]['values']], [25.06, 243.56])

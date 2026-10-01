@@ -8,8 +8,8 @@
     "experiments/qwen-tensorfold-native-0.6/Dockerfile.chunk": "d5c57a25c4ec631a126dda3254b0d96b8706dd3682acb9b1327ee7f1b7a62eb5",
     "experiments/qwen-tensorfold-native-0.6/Dockerfile.grammar": "fdbeb3accd198d5d92e7447683a76a570214c707f183eb2a4a340571bc134f0a",
     "experiments/qwen-tensorfold-native-0.6/LICENSE": "6fde45f1978fe8f7977e2634cb17b9db23b0f5ecf6c833cdcc51bee67dfe7e50",
-    "experiments/qwen-tensorfold-native-0.6/MANIFEST.json": "9f07eab8ad8349a73ed9f00fcce136525a08fe26c2971e5a1a74e24664ae8737",
-    "experiments/qwen-tensorfold-native-0.6/README.md": "2244757f77f8dcf9fdb1c6eab71f4eeb0cd077312cea84ec3ad942050f254d9a",
+    "experiments/qwen-tensorfold-native-0.6/MANIFEST.json": "b6ba3a00683f27feb0f292094a5e34923f63b814039b17e0559a1b9de5b6d919",
+    "experiments/qwen-tensorfold-native-0.6/README.md": "3a3c64f2d47b398041848bd998e8dd820952ab7b2676850452f8fa8a9c681b4f",
     "experiments/qwen-tensorfold-native-0.6/THIRD_PARTY.md": "58f5c8bb18c01cf37af570d67e0e2ce64a9a33f19fef845b5e440ba0e64f67e8",
     "experiments/qwen-tensorfold-native-0.6/TensorFold-LICENSE.txt": "be6a9ee4462784a762b21790954b8e76c4dcacc9fb6da2a40d03a8a9bddec93e",
     "experiments/qwen-tensorfold-native-0.6/benchmark-provenance.json": "5bbf8883dcf068b189c542c662d8e62adc8c8b931e99b7dc1b0a2f6363d95c41",
@@ -51,20 +51,19 @@
     "experiments/qwen-tensorfold-native-0.6/test_burst_variant.py": "be03f7bd5f4d844723e7f574d2d4ebd21bbd86862c6c7b0290769ea917feaa2c",
     "experiments/qwen-tensorfold-native-0.6/test_cancellation_variant.py": "610bc78a58532c976718143c62a79c6c3218f3e021e17e9aa5eee268bd0e1b0e",
     "experiments/qwen-tensorfold-native-0.6/test_chunk_variant.py": "71c9de4db09fb5730d5eb131337c3e5eafe03665a1b03d85f613d54ee48be57f",
-    "experiments/qwen-tensorfold-native-0.6/test_inventory.py": "f574592021053413b9ec934098a8a177e0e6eaa0efbe42a59bc913b622105c87",
+    "experiments/qwen-tensorfold-native-0.6/test_inventory.py": "16b36810c1f14387b5f92a49e9a022387c71ed0e2fb182d40ca2407e051af5c3",
     "experiments/qwen-tensorfold-native-0.6/test_quality_contract.py": "285b37f0f1ae41f5920b0c8f23a12cdc92be6d76065b056e3b3f7ff1aade0729",
     "experiments/qwen-tensorfold-native-0.6/test_speed_replay.py": "9286b3d6a5428b3a35d307e950d14969a90bc54c170b515d6fcc39219bdbacf5",
     "experiments/qwen-tensorfold-native-0.6/test_stage_model.py": "c98ad9a7a93756410021bf0c35fce182285b0a7792a28ebe0ac20338554bf56e",
     "experiments/qwen-tensorfold-native-0.6/transport.py": "fc7d044ae3cf5851d21f7c2b3f37dd9f3218727f2123b3ddb2be1581689ac28f",
     "experiments/qwen-tensorfold-native-0.6/verify_runtime.py": "90f0d327db9c7ecb83ec6cd8ad4d47eb7965cc83511fa42d203704150b3e8d76",
-    "recipes/qwen-tensorfold-native-exl3/qualification.json": "5279b3becd3aea4e8a4e509d261ad8d49ae4afe2f1f0efa2cc71b92dd8ce394d"
+    "recipes/qwen-tensorfold-native-exl3/qualification.json": "fe342370bea579bc05c52205b628b8d6d33684013d0ead974eeb3d88bea0ec96"
   },
   "configuration": {},
-  "deployment_scope": "Experimental portable source-build scaffold with separate prefill-cancellation and cancellation-plus-decode-burst-4 derivatives. It does not include model weights, a deployment profile, or a broker adapter. The burst4 derivative build and CPU gate passed; GPU and serving qualification remain pending.",
+  "deployment_scope": "Standalone source-built Docker recipe: TensorFold 0.6.0 with reviewed cancellation, decode-burst4 and prefill1024 patches; four engine slots, 262,144-token configured context, BF16 KV, native memory-managed prefix/snapshot defaults. Production checks are bounded; destination acceptance, reboot and endurance remain separate.",
   "evidence": "recipes/qwen-tensorfold-native-exl3/qualification.json",
   "gpu_nodes": 1,
   "guide": "experiments/qwen-tensorfold-native-0.6/README.md",
-  "hold": "Not recommended. The burst4 derivative passed its build and CPU gate, but GPU behavior, model quality, throughput, API/tool correctness, and serving qualification remain pending.",
   "id": "qwen-tensorfold-native-exl3",
   "kind": "standalone-source",
   "pins_file": "experiments/qwen-tensorfold-native-0.6/pins.json",
@@ -76,6 +75,6 @@
     "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
     "target_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d"
   },
-  "status": "experimental",
-  "title": "Qwen EXL3 with TensorFold 0.6.0 native runtime (experimental source scaffold)"
+  "status": "recommended-with-caveats",
+  "title": "Patched TensorFold 0.6 + EXL3 on one Spark"
 }

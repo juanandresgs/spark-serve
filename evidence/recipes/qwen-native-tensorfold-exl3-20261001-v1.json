@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "recipe",
+  "id": "qwen-native-tensorfold-exl3-20261001-v1",
+  "catalog_id": "qwen-tensorfold-native-exl3",
+  "model": "qwen",
+  "hardware": {
+    "accelerator": "NVIDIA GB10",
+    "nodes": 1,
+    "memory_gb_per_node": 128,
+    "topology": "single GPU"
+  },
+  "pins": {
+    "runtime_repository": "ashhart/TensorFold",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+    "runtime_version": "0.6.0",
+    "target_repository": "turboderp/Qwen3.8-Flash-Next-exl3",
+    "target_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "target_branch": "3.05bpw_h5_ng5",
+    "source_kit_archive_sha256": "9688af15ee166db056d3ccc0b731c86dbc47623e6335649581c239aa3a3ae250",
+    "cancellation_patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "decode_burst_patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+    "prefill_rows_patch_sha256": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77"
+  },
+  "settings": {
+    "context_tokens": 262144,
+    "slots": 4,
+    "max_output_tokens": 8192,
+    "kv_cache": "bf16",
+    "mtp_drafts": 6,
+    "mtp_confidence": 0.7,
+    "decode_share": 0.0,
+    "prefill_rows": 1024,
+    "decode_burst": 4,
+    "reasoning_effort": "medium",
+    "default_thinking": false,
+    "prompt_cache": "native memory-gated default",
+    "snapshots": "runtime default; not disabled",
+    "grammar": "not installed"
+  },
+  "requirements": {
+    "destination_acceptance_required": true,
+    "runtime": "Linux ARM64, NVIDIA-enabled Docker, verified Qwen model snapshot; engine parallelism4; independent gateway admission"
+  },
+  "source_files": {
+    "experiments/qwen-tensorfold-native-0.6/MANIFEST.json": "9f07eab8ad8349a73ed9f00fcce136525a08fe26c2971e5a1a74e24664ae8737",
+    "experiments/qwen-tensorfold-native-0.6/pins.json": "e3b00bc2c301981b954ecd1e5b2e7d44943168818455bca3ac50fdab39cc5093",
+    "experiments/qwen-tensorfold-native-0.6/Dockerfile": "778d6b507b20f372b387003cb5938266ae093a64277ba5d8ab1069ee36f75212",
+    "experiments/qwen-tensorfold-native-0.6/Dockerfile.chunk": "d5c57a25c4ec631a126dda3254b0d96b8706dd3682acb9b1327ee7f1b7a62eb5",
+    "experiments/qwen-tensorfold-native-0.6/cancellation/patch-manifest.json": "19f8f7f263502f9cba3fe545ff9814b220a9cad37d41e5064f148edb6ff5c764",
+    "experiments/qwen-tensorfold-native-0.6/decode-burst/patch-manifest.json": "f89c0a40740a1e71efa39b0a542c2b51e432bddecce9c81bb64d68187d51f5b3",
+    "experiments/qwen-tensorfold-native-0.6/scheduling/chunk/patch-manifest.json": "a202b067d1fa5b54e9770fe936601b16a60377775baf93cfb7daac7b433e61ba"
+  },
+  "unknowns": [
+    "A fresh independent GPU build from the published guide and a clean weight download are not established by this record.",
+    "Gateway admission, restart, reboot, and endurance qualification remain separate."
+  ],
+  "scope": "Final TensorFold 0.6.0 plus reviewed cancellation, decode-burst4 and prefill1024 source variant; speed observations are fixed-cap throughput only.",
+  "fingerprint": "848dcfeb62b6e531874a6138387c38569f8a9b9718f0559ead1e72160963034a"
+}

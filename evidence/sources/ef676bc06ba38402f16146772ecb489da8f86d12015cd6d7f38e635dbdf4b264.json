@@ -1,0 +1,227 @@
+{
+  "projection_schema": "qwen-final-core-public-v1",
+  "recipe": "control",
+  "source_summary_sha256": {
+    "reasoning": "0071fd965f83b0afe44562c60bb174bf758a60b953ec11a436ae0718368a7afd",
+    "coding": "44f5ce84b9ded4526e8fb106344545e950e9fcb76e3004bd6422c2d096a783f7",
+    "context": "5d807831b6bcb343f001e276b7f7b3e8370c0b5bce2b4662adf498e5d6db1610"
+  },
+  "mixed_audit_sha256": "bf4e4cbb71c2ec9d4a5624068d61aedea1def9a45a12654e7e4641e3a5ab15f1",
+  "identity": {
+    "local_image_id": "sha256:df4b6473b42eacb6ad22a784ceba7153456c92c2e3dd4bdde8e9161b7637e938",
+    "runtime_version": "TensorFold 0.3.6.1 / 34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+    "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+    "model": "turboderp/Qwen3.8-Flash-Next-exl3 / 69e33439ae950f17bcbe95c98f117d80f759ab6d / 3.05bpw_h5_ng5",
+    "settings": {
+      "slots": 4,
+      "context": 262144,
+      "prompt_cache_gib": 2,
+      "snapshots": false,
+      "prefill_rows": 2048,
+      "mtp": 6
+    }
+  },
+  "quality_protocol": {
+    "reasoning_fixture_sha256": "4536b2d82b43be0cc79f17eee26dc3e9963457ac9e427f70dbf3726fdc2bb5a8",
+    "reasoning_fixture_seeds": [
+      937,
+      1459
+    ],
+    "reasoning_rows_per_sampling_seed": 200,
+    "reasoning_unique_prompts": 195,
+    "sampling_seed": 61000,
+    "coding_cases_sha256": "32e2c1e1434a0d943ede77b9c20595065fdb3898342ea0452db197df99236942",
+    "coding_cases": 20,
+    "coding_sampling_seed": 61000,
+    "clients": 4,
+    "reasoning_policy": {
+      "version": "dual-medium-v1",
+      "reasoning_effort": "medium",
+      "placement": "top_level_and_chat_template_kwargs",
+      "thinking": true,
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20
+    },
+    "coding_policy": {
+      "version": "dual-medium-v1",
+      "reasoning_effort": "medium",
+      "placement": "top_level_and_chat_template_kwargs",
+      "thinking": true,
+      "temperature": 1,
+      "top_p": 0.95,
+      "top_k": 20
+    },
+    "scope": "Synthetic exact-answer reasoning and 20 executable coding cases; not a broad model-quality benchmark.",
+    "runner_included": false
+  },
+  "quality": {
+    "reasoning": {
+      "requests": 200,
+      "unique_prompts": 195,
+      "passed_requests": 200,
+      "distinct_first_passed": 195,
+      "distinct_all_repeats_passed": 195,
+      "errors": 0,
+      "format_compliant_requests": 200,
+      "logical_correct_requests": 200
+    },
+    "coding": {
+      "requests": 20,
+      "unique_prompts": 20,
+      "passed_requests": 20,
+      "errors": 0
+    }
+  },
+  "context": {
+    "131072": {
+      "cold": {
+        "observed_response_seconds": 183.09526775899576,
+        "strict_json_pass": 1,
+        "logical_retrieval_correct": true,
+        "format_compliant": true,
+        "prompt_tokens": 131091,
+        "completion_tokens": 53,
+        "cached_prompt_tokens": 0,
+        "finish_reason": "stop",
+        "http_status": 200
+      },
+      "resend": {
+        "observed_response_seconds": 183.20985284697963,
+        "strict_json_pass": 1,
+        "logical_retrieval_correct": true,
+        "format_compliant": true,
+        "prompt_tokens": 131091,
+        "completion_tokens": 53,
+        "cached_prompt_tokens": 0,
+        "finish_reason": "stop",
+        "http_status": 200
+      },
+      "append": {
+        "observed_response_seconds": 1.1716713310452178,
+        "strict_json_pass": 1,
+        "logical_retrieval_correct": true,
+        "format_compliant": true,
+        "prompt_tokens": 131162,
+        "completion_tokens": 53,
+        "cached_prompt_tokens": 0,
+        "finish_reason": "stop",
+        "http_status": 200
+      }
+    },
+    "253824": {
+      "cold": {
+        "observed_response_seconds": 535.499086628959,
+        "strict_json_pass": 1,
+        "logical_retrieval_correct": true,
+        "format_compliant": true,
+        "prompt_tokens": 253836,
+        "completion_tokens": 53,
+        "cached_prompt_tokens": 0,
+        "finish_reason": "stop",
+        "http_status": 200
+      },
+      "resend": {
+        "observed_response_seconds": 535.3574214300024,
+        "strict_json_pass": 1,
+        "logical_retrieval_correct": true,
+        "format_compliant": true,
+        "prompt_tokens": 253836,
+        "completion_tokens": 53,
+        "cached_prompt_tokens": 0,
+        "finish_reason": "stop",
+        "http_status": 200
+      },
+      "append": {
+        "observed_response_seconds": 1.4129033259814605,
+        "strict_json_pass": 1,
+        "logical_retrieval_correct": true,
+        "format_compliant": true,
+        "prompt_tokens": 253907,
+        "completion_tokens": 53,
+        "cached_prompt_tokens": 0,
+        "finish_reason": "stop",
+        "http_status": 200
+      }
+    }
+  },
+  "mixed": {
+    "repetitions": [
+      200,
+      201
+    ],
+    "clients": 4,
+    "effective_policy": {
+      "version": "dual-medium-v1",
+      "reasoning_effort": "medium",
+      "placement": "top_level_and_chat_template_kwargs",
+      "thinking": false,
+      "temperature": 0,
+      "top_p": null,
+      "top_k": null
+    },
+    "same_input_policy_all_arms": true,
+    "paired_input_audit": {
+      "rows": 16,
+      "prompt_token_counts_and_caps_matched": true,
+      "prompt_text_hashes_withheld": true
+    },
+    "cells": {
+      "131072-active_short_code": {
+        "requests": 2,
+        "gate_passes": 2,
+        "observed_e2e_median_seconds": 140.4218258835317,
+        "observed_e2e_n": 2,
+        "strict_json_passes": 0,
+        "logical_retrieval_correct": null,
+        "cache_hits": 0
+      },
+      "131072-long_prefill": {
+        "requests": 2,
+        "gate_passes": 2,
+        "observed_e2e_median_seconds": 198.89165653850068,
+        "observed_e2e_n": 2,
+        "strict_json_passes": 2,
+        "logical_retrieval_correct": 2,
+        "cache_hits": 0
+      },
+      "131072-new_short_prose": {
+        "requests": 4,
+        "gate_passes": 4,
+        "observed_e2e_median_seconds": 79.20089838845888,
+        "observed_e2e_n": 4,
+        "strict_json_passes": 0,
+        "logical_retrieval_correct": null,
+        "cache_hits": 0
+      },
+      "253824-active_short_code": {
+        "requests": 2,
+        "gate_passes": 2,
+        "observed_e2e_median_seconds": 140.50336570551735,
+        "observed_e2e_n": 2,
+        "strict_json_passes": 0,
+        "logical_retrieval_correct": null,
+        "cache_hits": 0
+      },
+      "253824-long_prefill": {
+        "requests": 2,
+        "gate_passes": 2,
+        "observed_e2e_median_seconds": 551.2723515554972,
+        "observed_e2e_n": 2,
+        "strict_json_passes": 2,
+        "logical_retrieval_correct": 2,
+        "cache_hits": 0
+      },
+      "253824-new_short_prose": {
+        "requests": 4,
+        "gate_passes": 4,
+        "observed_e2e_median_seconds": 79.53753688299912,
+        "observed_e2e_n": 4,
+        "strict_json_passes": 0,
+        "logical_retrieval_correct": null,
+        "cache_hits": 0
+      }
+    },
+    "scope": "Two quiet repetitions. Latencies are observed response times. Short code/prose cases are capped gate probes, not completed-task quality. No p95 from n=2 or n=4."
+  }
+}

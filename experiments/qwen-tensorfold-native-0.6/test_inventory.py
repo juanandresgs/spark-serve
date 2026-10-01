@@ -22,7 +22,7 @@ class InventoryVerifierTests(unittest.TestCase):
 
     def test_launch_example_matches_observed_native_runtime_flags(self):
         guide = (ROOT / "README.md").read_text()
-        section = re.search(r"## Run a local experimental endpoint\s+.*?```sh\n(.*?)\n```", guide, re.S)
+        section = re.search(r"## Run the recommended endpoint\s+.*?```sh\n(.*?)\n```", guide, re.S)
         self.assertIsNotNone(section)
         command = shlex.split(section.group(1).replace("\\\n", " "))
         args = command[command.index("serve") + 2:]

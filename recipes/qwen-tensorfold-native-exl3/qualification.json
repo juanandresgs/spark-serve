@@ -8,7 +8,7 @@
     "status": "experimental"
   },
   "destination_acceptance_required": true,
-  "evidence_scope": "The pinned stock-source scaffold and separate cancellation-plus-burst4 derivative are experimental. The archived burst4 derivative build passed its 14-test mocked-GPU CPU gate and was started in a rank-2-only maintenance slot with TF_FLASH_DECODE_BURST=4 observed. A named API roundtrip had not yet run in the activation receipt. No GPU cancellation latency, speed, model quality, full-context, endurance, reboot-recovery, or serving qualification is established.",
+  "evidence_scope": "The exact public source variant was independently built on two native hosts, and the production primary image completed bounded speed, synthetic quality, context, mixed-traffic, API/tool, and named Pi/Hermes adapter-client checks. The two host-local image IDs differ; runs are separate, never pooled. Fresh destination acceptance, reboot, and endurance remain untested.",
   "experimental_cancel_burst4_derivative": {
     "activation_observed": true,
     "activation_receipt_sha256": "e4ca2d43c2a9851999ccb3f4c32ca206f9f5ae700b56ce001cda9fe8230a9be4",
@@ -36,22 +36,60 @@
     "speed_or_quality_qualified": false,
     "status": "experimental source variant"
   },
-  "hold": "Experimental source variants only. Burst4 has a public build/activation receipt and CPU gate. The chained 1024-row derivative is source-only pending exact-parent builds on both native hosts, 19 CPU checks per image, then separate GPU/API, correctness, throughput, context, recovery, and endurance qualification. Keep burst4-only as the distinct 2048-row baseline.",
+  "hold": "New destinations must follow the pinned source/model steps and complete their own acceptance. Reboot and long-duration endurance remain untested; this is not a broad quality claim.",
   "optional_grammar_qualified": false,
   "recipe_id": "qwen-tensorfold-native-exl3",
-  "source_build_gpu_qualified": false,
-  "status": "experimental",
+  "source_build_gpu_qualified": true,
+  "status": "recommended-with-caveats",
   "experimental_cancel_burst4_prefill1024_derivative": {
-    "status": "experimental source variant",
-    "setting": "TF_FLASH_DECODE_BURST=4 and TF_FLASH_PREFILL_ROWS=1024; burst4-only 2048-row image remains separate baseline",
+    "status": "selected final variant; bounded production checks passed",
+    "setting": "TF_FLASH_DECODE_BURST=4 and TF_FLASH_PREFILL_ROWS=1024; burst4-only 2048-row image remains a separate historical baseline",
     "parent_burst_patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
     "patch_sha256": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77",
-    "cpu_test_gate": "Six cancellation, eight burst, and five chunk CPU tests; no skips allowed",
-    "exported_image_built": false,
-    "cpu_test_gate_passed": false,
-    "gpu_qualified": false,
-    "api_roundtrip_qualified": false,
-    "speed_or_quality_qualified": false,
-    "production_recommended": false
+    "cpu_test_gate": "Six cancellation, eight burst, and five chunk CPU tests on each host image; no skips allowed",
+    "host_builds": [
+      {
+        "image_id": "sha256:e7d7ffbffa4ae0e711d13e439da7a2f29c8676b31941b25e29152a0c7ce8e82b",
+        "tests_run": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "successful": true,
+        "observed": [
+          "fixed-cap speed",
+          "synthetic reasoning and coding",
+          "context retrieval",
+          "mixed-request timing"
+        ]
+      },
+      {
+        "image_id": "sha256:12e7fdd5c1bedc57749224f57366d8a809989f37a9202e42b876722c24dc633e",
+        "tests_run": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "successful": true,
+        "observed": [
+          "fixed-cap speed replication",
+          "context retrieval replication"
+        ]
+      }
+    ],
+    "exported_image_built": true,
+    "cpu_test_gate_passed": true,
+    "bounded_gpu_observations_recorded": true,
+    "api_roundtrip_qualified": true,
+    "production_admission_qualified": true,
+    "destination_acceptance_required": true,
+    "production_recommended": true
+  },
+  "production_acceptance": {
+    "status": "passed",
+    "run": "evidence/runs/production-final1024-http8-acceptance-20261001.json",
+    "run_fingerprint": "151ae9aef0218d6bd188fad9915f018996d9f3c8b6154a771030eb4c147afb5b",
+    "api_tool_checks": "48/48 checks on the final production image; not a latency benchmark",
+    "pi": "One synthetic typed-tool roundtrip passed; Pi SDK/router unchanged from baseline.",
+    "hermes": "One two-request installed catalog/adapter fixture passed a typed tool-result loop; full Hermes-agent behavior is outside scope.",
+    "front_cancel": "One final-image disconnect-to-logical-idle and recovery check passed; does not prove GPU-kernel preemption."
   }
 }

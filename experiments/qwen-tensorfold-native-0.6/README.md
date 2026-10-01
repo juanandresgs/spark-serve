@@ -1,6 +1,6 @@
-# TensorFold 0.6.0 native source build (experimental)
+# Patched TensorFold 0.6.0 + EXL3 on one DGX Spark
 
-TensorFold is the serving software; EXL3 is the model's compressed weight format. This is a public source-build scaffold for TensorFold 0.6.0 and the pinned Qwen EXL3 model. It remains experimental while final-image speed, quality, context and mixed-traffic checks complete. The retained cancellation-plus-burst4 parent is a separate baseline; see the dated qualification record for which checks apply to each image.
+TensorFold is the serving software; EXL3 is the model's compressed weight format. This public source build pins TensorFold 0.6.0 and the Qwen EXL3 model. The cancellation, burst4 and 1024-row variant has been independently built on two native hosts, and bounded speed, quality, context and mixed-traffic measurements are published. Production-gateway, full client/API and operational acceptance checks remain separate; see the dated qualification record for the exact boundary. The retained cancellation-plus-burst4 parent is a separate baseline.
 
 The base image, runtime commit, and model revision are pinned in `pins.json`. The base image's 216-package inventory and the tested primary runtime's 217-package inventory differ only by TensorFold 0.6.0. `runtime-constraints.txt` pins the base inventory; it is not an install requirements file. The primary Dockerfile installs the pinned TensorFold source under those constraints, checks that active dependencies satisfy their declared versions, then compares the complete result with `expected-primary-inventory.json`. A build fails for missing packages, extra packages, or version drift. Patched derivative Dockerfiles reinstall the local source with `--no-deps`; their complete input hashes and package inventory checks are recorded separately. Capture method and package deltas are recorded in [`inventory-provenance.json`](inventory-provenance.json).
 
@@ -18,6 +18,29 @@ The build pulls the exact base digest, checks out the exact TensorFold commit, v
 
 This command builds the primary runtime only. It does not download model weights, create a serving configuration, or deploy anything. Use a separately reviewed model staging and launch procedure. Do not treat a successful build or matching package inventory as GPU or end-to-end qualification.
 
+This command builds the pinned primary runtime. Use the following ordered chain on each target Linux ARM64 Docker host to create the final recommended image before staging weights or starting it. Local image IDs are host-specific; run each command on the host where that parent was built. Preserve the generated receipts for the exact IDs used in later steps.
+
+```sh
+PARENT_IMAGE_ID="$(python3 -c 'import json; print(json.load(open("./artifacts/build-receipt.json"))["local_image_id"])')"
+python3 build_cancellation.py --parent-image-id "$PARENT_IMAGE_ID" \
+  --tag local/qwen-tensorfold-native:0.6.0-cancel \
+  --receipt ./artifacts/cancellation-build-receipt.json
+PARENT_CANCEL_ID="$(python3 -c 'import json; print(json.load(open("./artifacts/cancellation-build-receipt.json"))["local_image_id"])')"
+python3 build_burst.py --parent-cancellation-image-id "$PARENT_CANCEL_ID" \
+  --tag local/qwen-tensorfold-native:0.6.0-cancel-burst4 \
+  --receipt ./artifacts/burst4-build-receipt.json
+PARENT_BURST_ID="$(python3 -c 'import json; print(json.load(open("./artifacts/burst4-build-receipt.json"))["local_image_id"])')"
+python3 build_chunk.py --parent-burst-image-id "$PARENT_BURST_ID" \
+  --tag local/qwen-tensorfold-native:0.6.0-cancel-burst4-prefill1024 \
+  --receipt ./artifacts/chunk-build-receipt.json
+```
+
+The derivative builders verify their exact parent, source hashes, installed
+source and package inventory, then run their CPU regression suites. These
+checks do not establish GPU performance or serving behavior. The target tag is
+created only by the final 1024-row build; launch it only after all steps pass.
+
+
 ## Stage the pinned model snapshot
 
 The model weights are downloaded separately from Hugging Face. `stage_model.py`
@@ -29,7 +52,7 @@ a receipt. Install `huggingface_hub` in a host Python environment, then run:
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install 'huggingface_hub==1.24.0'
-QWEN_DATA=/srv/qwen-tensorfold-native
+QWEN_DATA="$HOME/qwen-tensorfold-native"
 mkdir -p "$QWEN_DATA/target"
 python stage_model.py --directory "$QWEN_DATA/target"
 python stage_model.py --directory "$QWEN_DATA/target" --verify-only
@@ -40,16 +63,16 @@ different commit. If Hugging Face requires authentication, export `HF_TOKEN`
 for both the manifest lookup and download. Keep the token outside shell history
 and source files.
 
-## Run a local experimental endpoint
+## Run the recommended endpoint
 
-After building the cancellation, burst-4 and 1024-row prefill derivatives below,
+After completing the ordered four-build chain above,
 this command starts the final image in the foreground. That image sets
 `TF_FLASH_DECODE_BURST=4` and `TF_FLASH_PREFILL_ROWS=1024`; its model files are
 the pinned EXL3 weight pack. Image labels and settings are part of the recipe
 identity.
 
 ```sh
-QWEN_DATA=/srv/qwen-tensorfold-native
+QWEN_DATA="$HOME/qwen-tensorfold-native"
 QWEN_CACHE="$QWEN_DATA/cache"
 IMAGE=local/qwen-tensorfold-native:0.6.0-cancel-burst4-prefill1024
 mkdir -p "$QWEN_CACHE"
@@ -137,12 +160,12 @@ model alias, label, and identity file to match the arm actually measured:
 python3 benchmark_speed.py \
   --base "$SPARK_SERVE_BASE" \
   --model qwen3.8-flash-next \
-  --label native-cancel \
+  --label native-final1024 \
   --identity ./identity.json \
-  --out ./results/native-cancel.json \
+  --out ./results/native-final1024.json \
   --timing-condition quiet
-python3 curate_speed.py ./results/native-cancel.json \
-  --out ./results/native-cancel-summary.json
+python3 curate_speed.py ./results/native-final1024.json \
+  --out ./results/native-final1024-summary.json
 ```
 
 The base URL must be user supplied and end in `/v1`. An optional bearer token
@@ -178,9 +201,9 @@ model endpoint.
 exact generated arithmetic, Python-semantics, FIFO-state, graph-distance, and
 20 small executable coding cases used by the bounded quality screen. The
 matching seeds, request settings, prompt wrappers, completion rule, and grading
-contract are summarized in `quality-protocol.json`. The two reasoning sets
-contain 200 rows each but 195 distinct prompts; they are separate seed repeats,
-not 390 unique questions. The coding cases are 20 synthetic tasks, not a broad
+contract are summarized in `quality-protocol.json`. Each sampling-seed cohort
+contains the same 200-row fixture with 195 distinct prompts; these are repeated
+samples, not 390 unique questions. The coding cases are 20 synthetic tasks, not a broad
 coding benchmark.
 
 These files make prompts and grading inspectable, but this source kit does not
@@ -219,7 +242,7 @@ behavior beyond the tested callback, or production reliability. Those require
 tests against the exact built image.
 
 The complete patch and source hash manifest are under [`cancellation/`](cancellation/).
-This derivative is not the production recommendation.
+This intermediate derivative is retained as a tested parent baseline; use the final 1024-row build sequence above for the recommended recipe.
 
 ## Optional cancellation plus decode-burst-4 derivative
 
@@ -268,7 +291,7 @@ The builder checks the requested local ID, binds a unique temporary Docker tag t
 
 ## Qualification boundary
 
-The cancellation-plus-burst4 derivative has a linked public build and activation receipt and passed 14 mocked-GPU CPU checks. Its startup and direct health check were observed, but the receipt records no named API roundtrip. No GPU cancellation-latency, speed, quality, full-context, restart/reboot recovery, endurance, or serving qualification is established by that build. Quality fixtures are included for inspection, but this kit has no portable quality-evaluation runner or model-result receipt. Grammar support is deliberately not included in the base image. This experimental recipe makes no performance or recommendation claim.
+The retained cancellation-plus-burst4 parent has a separate 14-test CPU build receipt; that parent receipt does not establish GPU speed, quality, full-context behavior, restart/reboot recovery, endurance, or serving qualification for the final image. The selected cancellation + burst4 + prefill1024 image is the distinct final variant described below. It was independently built on two native hosts with 19 CPU tests passing on each; the production primary then passed the bounded GPU speed, synthetic quality, context, mixed-request, API/tool, and named-client checks listed in the qualification record. The public kit includes inspectable quality fixtures but no portable model-evaluation runner. Grammar support remains a separate unqualified image.
 
 See the [recipe qualification record](../../recipes/qwen-tensorfold-native-exl3/qualification.json) and [third-party notices](THIRD_PARTY.md).
 
@@ -296,5 +319,4 @@ The builder binds the exact parent image, verifies the runtime and burst patch
 source hashes, applies the 1024-row patch without network access, checks the
 installed source hash, and runs 19 cancellation/scheduler CPU tests (six
 cancellation, eight burst, five prefill-row tests). CPU checks do not establish
-GPU behavior, speed, quality, or serving reliability. This variant remains
-experimental until separate GPU/API qualification.
+GPU behavior, speed, quality, or serving reliability. The final production image passed the documented bounded speed, quality, context, API/tool and named-client checks; reboot, endurance and new-destination acceptance remain separate.

@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "kind": "sanitized_fixed_cap_speed_projection",
+  "date": "2026-10-01",
+  "display_arm": "native-production-http8",
+  "identity": {
+    "kit_archive_sha256": "9688af15ee166db056d3ccc0b731c86dbc47623e6335649581c239aa3a3ae250",
+    "local_image_id": "sha256:e7d7ffbffa4ae0e711d13e439da7a2f29c8676b31941b25e29152a0c7ce8e82b",
+    "local_image_id_semantics": "Docker daemon-store-specific identifier; not a portable registry digest",
+    "model": "turboderp/Qwen3.8-Flash-Next-exl3",
+    "model_branch": "3.05bpw_h5_ng5",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "runtime": "TensorFold 0.6.0",
+    "runtime_revision": "c4646171139ee8a3c38103eaa1699dad226ec12b",
+    "source_variant_sha256": "0ee719e861a05291487f83d10f1a6ab864eea5745d54b7d0027f3779be4b87db",
+    "cancellation_patch_sha256": "7b5aa6ca2c82958bf91795d1814877066b42e4c7d8482c52b374fbf1a63e0a69",
+    "decode_burst_patch_sha256": "075f814bef774f8dbb33096e91a9335f7faff0be6e6f987da48e6bdaf282f09a",
+    "prefill_rows_patch_sha256": "b791de1d03eed4047c522f33e6f212796c66461794040507ebcff276e1a69e77",
+    "installed_multi_sha256": "a6d23b89ec3acca91cc23b184964ef188c3cd5625efbfbfb0606e50d213aaf01",
+    "underlying_speed_receipt_sha256": "7e019ab5d8ddc90292dcfd436639b1ffdce1a21620a7bc0045fa7ab9e8bd8bdd"
+  },
+  "settings": {
+    "context_tokens": 262144,
+    "slots": 4,
+    "max_output_tokens": 8192,
+    "kv_cache": "bf16",
+    "mtp_drafts": 6,
+    "mtp_confidence": 0.7,
+    "decode_share": 0,
+    "prefill_rows": 1024,
+    "decode_burst": 4,
+    "reasoning_effort": "medium",
+    "default_thinking": false,
+    "prompt_cache": "native memory-gated default",
+    "snapshots": "runtime default; not disabled",
+    "grammar": "not installed",
+    "http_admission_limit": 8
+  },
+  "protocol": {
+    "version": "cell-warmup-v2",
+    "fixture_sha256": "7a15137eebc72c8a8cd6b3c82e61efbde3868e2b98127cb51fe3095f4754109c",
+    "cap_tokens": 512,
+    "repetitions": 4,
+    "requests_per_group": 4,
+    "measured_group_count": 16,
+    "measured_request_count": 64,
+    "warmups_excluded": 17,
+    "warmups": "one 128-token exact-answer canary plus four C1/C4-by-code/prose groups of four requests each",
+    "thinking": false,
+    "reasoning_effort": "medium",
+    "temperature": 0,
+    "seed_policy": "1000 + fixture_number",
+    "cache_reset": "none; process retained; no measured request reported a cache hit"
+  },
+  "accounting": {
+    "attempted_requests": 64,
+    "passed_requests": 64,
+    "completion_tokens": 32768,
+    "finish_reason_length_count": 64,
+    "cache_reporting_rows": 64,
+    "cache_hit_rows": 0
+  },
+  "cells": {
+    "c1-code-cap512": {
+      "workload": "code",
+      "clients": 1,
+      "cap_tokens": 512,
+      "requests_per_group": 4,
+      "groups_n": 4,
+      "all_groups_speed_eligible": true,
+      "all_responses_finish_length_at_512": true,
+      "group_rate_tokens_per_second": {
+        "n": 4,
+        "median": 91.10837004575316,
+        "min": 88.03402475596971,
+        "max": 91.35756985473638
+      },
+      "request_decode_proxy_tokens_per_second": {
+        "n": 16,
+        "median": 94.88209492003715,
+        "min": 83.93341183869775,
+        "max": 97.51797429223635
+      },
+      "groups": [
+        {
+          "rep": 0,
+          "clients": 1,
+          "kind": "code",
+          "group_seconds": 22.42488487198716,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 91.32711323563278,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 1,
+          "clients": 1,
+          "kind": "code",
+          "group_seconds": 22.532824381021783,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 90.88962685587356,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 2,
+          "clients": 1,
+          "kind": "code",
+          "group_seconds": 23.26373246795265,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 88.03402475596971,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 3,
+          "clients": 1,
+          "kind": "code",
+          "group_seconds": 22.417408904992044,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 91.35756985473638,
+          "requests": 4,
+          "all_512_finish_length": true
+        }
+      ]
+    },
+    "c1-prose-cap512": {
+      "workload": "prose",
+      "clients": 1,
+      "cap_tokens": 512,
+      "requests_per_group": 4,
+      "groups_n": 4,
+      "all_groups_speed_eligible": true,
+      "all_responses_finish_length_at_512": true,
+      "group_rate_tokens_per_second": {
+        "n": 4,
+        "median": 50.93044013881605,
+        "min": 49.91769877917698,
+        "max": 52.49472140836145
+      },
+      "request_decode_proxy_tokens_per_second": {
+        "n": 16,
+        "median": 51.987050565689565,
+        "min": 49.3980633261224,
+        "max": 54.60849180984272
+      },
+      "groups": [
+        {
+          "rep": 0,
+          "clients": 1,
+          "kind": "prose",
+          "group_seconds": 39.01344640098978,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 52.49472140836145,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 1,
+          "clients": 1,
+          "kind": "prose",
+          "group_seconds": 40.82016899000155,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 50.17127686320052,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 2,
+          "clients": 1,
+          "kind": "prose",
+          "group_seconds": 39.62112039397471,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 51.68960341443159,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 3,
+          "clients": 1,
+          "kind": "prose",
+          "group_seconds": 41.02753231994575,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 49.91769877917698,
+          "requests": 4,
+          "all_512_finish_length": true
+        }
+      ]
+    },
+    "c4-code-cap512": {
+      "workload": "code",
+      "clients": 4,
+      "cap_tokens": 512,
+      "requests_per_group": 4,
+      "groups_n": 4,
+      "all_groups_speed_eligible": true,
+      "all_responses_finish_length_at_512": true,
+      "group_rate_tokens_per_second": {
+        "n": 4,
+        "median": 191.93930231160437,
+        "min": 185.99597315317814,
+        "max": 202.72418557098706
+      },
+      "request_decode_proxy_tokens_per_second": {
+        "n": 16,
+        "median": 53.44157659099481,
+        "min": 47.61809794178957,
+        "max": 55.87532543847836
+      },
+      "groups": [
+        {
+          "rep": 0,
+          "clients": 4,
+          "kind": "code",
+          "group_seconds": 10.84269212995423,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 188.88297993283012,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 1,
+          "clients": 4,
+          "kind": "code",
+          "group_seconds": 10.502799758978654,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 194.99562469037858,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 2,
+          "clients": 4,
+          "kind": "code",
+          "group_seconds": 11.010991072980687,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 185.99597315317814,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 3,
+          "clients": 4,
+          "kind": "code",
+          "group_seconds": 10.102395993017126,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 202.72418557098706,
+          "requests": 4,
+          "all_512_finish_length": true
+        }
+      ]
+    },
+    "c4-prose-cap512": {
+      "workload": "prose",
+      "clients": 4,
+      "cap_tokens": 512,
+      "requests_per_group": 4,
+      "groups_n": 4,
+      "all_groups_speed_eligible": true,
+      "all_responses_finish_length_at_512": true,
+      "group_rate_tokens_per_second": {
+        "n": 4,
+        "median": 120.42378071848118,
+        "min": 115.9937172739207,
+        "max": 127.53809514513515
+      },
+      "request_decode_proxy_tokens_per_second": {
+        "n": 16,
+        "median": 32.024045098909994,
+        "min": 30.339709100673463,
+        "max": 34.37372964332629
+      },
+      "groups": [
+        {
+          "rep": 0,
+          "clients": 4,
+          "kind": "prose",
+          "group_seconds": 16.536097688018344,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 123.85026011813726,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 1,
+          "clients": 4,
+          "kind": "prose",
+          "group_seconds": 17.656128695001826,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 115.9937172739207,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 2,
+          "clients": 4,
+          "kind": "prose",
+          "group_seconds": 16.057947217021137,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 127.53809514513515,
+          "requests": 4,
+          "all_512_finish_length": true
+        },
+        {
+          "rep": 3,
+          "clients": 4,
+          "kind": "prose",
+          "group_seconds": 17.504677261051256,
+          "completion_tokens": 2048,
+          "computed_group_tokens_per_second": 116.99730131882511,
+          "requests": 4,
+          "all_512_finish_length": true
+        }
+      ]
+    }
+  },
+  "source_integrity": {
+    "summary_sha256": "926d0ffa4dce905c2b681f24188ea93b408976b633036c73b23e4935ff9e9726",
+    "underlying_result_sha256": "7e019ab5d8ddc90292dcfd436639b1ffdce1a21620a7bc0045fa7ab9e8bd8bdd",
+    "group_audit_sha256": null
+  }
+}

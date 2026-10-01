@@ -129,7 +129,7 @@ def render(root):
         hardware = f"{model['sparks']} Spark" + ('s' if model['sparks'] > 1 else '')
         choices.append([hardware, f"[**{model['name']} · {chosen['label']}**]({chosen['guide']})"])
     rendered = {'choices': table(['Your hardware', 'Recommended recipe · build and run'], choices)}
-    for name in ('qwen-restored-throughput', 'qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
+    for name in ('qwen-final-v2-throughput', 'qwen-restored-throughput', 'qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
         rendered[name] = f'![{name.replace("-", " ")} comparison; numeric equivalent in the table below](comparisons/charts/{name}.svg)'
     def row(table_id, metric):
         matches = [r for r in data['tables'][table_id]['rows'] if r['metric'] == metric]
