@@ -49,10 +49,7 @@ def chart_data(root, data):
 def svg(chart):
     """Each workload has its own zero-based axis; labels never rely on color."""
     colors = ['#63778b', '#007f79', '#8c5b9b', '#bd5b36']
-    labels = list(chart['series'])
-    for panel in chart['panels']:
-        labels.extend(label for label in panel.get('null_labels', []) if label)
-    width = max(600, 52 + 12 * max((len(label) for label in labels), default=0))
+    width = 600
     height = 0  # Recomputed from wrapped labels and series below.
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
              f'<title id="title">{escape(chart["title"])}</title>',
@@ -68,21 +65,30 @@ def svg(chart):
         attributes = ' '.join(f'{k.replace("_", "-")}="{escape(str(v))}"' for k, v in attrs.items())
         parts.append(f'<text x="{x}" y="{y}" font-size="{size}" {attributes}>{escape(content)}</text>')
 
-    text(24, 36, chart['title'], 26, font_weight='bold')
-    for j, line in enumerate(textwrap.wrap(chart['subtitle'], 57)):
-        text(24, 66 + j * 24, line, 20)
-    panel_top = 124
+    title_lines = textwrap.wrap(chart['title'], 38, break_long_words=True) or ['']
+    for j, line in enumerate(title_lines):
+        text(24, 36 + j * 28, line, 26, font_weight='bold')
+    subtitle_lines = textwrap.wrap(chart['subtitle'], 52, break_long_words=True) or ['']
+    subtitle_top = 36 + 28 * len(title_lines) + 2
+    for j, line in enumerate(subtitle_lines):
+        text(24, subtitle_top + j * 24, line, 20)
+    panel_top = max(124, subtitle_top + 24 * len(subtitle_lines) + 18)
     for panel in chart['panels']:
         y = panel_top
-        text(24, y, panel['label'], 22, font_weight='bold')
-        text(24, y + 24, panel['note'], 18)
+        label_lines = textwrap.wrap(panel['label'], 42, break_long_words=True) or ['']
+        for j, line in enumerate(label_lines):
+            text(24, y + j * 24, line, 22, font_weight='bold')
+        note_lines = textwrap.wrap(panel['note'], 52, break_long_words=True) or ['']
+        note_top = y + 24 * len(label_lines) + 2
+        for j, line in enumerate(note_lines):
+            text(24, note_top + j * 22, line, 18)
         left, span = 24, 470
         numeric_values = [v for v in panel['values'] if v is not None]
         maximum = max(numeric_values, default=0)
         # Rounded limits remain explicit. Every bar starts at zero.
         scale = 10 ** math.floor(math.log10(maximum)) if maximum else 1
         limit = math.ceil(maximum / scale) * scale or 1
-        row_top = y + 52
+        row_top = note_top + 22 * len(note_lines) + 8
         for j, (series, number) in enumerate(zip(chart['series'], panel['values'])):
             series_lines = textwrap.wrap(series, 34, break_long_words=True, break_on_hyphens=False) or ['']
             for line_number, line in enumerate(series_lines):

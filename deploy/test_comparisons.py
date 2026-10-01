@@ -118,16 +118,17 @@ class ComparisonChecks(unittest.TestCase):
             (root / 'comparisons').mkdir()
             (root / 'evidence/runs').mkdir(parents=True)
             values = [111.0, None, 222.0, 333.0]
+            missing_reason = ('Failed qualification: typed-tool gate did not pass; request produced no valid '
+                              'typed arguments and could not enter the timed cohort.')
             cells = []
             for index, number in enumerate(values):
                 relative = f'evidence/runs/arm-{index}.json'
                 (root / relative).write_text(json.dumps({'measurements': [{'value': number}]}))
                 cells.append({'refs': [{'file': relative, 'path': ['measurements', 0, 'value']}],
                               'format': '{0:.2f}',
-                              **({'null_text': 'Failed qualification: typed-tool gate'} if number is None else {})})
+                              **({'null_text': missing_reason} if number is None else {})})
             self.assertEqual(cell(root, {'refs': cells[1]['refs'], 'format': '{0:.2f}',
-                                         'null_text': 'Failed qualification: typed-tool gate'}),
-                             'Failed qualification: typed-tool gate')
+                                         'null_text': missing_reason}), missing_reason)
             with self.assertRaisesRegex(ValueError, 'nonempty explanation'):
                 cell(root, {'refs': cells[1]['refs'], 'format': '{0:.2f}'})
 
@@ -150,13 +151,13 @@ class ComparisonChecks(unittest.TestCase):
             rendered = svg(mapped)
         parsed = ET.fromstring(rendered)
         ns = {'svg': 'http://www.w3.org/2000/svg'}
-        self.assertGreater(int(parsed.attrib['width']), 600)
+        self.assertEqual(int(parsed.attrib['width']), 600)
         rects = [r for r in parsed.findall('.//svg:rect', ns) if r.attrib.get('height') == '25']
         self.assertEqual(len(rects), 3)
         self.assertEqual(len({r.attrib['fill'] for r in rects}), 3)
         visible_text = ' '.join(n.text or '' for n in parsed.findall('.//svg:text', ns))
         self.assertIn(names[1], visible_text)
-        self.assertIn('Failed qualification: typed-tool gate', visible_text)
+        self.assertIn(missing_reason, visible_text)
 
     def test_chart_selection_rejects_unmatched_evidence_and_unsafe_paths(self):
         with tempfile.TemporaryDirectory() as temp:

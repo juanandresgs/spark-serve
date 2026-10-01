@@ -1,44 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="758" viewBox="0 0 600 758" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="774" viewBox="0 0 600 774" role="img" aria-labelledby="title desc">
 <title id="title">Qwen · one DGX Spark</title>
 <desc id="desc">September 29 matched Qwen recipe tests on one Spark, four backend slots and four benchmark requests, 262K configured context. Reported rates aggregate output tokens over each whole request group; they are not per-client rates. Each workload uses a separate zero-based axis. Prose · C4 aggregate (4 requests): Cooperative EXL3 · Sep 29 85.993 tokens/s, Affine4 · Sep 29 92.641 tokens/s; Code · C4 aggregate (4 requests): Cooperative EXL3 · Sep 29 161.084 tokens/s, Affine4 · Sep 29 142.228 tokens/s</desc>
 <rect width="100%" height="100%" rx="12" fill="#ffffff"/>
 <g font-family="Arial, Helvetica, sans-serif" fill="#172c3d">
 <text x="24" y="36" font-size="26" font-weight="bold">Qwen · one DGX Spark</text>
-<text x="24" y="66" font-size="20" >Four-request aggregate output over whole request group ·</text>
-<text x="24" y="90" font-size="20" >higher is faster · Sep 29, 2026</text>
-<text x="24" y="124" font-size="22" font-weight="bold">Prose · C4 aggregate (4 requests)</text>
-<text x="24" y="148" font-size="18" >Output / group wall time, including prefill</text>
-<text x="24" y="176" font-size="20" >Cooperative EXL3 · Sep 29</text>
-<rect x="24" y="184" width="404.166" height="25" rx="3" fill="#63778b"/>
-<text x="436.1664073714243" y="204" font-size="20" font-weight="bold">85.99</text>
-<text x="24" y="238" font-size="20" >Affine4 · Sep 29</text>
-<rect x="24" y="246" width="435.411" height="25" rx="3" fill="#007f79"/>
-<text x="467.4113333050009" y="266" font-size="20" font-weight="bold">92.64</text>
-<path d="M 24 308 H 494" stroke="#687c8c"/>
-<path d="M 24 308 v 5" stroke="#687c8c"/>
-<text x="24" y="334" font-size="20" text-anchor="middle">0</text>
-<path d="M 259.0 308 v 5" stroke="#687c8c"/>
-<text x="259.0" y="334" font-size="20" text-anchor="middle">50</text>
-<path d="M 494 308 v 5" stroke="#687c8c"/>
-<text x="494" y="334" font-size="20" text-anchor="middle">100</text>
-<text x="259.0" y="357" font-size="18" text-anchor="middle">tokens/s</text>
-<text x="24" y="396" font-size="22" font-weight="bold">Code · C4 aggregate (4 requests)</text>
-<text x="24" y="420" font-size="18" >EXL3 is faster in this C4 test</text>
-<text x="24" y="448" font-size="20" >Cooperative EXL3 · Sep 29</text>
-<rect x="24" y="456" width="378.547" height="25" rx="3" fill="#63778b"/>
-<text x="410.546673188049" y="476" font-size="20" font-weight="bold">161.08</text>
-<text x="24" y="510" font-size="20" >Affine4 · Sep 29</text>
-<rect x="24" y="518" width="334.235" height="25" rx="3" fill="#007f79"/>
-<text x="366.2352357406017" y="538" font-size="20" font-weight="bold">142.23</text>
-<path d="M 24 580 H 494" stroke="#687c8c"/>
-<path d="M 24 580 v 5" stroke="#687c8c"/>
-<text x="24" y="606" font-size="20" text-anchor="middle">0</text>
-<path d="M 259.0 580 v 5" stroke="#687c8c"/>
-<text x="259.0" y="606" font-size="20" text-anchor="middle">100</text>
-<path d="M 494 580 v 5" stroke="#687c8c"/>
-<text x="494" y="606" font-size="20" text-anchor="middle">200</text>
-<text x="259.0" y="629" font-size="18" text-anchor="middle">tokens/s</text>
-<text x="24" y="690" font-size="18" >Median of 3 runs × 4 requests; 512-token caps, thinking</text>
-<text x="24" y="714" font-size="18" >off. Runtime and model pack differ; historical test; exact</text>
-<text x="24" y="738" font-size="18" >image identity is not linked.</text>
+<text x="24" y="66" font-size="20" >Four-request aggregate output over whole request</text>
+<text x="24" y="90" font-size="20" >group · higher is faster · Sep 29, 2026</text>
+<text x="24" y="132" font-size="22" font-weight="bold">Prose · C4 aggregate (4 requests)</text>
+<text x="24" y="158" font-size="18" >Output / group wall time, including prefill</text>
+<text x="24" y="188" font-size="20" >Cooperative EXL3 · Sep 29</text>
+<rect x="24" y="196" width="404.166" height="25" rx="3" fill="#63778b"/>
+<text x="436.1664073714243" y="216" font-size="20" font-weight="bold">85.99</text>
+<text x="24" y="250" font-size="20" >Affine4 · Sep 29</text>
+<rect x="24" y="258" width="435.411" height="25" rx="3" fill="#007f79"/>
+<text x="467.4113333050009" y="278" font-size="20" font-weight="bold">92.64</text>
+<path d="M 24 320 H 494" stroke="#687c8c"/>
+<path d="M 24 320 v 5" stroke="#687c8c"/>
+<text x="24" y="346" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 320 v 5" stroke="#687c8c"/>
+<text x="259.0" y="346" font-size="20" text-anchor="middle">50</text>
+<path d="M 494 320 v 5" stroke="#687c8c"/>
+<text x="494" y="346" font-size="20" text-anchor="middle">100</text>
+<text x="259.0" y="369" font-size="18" text-anchor="middle">tokens/s</text>
+<text x="24" y="408" font-size="22" font-weight="bold">Code · C4 aggregate (4 requests)</text>
+<text x="24" y="434" font-size="18" >EXL3 is faster in this C4 test</text>
+<text x="24" y="464" font-size="20" >Cooperative EXL3 · Sep 29</text>
+<rect x="24" y="472" width="378.547" height="25" rx="3" fill="#63778b"/>
+<text x="410.546673188049" y="492" font-size="20" font-weight="bold">161.08</text>
+<text x="24" y="526" font-size="20" >Affine4 · Sep 29</text>
+<rect x="24" y="534" width="334.235" height="25" rx="3" fill="#007f79"/>
+<text x="366.2352357406017" y="554" font-size="20" font-weight="bold">142.23</text>
+<path d="M 24 596 H 494" stroke="#687c8c"/>
+<path d="M 24 596 v 5" stroke="#687c8c"/>
+<text x="24" y="622" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 596 v 5" stroke="#687c8c"/>
+<text x="259.0" y="622" font-size="20" text-anchor="middle">100</text>
+<path d="M 494 596 v 5" stroke="#687c8c"/>
+<text x="494" y="622" font-size="20" text-anchor="middle">200</text>
+<text x="259.0" y="645" font-size="18" text-anchor="middle">tokens/s</text>
+<text x="24" y="706" font-size="18" >Median of 3 runs × 4 requests; 512-token caps, thinking</text>
+<text x="24" y="730" font-size="18" >off. Runtime and model pack differ; historical test; exact</text>
+<text x="24" y="754" font-size="18" >image identity is not linked.</text>
 </g></svg>
