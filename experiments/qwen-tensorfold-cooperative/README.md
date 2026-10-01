@@ -1,4 +1,4 @@
-> The recommended Qwen recipe is now [Affine4 on one Spark](../../recipes/qwen38-flash-affine4-1spark/README.md). This EXL3 variant remains available for higher measured code throughput and lower reasoning latency. See the [comparison](../../recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
+> **Recommendation:** use cooperative EXL3 for the measured coding workload; choose [Affine4](../../recipes/qwen38-flash-affine4-1spark/README.md) when fresh long-prompt completion and mixed-traffic latency matter more. The EXL3 source kit is a standalone recipe and is not independently GPU rebuilt as the historically measured image. See the dated [comparison](../../comparisons/README.md) for scope and provenance.
 
 # Qwen3.8-Flash-Next on one DGX Spark: cooperative TensorFold recipe
 
@@ -16,10 +16,11 @@ This is a responsiveness result, not a 130× decoding speedup or a SOTA claim.
 See [metrics and causal limits](METRICS.md), [machine-readable receipts](measurements.json),
 [claim audit](CLAIMS.md), and [next experiments](IMPROVEMENTS.md).
 
-The original candidate was tested on GB10 hardware but **has not replaced the
-production scheduler**. This portable public source build is new: it has CPU
-checks, not a fresh GPU-build/installation qualification. No weights or images
-are distributed. Do not infer a turnkey production release from the benchmark.
+Historical EXL3 runs include different configurations and build identities.
+This retained public source kit has CPU checks but no independent GPU build and
+installation qualification against the historically measured image. Do not attribute every
+historical result to this exact exported source. No weights or images are
+distributed; a destination still needs its own acceptance checks.
 
 ## Fixed recipe
 
@@ -39,6 +40,12 @@ The 8,192-token cap is a **reservation**, not proof of an 8,192-token response a
 maximum context. Model-pack differences prevent quality-equivalence claims against
 NVFP4/vLLM. The original site retained about 31 GiB available memory in the final
 trial; this is an observation, not a per-slot capacity guarantee.
+
+API compatibility also has limits: strict response-format schema normalization
+and the `spark_reliability` reasoning-budget opt-in are Affine4-specific and are
+not available on this EXL3 route. Clients should use the common text and tool
+schema behavior described above rather than assume every Affine4 API extension
+is present.
 
 ## Build and stage on an idle Spark
 
@@ -142,3 +149,14 @@ leaves schema-invalid values unchanged for client rejection; it never executes t
 See [licenses and provenance](THIRD_PARTY.md). Use a maintenance lane and retain
 your previous service/image for rollback. This recipe does not alter production
 routing, install boot services or claim a tested restart policy.
+
+## Later TensorFold work
+
+TensorFold [0.6.0](https://github.com/ashhart/TensorFold/releases/tag/v0.6.0),
+released September 30, adds CUDA prompt fill inside decode rounds, prompt-state
+resumption, consolidated EXL3 tables and streamed typed tool arguments. These
+are upstream capabilities to evaluate, not results for this pinned 0.3.6.1
+recipe. The release's stated throughput improvements are for NVFP4, not this
+EXL3 checkpoint. An isolated upgrade trial should preserve this runtime as its
+control and separately check C1/C4 code and prose, reasoning quality, tools,
+cached resends and mixed traffic before any performance claim.

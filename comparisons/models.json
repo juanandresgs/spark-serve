@@ -5,21 +5,22 @@
       "id": "qwen",
       "name": "Qwen3.8 Flash Next",
       "sparks": 1,
-      "recommended": "qwen38-flash-affine4-1spark",
-      "summary": "262,144-token context, four concurrent text requests, cooperative prefill and MTP6",
+      "recommended": "qwen-cooperative-exl3",
+      "summary": "262,144-token context, four engine slots, cooperative prefill and MTP6",
       "options": [
+        {
+          "id": "qwen-cooperative-exl3",
+          "label": "Cooperative EXL3",
+          "guide": "experiments/qwen-tensorfold-cooperative/README.md",
+          "reason": "Recommended cooperative EXL3 configuration; see dated tests and source/build qualification limits in the guide.",
+          "recipe": "qwen-cooperative-exl3"
+        },
         {
           "id": "qwen38-flash-affine4-1spark",
           "label": "Affine4",
           "recipe": "qwen38-flash-affine4-1spark",
           "guide": "recipes/qwen38-flash-affine4-1spark/README.md",
-          "reason": "Best measured long-prompt and mixed-traffic performance; longer reasoning tails."
-        },
-        {
-          "id": "qwen-cooperative-exl3",
-          "label": "Cooperative EXL3",
-          "guide": "experiments/qwen-tensorfold-cooperative/README.md",
-          "reason": "Higher measured code throughput and shorter reasoning tails; exported build remains experimental."
+          "reason": "Stronger measured long-prompt completion and mixed-traffic tail latency in its packaged-source test; its independent fresh-source rebuild does not establish that those results used the rebuilt image."
         },
         {
           "id": "qwen38-flash-1spark",
@@ -29,7 +30,7 @@
           "reason": "Previous managed recipe; retained for existing deployments."
         }
       ],
-      "recommendation_record": "qwen-recommendation-20260930-v1"
+      "recommendation_record": "qwen-recommendation-20261001-v1"
     },
     {
       "id": "glm",
@@ -60,11 +61,11 @@
     "qwen": {
       "kind": "matched-local",
       "date": "2026-09-29",
-      "scope": "Complete one-Spark recipes with different runtime versions; four slots, 262K context. Throughput medians of three runs; small synthetic quality fixtures.",
+      "scope": "Historical September 29 one-Spark test; four engine slots and 262K configured context. C4 sent four concurrent benchmark requests; throughput is aggregate output tokens / whole request-group time, including prefill. Three-run throughput medians; context/mixed/quality checks have their own sample limits. Runtime and model pack differ; this does not establish exact image identity.",
       "columns": [
         "Workload",
-        "Previous cooperative EXL3",
-        "Recommended Affine4"
+        "Recommended Cooperative EXL3 \u00b7 Sep 29 test",
+        "Affine4 alternative \u00b7 Sep 29 test"
       ],
       "rows": [
         {
@@ -560,11 +561,11 @@
       "rows": [
         {
           "metric": "Qwen C4 prose",
-          "boundary": "Public decode rate; ours includes the whole request group, including prefill",
+          "boundary": "Historical local C4 aggregate from Sep 29; the EXL3 source/image identity is not linked to the adopted image. Public number is decode rate.",
           "local": {
             "refs": [
               {
-                "file": "evidence/runs/import-20260930-qwen-0-1-v1.json",
+                "file": "evidence/runs/import-20260930-qwen-0-0-v1.json",
                 "path": [
                   "measurements",
                   0,
@@ -590,11 +591,11 @@
         },
         {
           "metric": "Qwen long-prompt latency",
-          "boundary": "Public time to first token; ours time to complete validated JSON, with a much longer prompt",
+          "boundary": "Public time to first token; local EXL3 time to complete validated JSON, with a much longer prompt. Separate historical tests.",
           "local": {
             "refs": [
               {
-                "file": "evidence/runs/import-20260930-qwen-2-1-v1.json",
+                "file": "evidence/runs/import-20260930-qwen-2-0-v1.json",
                 "path": [
                   "measurements",
                   0,
@@ -712,6 +713,154 @@
         }
       ],
       "sources_file": "comparisons/public-references.json"
+    },
+    "qwen-restored": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Fresh October 1 test on the identified restored EXL3 image. C1 is one active client issuing four serial requests per group; C4 is four concurrent clients. Both used four configured backend slots. Each cell is the median of three groups; group rate is total output tokens divided by whole group wall time including prefill. All responses hit the 512-token cap (finish_reason=length), so this is throughput-only, not correctness or quality evidence. Prompt-cache state was uncontrolled.",
+      "columns": [
+        "Workload",
+        "C1 \u00b7 one active client",
+        "C4 \u00b7 four concurrent clients"
+      ],
+      "rows": [
+        {
+          "metric": "Code group aggregate throughput \u2191",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c1-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c4-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    0,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose group aggregate throughput \u2191",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c1-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c4-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    3,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
+    },
+    "qwen-restored-decode": {
+      "kind": "matched-local",
+      "date": "2026-10-01",
+      "scope": "Per-request decode-rate proxy from the same test, shown separately from whole-group aggregate throughput. Median across three groups of each group\u2019s median per-request decode proxy; not a C1/C4 aggregate rate.",
+      "columns": [
+        "Workload",
+        "C1 \u00b7 one active client",
+        "C4 \u00b7 four concurrent clients"
+      ],
+      "rows": [
+        {
+          "metric": "Code per-request decode-rate proxy",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c1-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c4-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    1,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        },
+        {
+          "metric": "Prose per-request decode-rate proxy",
+          "cells": [
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c1-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            },
+            {
+              "refs": [
+                {
+                  "file": "evidence/runs/qwen-exl3-restored-c4-20261001-v1.json",
+                  "path": [
+                    "measurements",
+                    4,
+                    "value"
+                  ]
+                }
+              ],
+              "format": "{0:.2f} tokens/s"
+            }
+          ]
+        }
+      ]
     }
   }
 }

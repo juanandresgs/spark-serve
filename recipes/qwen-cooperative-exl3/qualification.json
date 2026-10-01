@@ -1,0 +1,9 @@
+{
+  "recipe_id": "qwen-cooperative-exl3",
+  "status": "recommended-with-caveats",
+  "evidence_scope": "Historical test runs and retained public source kit; not an independent GPU rebuild or destination install qualification against the historically measured image.",
+  "source_build_gpu_qualified": false,
+  "destination_acceptance_required": true,
+  "pending": "The fresh same-image C1/C4 fixed-cap throughput test is recorded in evidence; destination acceptance remains required.",
+  "historical_run_image_identity_complete": false
+}

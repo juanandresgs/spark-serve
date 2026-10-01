@@ -1,36 +1,63 @@
 {
   "charts": [
     {
-      "file": "comparisons/charts/qwen-throughput.svg",
-      "title": "Qwen · one DGX Spark",
-      "subtitle": "Output over whole request group · higher is faster · Sep 29, 2026",
-      "description": "Matched Qwen complete recipes; four concurrent requests, 262K configured context. Each workload uses a separate zero-based axis.",
+      "file": "comparisons/charts/qwen-restored-throughput.svg",
+      "title": "Qwen EXL3 \u00b7 restored image \u00b7 Oct 1",
+      "subtitle": "One DGX Spark \u00b7 C1 and C4 \u00b7 higher is faster \u00b7 512-token cap",
+      "description": "Fresh same-image test of the restored cooperative EXL3 deployment. Both settings use four backend slots. C1 sends four requests serially; C4 sends four concurrently. Rates aggregate completion tokens over the whole request group, including prefill. All outputs hit the fixed 512-token cap; this does not measure correctness or quality.",
       "series": [
-        "Cooperative EXL3",
-        "Affine4"
+        "C1 \u00b7 one active client",
+        "C4 \u00b7 four concurrent clients"
       ],
-      "footer": "Median of 3 runs × 4 requests; 512-token caps, thinking off. Runtimes differ.",
+      "footer": "Median of 3 groups \u00d7 4 requests per cell. Prompt-cache state uncontrolled; all 48 outputs ended at the 512-token cap.",
+      "panels": [
+        {
+          "table": "qwen-restored",
+          "metric": "Code group aggregate throughput \u2191",
+          "label": "Synthetic code \u00b7 group aggregate",
+          "note": "Total tokens / whole group wall time, including prefill",
+          "unit": "tokens/s"
+        },
+        {
+          "table": "qwen-restored",
+          "metric": "Prose group aggregate throughput \u2191",
+          "label": "Synthetic prose \u00b7 group aggregate",
+          "note": "Total tokens / whole group wall time, including prefill",
+          "unit": "tokens/s"
+        }
+      ]
+    },
+    {
+      "file": "comparisons/charts/qwen-throughput.svg",
+      "title": "Qwen \u00b7 one DGX Spark",
+      "subtitle": "Four-request aggregate output over whole request group \u00b7 higher is faster \u00b7 Sep 29, 2026",
+      "description": "September 29 matched Qwen recipe tests on one Spark, four backend slots and four benchmark requests, 262K configured context. Reported rates aggregate output tokens over each whole request group; they are not per-client rates. Each workload uses a separate zero-based axis.",
+      "series": [
+        "Cooperative EXL3 \u00b7 Sep 29",
+        "Affine4 \u00b7 Sep 29"
+      ],
+      "footer": "Median of 3 runs \u00d7 4 requests; 512-token caps, thinking off. Runtime and model pack differ; historical test; exact image identity is not linked.",
       "panels": [
         {
           "table": "qwen",
-          "metric": "C4 prose throughput ↑",
-          "label": "Prose · 4 concurrent requests",
+          "metric": "C4 prose throughput \u2191",
+          "label": "Prose \u00b7 C4 aggregate (4 requests)",
           "note": "Output / group wall time, including prefill",
           "unit": "tokens/s"
         },
         {
           "table": "qwen",
-          "metric": "C4 code throughput ↑",
-          "label": "Code · 4 concurrent requests",
-          "note": "EXL3 is faster on this code workload",
+          "metric": "C4 code throughput \u2191",
+          "label": "Code \u00b7 C4 aggregate (4 requests)",
+          "note": "EXL3 is faster in this C4 test",
           "unit": "tokens/s"
         }
       ]
     },
     {
       "file": "comparisons/charts/glm-throughput.svg",
-      "title": "GLM-5.3-Flash · two DGX Sparks",
-      "subtitle": "Original-site output rates · higher is faster · Sep 11, 2026",
+      "title": "GLM-5.3-Flash \u00b7 two DGX Sparks",
+      "subtitle": "Original-site output rates \u00b7 higher is faster \u00b7 Sep 11, 2026",
       "description": "Matched fixed versus adaptive draft recipes with BF16 dense layers. Workloads and hardware differ from the Qwen chart; no cross-model ranking. Each workload uses a separate zero-based axis.",
       "series": [
         "Fixed draft",
@@ -41,28 +68,28 @@
         {
           "table": "glm",
           "metric": "Single-request prose",
-          "label": "Prose · 1 request",
+          "label": "Prose \u00b7 1 request",
           "note": "BF16 dense layers in both local recipes",
           "unit": "tokens/s"
         },
         {
           "table": "glm",
           "metric": "Eight-request aggregate prose",
-          "label": "Prose · 8 concurrent requests",
+          "label": "Prose \u00b7 8 concurrent requests",
           "note": "Aggregate throughput across the request group",
           "unit": "tokens/s"
         },
         {
           "table": "glm",
           "metric": "Single-request code",
-          "label": "Code · 1 request",
+          "label": "Code \u00b7 1 request",
           "note": "Little change on this workload",
           "unit": "tokens/s"
         },
         {
           "table": "glm",
           "metric": "Single-request counting",
-          "label": "Counting · 1 request",
+          "label": "Counting \u00b7 1 request",
           "note": "Fixed draft is slightly faster on this workload",
           "unit": "tokens/s"
         }
@@ -70,33 +97,33 @@
     },
     {
       "file": "comparisons/charts/qwen-waiting.svg",
-      "title": "Qwen · long prompts and mixed traffic",
-      "subtitle": "One DGX Spark · completed-response latency · Sep 29, 2026",
-      "description": "Matched Qwen complete recipes, four slots, 262K context. Lower is faster. Separate zero-based axes for cold context, cached context, and mixed-load latency; single matched runs, not repeated distributions.",
+      "title": "Qwen \u00b7 long prompts and mixed traffic",
+      "subtitle": "One DGX Spark \u00b7 completed-response latency \u00b7 Sep 29, 2026",
+      "description": "Matched Qwen complete recipes, four backend slots, 262K context; single workload requests and sample sizes vary. Lower is faster. Separate zero-based axes for cold context, cached context, and mixed-load latency; single matched runs, not repeated distributions.",
       "series": [
-        "Cooperative EXL3",
-        "Affine4"
+        "Cooperative EXL3 \u00b7 Sep 29",
+        "Affine4 \u00b7 Sep 29"
       ],
-      "footer": "Single matched runs. Cold means fresh prompt, not cold OS or SSD cache.",
+      "footer": "Single matched runs. Cold means fresh prompt, not cold OS or SSD cache. Historical tests; exact image identity is not linked.",
       "panels": [
         {
           "table": "qwen",
-          "metric": "Cold 253,843-token prompt, complete JSON response ↓",
-          "label": "Fresh 253,843-token prompt · complete JSON",
+          "metric": "Cold 253,843-token prompt, complete JSON response \u2193",
+          "label": "Fresh 253,843-token prompt \u00b7 complete JSON",
           "note": "53 output tokens in each arm; lower is faster",
           "unit": "s"
         },
         {
           "table": "qwen",
-          "metric": "Cached appended prompt, complete response ↓",
-          "label": "Cached prompt + appended turn · complete response",
+          "metric": "Cached appended prompt, complete response \u2193",
+          "label": "Cached prompt + appended turn \u00b7 complete response",
           "note": "Reuses the long-prompt cache; lower is faster",
           "unit": "s"
         },
         {
           "table": "qwen",
-          "metric": "Short-request p95 during mixed long/short traffic ↓",
-          "label": "Short-request p95 · mixed long / short traffic",
+          "metric": "Short-request p95 during mixed long/short traffic \u2193",
+          "label": "Short-request p95 \u00b7 mixed long / short traffic",
           "note": "20 short arrivals + two ~131K prompts; lower is faster",
           "unit": "s"
         }
@@ -104,28 +131,28 @@
     },
     {
       "file": "comparisons/charts/qwen-tails.svg",
-      "title": "Qwen · the reasoning latency tradeoff",
-      "subtitle": "One DGX Spark · thinking on, uncapped · Sep 29, 2026",
+      "title": "Qwen \u00b7 the reasoning latency tradeoff",
+      "subtitle": "One DGX Spark \u00b7 thinking enabled; no extra reasoning cap \u00b7 Sep 29, 2026",
       "description": "P95 completed-response latencies for fresh reasoning and executable coding fixtures, lower is faster. The samples do not establish broad model quality. Each workload uses a separate zero-based axis.",
       "series": [
-        "Cooperative EXL3",
-        "Affine4"
+        "Cooperative EXL3 \u00b7 Sep 29",
+        "Affine4 \u00b7 Sep 29"
       ],
-      "footer": "Nearest-rank p95; 20 coding tasks makes this the second-slowest result.",
+      "footer": "Nearest-rank p95; 20 coding tasks makes this the second-slowest result. Historical tests; exact image identity is not linked.",
       "panels": [
         {
           "table": "qwen",
-          "metric": "Fresh reasoning latency, median / p95 ↓",
+          "metric": "Fresh reasoning latency, median / p95 \u2193",
           "ref_index": 1,
-          "label": "Fresh reasoning · p95 of 196 fixtures",
+          "label": "Fresh reasoning \u00b7 p95 of 196 fixtures",
           "note": "Sampled reasoning: temperature 1, top-p .95, top-k 20",
           "unit": "s"
         },
         {
           "table": "qwen",
-          "metric": "Coding latency, median / p95 ↓",
+          "metric": "Coding latency, median / p95 \u2193",
           "ref_index": 1,
-          "label": "Executable coding · p95 of 20 tasks",
+          "label": "Executable coding \u00b7 p95 of 20 tasks",
           "note": "Both passed 20/20; no measured coding-quality gain",
           "unit": "s"
         }

@@ -98,3 +98,27 @@ initial normalization changes neither serving state nor the existing choices.
   explicitly date historical public GLM figures and link to newer reports.
 - Complete local checks and desktop/mobile visual review. Hold publication for
   the user's review of the rendered preview; no infrastructure or new benchmark.
+
+## Qwen EXL3 recommendation and C1/C4 evidence — issue #10
+
+- Recommend cooperative EXL3 with a new immutable decision snapshot linked to
+  retained EXL3 evidence; leave prior Affine4 and Qwen decisions untouched.
+- Register the retained cooperative source kit as a standalone catalog recipe.
+  Keep its fresh public-source GPU build and destination install qualification
+  distinct from historical measured images.
+- Preserve the September 29 comparison values as a dated historical test and
+  label C4 as aggregate output across four concurrent benchmark requests. Keep
+  engine slots, client concurrency, runtime and model pack distinctions plain.
+- Record fresh C1 and C4 measurements only from the same identified image/run
+  cohort; keep one-request throughput, C4 aggregate throughput and per-request
+  decode rate distinct. Do not promote earlier one-slot results as recipe C4.
+- Retain Affine4 as an alternative for long-prompt completion and mixed-traffic
+  latency; its source-build qualification applies only to Affine4.
+- Treat TensorFold 0.6.0 as an upstream evaluation lead. Its reported speed
+  changes are for NVFP4 and do not establish a gain for this EXL3 checkpoint.
+
+The initial documentation update does not claim a fresh public-source GPU build
+or a completed destination acceptance. Deployment verification and publication
+remain separate operator-controlled actions. Re-render README/charts, refresh
+the explicit release allowlist and nested source manifest, then run comparison,
+immutable-history, recipe and exporter checks before publication review.

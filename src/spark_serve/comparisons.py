@@ -114,7 +114,7 @@ def render(root):
         hardware = f"{model['sparks']} Spark" + ('s' if model['sparks'] > 1 else '')
         choices.append([hardware, f"[**{model['name']} · {chosen['label']}**]({chosen['guide']})"])
     rendered = {'choices': table(['Your hardware', 'Recommended recipe · build and run'], choices)}
-    for name in ('qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
+    for name in ('qwen-restored-throughput', 'qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
         rendered[name] = f'![{name.replace("-", " ")} comparison; numeric equivalent in the table below](comparisons/charts/{name}.svg)'
     def row(table_id, metric):
         matches = [r for r in data['tables'][table_id]['rows'] if r['metric'] == metric]
@@ -125,9 +125,9 @@ def render(root):
         return [cell(root, c) for c in row(table_id, metric)['cells']]
     cold = pair('qwen', 'Cold 253,843-token prompt, complete JSON response ↓')
     mixed = pair('qwen', 'Short-request p95 during mixed long/short traffic ↓')
-    rendered['gains'] = (f"Affine4 completed the fresh long-prompt check in **{cold[1]}**, "
+    rendered['gains'] = (f"In the September 29 test, Affine4 completed the fresh long prompt in **{cold[1]}**, "
                          f"versus **{cold[0]}** for EXL3. Mixed-traffic short-request p95 was "
-                         f"**{mixed[1]}**, versus **{mixed[0]}**.")
+                         f"**{mixed[1]}** for Affine4 and **{mixed[0]}** for EXL3.")
     prose_c1 = pair('glm', 'Single-request prose')
     prose_c8 = pair('glm', 'Eight-request aggregate prose')
     rendered['glm-gains'] = (f"Recorded prose output rates were **{prose_c1[1]}** with adaptive drafting "

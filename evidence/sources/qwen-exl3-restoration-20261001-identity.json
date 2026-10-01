@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "operation": "Qwen production restoration to cooperative EXL3",
+  "verified_at_utc": "2026-10-01T05:09:48Z",
+  "source_receipt_sha256": "300829c9cec8f1e6113dc9bfed05fff489834b6e00b794d11b52770e5dda2d26",
+  "image": {
+    "id": "sha256:df4b6473b42eacb6ad22a784ceba7153456c92c2e3dd4bdde8e9161b7637e938",
+    "runtime": "ashhart/TensorFold",
+    "runtime_revision": "34bae79ac97da6c3ab3fe10159cf49633ce8112a",
+    "runtime_version": "0.3.6.1",
+    "model": "turboderp/Qwen3.8-Flash-Next-exl3",
+    "model_revision": "69e33439ae950f17bcbe95c98f117d80f759ab6d",
+    "model_branch": "3.05bpw_h5_ng5"
+  },
+  "configuration": {
+    "profile_sha256": "eeb2cff27730cdfcc8fe65bea8e2bcb17b9536804147a048c81822b95c4f2203",
+    "rendered_gateway_sha256": "91251c596c0fc2e1cf53e90d6f058dd6118b1bc1822c9e1654a6aa34c539dbfd",
+    "context_tokens": 262144,
+    "max_output_tokens": 8192,
+    "slots": 4,
+    "mtp_drafts": 6,
+    "cooperative_prefill_rows": 2048,
+    "decode_burst": 4,
+    "headskip": true,
+    "prompt_cache_gib": 2,
+    "snapshot_directory": "none",
+    "thinking_default": false,
+    "parallel_environment": "TF_TRIAL_PARALLEL=4"
+  },
+  "source_verification": {
+    "settings_manifest_sha256": "cfc05a01f7d4f3bd475e706e9b6b3cbcb2ea81191d2e4333afc0ac1c60d69614",
+    "settings_manifest_fields": "prefill_rows=2048, decode_burst=4, cooperative=1, final_head=1, mtp_drafts=6, parallel=4",
+    "installed_launcher_sha256": "567a471d59188a17567524fdc10353149240d6b4f23e1d2c96f98499aa0c7b9f",
+    "installed_launcher_matches_reviewed_source": true
+  },
+  "validation": {
+    "method": "Existing guarded rollback operation; compare-and-swap accepted the original profile and rendered hashes, retained the cluster configuration digest, and restored the saved profile and gateway hashes.",
+    "active_container_image_matches_pin": true,
+    "container_launch_arguments_confirm_context_slots_mtp_cache_and_no_thinking": true,
+    "lifecycle_readiness": "ready",
+    "named_api_text_roundtrip": "passed",
+    "named_api_typed_tool_roundtrip": "passed",
+    "installed_hermes_typed_tool_roundtrip": "passed",
+    "installed_pi_roundtrip": "not requalified: the Pi SDK fixture produced no output during an approximately 100-second attempt; no result was returned",
+    "other_model_routes": "configuration digest unchanged; no other model was started"
+  },
+  "benchmark": {
+    "started_utc": "2026-10-01T04:59Z",
+    "start_precision_note": "The harness did not persist a start timestamp; command start is known to the minute.",
+    "last_result_write_utc": "2026-10-01T05:04:06Z",
+    "target": "Qwen named model route",
+    "repetitions": 3,
+    "client_counts": [
+      1,
+      4
+    ],
+    "completion_cap_tokens": 512,
+    "temperature": 0,
+    "thinking": false,
+    "requests": 48,
+    "passed_nonempty_transport_gates": 48,
+    "finish_reasons": {
+      "length": 48
+    },
+    "cache": "No cache reset; runtime reported cached=0 for each measured request.",
+    "aggregate_tokens_per_second_median": {
+      "c1_code": 86.39097030222648,
+      "c1_prose": 43.94001557347816,
+      "c4_code": 163.17962266743493,
+      "c4_prose": 88.55153509730094
+    },
+    "decode_tokens_per_second_median": {
+      "c1_code": 91.8234380665067,
+      "c1_prose": 45.02555983113011,
+      "c4_code": 46.00105413531978,
+      "c4_prose": 24.184628481880445
+    },
+    "evidence": "Detailed per-request records remain in private operational storage."
+  },
+  "compatibility": {
+    "strict_response_format_schema_normalization": "Not available on the restored EXL3 route; this was an Affine4-specific opt-in policy and was not shimmed.",
+    "spark_reliability_budget_policy": "Not available on the restored EXL3 route; this Affine4-specific opt-in was not shimmed."
+  },
+  "redactions": [
+    "Private raw-capture filesystem path omitted.",
+    "Private host and route details omitted."
+  ]
+}

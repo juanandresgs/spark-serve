@@ -21,10 +21,9 @@ git clone https://github.com/juanandresgs/spark-serve.git
 cd spark-serve
 ```
 
-- **One Spark → [Qwen Affine4 quick start](recipes/qwen38-flash-affine4-1spark/README.md).**
-  Download the pinned weights, build the Docker image, and run it on your Spark.
-  Allow at least 180 GB of disk and 100 GiB of available host memory. Affine4 is
-  a **standalone Docker recipe**; the broker's `recipes prepare` cannot install it.
+- **One Spark → [Qwen cooperative EXL3 source guide](experiments/qwen-tensorfold-cooperative/README.md).**
+  Follow its pinned build and run steps. It is a **standalone Docker recipe**; the broker's
+  `recipes prepare` cannot install it.
 - **Two Sparks → [GLM adaptive DFlash2 guide](recipes/glm53-flash-adaptive-2spark/README.md).**
   Follow the [deployment walkthrough](REPRODUCTION.md) to supply your host,
   storage and network bindings, build the runtime, and validate your pair.
@@ -38,48 +37,79 @@ PYTHONPATH=src python3 -m spark_serve recipes options
 # Narrow the list with --model qwen or --model glm; add --json before recipes.
 ```
 
-## Qwen: choose Affine4 for long prompts and interactive traffic
+## Qwen: cooperative EXL3 is the recommended starting point
 
-Our one-Spark comparison gives Affine4 the edge on long prompts, mixed traffic,
-and prose. **Cooperative EXL3 is faster on the measured code workload and has
-shorter reasoning tails.** Both remain available.
+Choose cooperative EXL3 for its measured coding throughput and reasoning
+latency. Choose Affine4 when long-prompt completion and mixed-traffic latency
+matter more. These one-Spark tests do not establish overall parity with a
+two-Spark system.
+
+### Fresh C1/C4 test on the restored EXL3 image · October 1
+
+Both settings used the same identified EXL3 image and four configured backend
+slots. C1 used one active client; C4 used four simultaneous clients.
+
+{{qwen-restored-throughput}}
+
+{{qwen-restored}}
+
+<details>
+<summary>Per-request decode-rate proxies, separate from group throughput</summary>
+
+{{qwen-restored-decode}}
+
+</details>
+
+The October 1 test used the deployed EXL3 image, TensorFold 0.3.6.1 and the
+pinned EXL3 model revision. The public source kit has not been independently
+GPU-rebuilt with full performance qualification. See the [recipe guide](experiments/qwen-tensorfold-cooperative/README.md)
+and [structured run receipts](evidence/runs/).
+
+### Historical September 29 complete-recipe comparison
 
 {{qwen-throughput}}
 
-These are complete recipes with different TensorFold versions, four request
-slots and 262K configured context. Output speed includes prefill and the whole
-request group's elapsed time. Higher is faster; C4 means four concurrent
-requests. Each workload has its own axis.
+TensorFold versions and model packs differ in this historical test. C4 rates
+aggregate output over a whole four-request group, including prefill; they are
+not per-client rates. Engine slots describe backend capacity, while client
+concurrency describes requests offered by the benchmark. These results do not
+isolate runtime-engine effects from quantization effects.
 
 {{gains}}
 
 {{qwen-waiting}}
 
-The long-prompt figure measures a **completed, validated JSON answer**, not time
+The historical September 29 figures do not establish the exact image identity of
+every run. The long-prompt figure measures a **completed, validated JSON answer**, not time
 to first token. Latency is elapsed waiting time; lower is faster. The median is
 the middle result; p95 describes the slow end. Single context/mixed runs and
 small tail samples are observations, not guarantees.
 
-### The tradeoff: thinking can take longer
+This is a comparison of complete configurations: TensorFold versions and
+scheduling differ, as do the EXL3 3.05 bpw and Affine4 4-bit model packs. It does
+not isolate a runtime-engine effect from a quantization effect.
 
-Both recipes passed 20/20 executable coding tasks in our small synthetic suite.
-Affine4 took longer on the slowest part of that distribution, without a measured
-coding-quality gain. This matters if you need predictable interactive latency.
+### Affine4 remains an alternative for long prompts and mixed traffic
+
+Both recipes passed 20/20 executable coding tasks in a small synthetic suite;
+this does not establish a coding-quality difference. Affine4 retains stronger
+measured long-prompt completion and mixed-traffic short-request latency. Its
+fresh public-source build qualification covers bounded API, tool and token-replay
+checks, not its historical performance test.
 
 {{qwen-tails}}
 
-The recommendation keeps reasoning uncapped. An optional 2,048-token reasoning
-cap improved coding p95 in a bounded follow-up but can truncate useful reasoning;
-test that policy on your own workload. These fixtures do not establish broad
-coding superiority. See [performance and methodology](recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
+The small reasoning and coding samples do not establish broad model quality. See [EXL3 methodology](experiments/qwen-tensorfold-cooperative/METRICS.md)
+and [Affine4 performance and methodology](recipes/qwen38-flash-affine4-1spark/PERFORMANCE.md).
 
 <details>
 <summary>Qwen numbers, correctness scores and median / p95 timings</summary>
 
 {{qwen}}
 
-The reasoning totals exclude repeated fixtures. Quality uses sampled thinking;
-speed and context checks use thinking off. Correctness is separate from speed.
+Reasoning and coding correctness/latency use sampled thinking; C4 throughput
+and context checks use thinking off. Repeated reasoning fixtures are excluded
+from the totals. Correctness is separate from speed.
 
 </details>
 
@@ -110,7 +140,7 @@ long-context checks and five structured-tool/mixed checks. Configured context is
 
 ## What you can rely on—and what still needs testing
 
-**Qwen:** the shared sources were independently rebuilt on a Spark. That build
+**Affine4:** the shared sources were independently rebuilt on a Spark. That build
 passed 11 API checks, 36 tool/API checks, six exact sampled token replays,
 10 adapter tests and a real file-reader check. The performance and quality
 results above belong to the qualified production image; they were not rerun in
@@ -137,7 +167,7 @@ rates, and public prefill latency differs from our completed-response latency.
 
 {{public}}
 
-Public Qwen uses TensorFold 0.3.6.3; our selected recipe uses 0.3.6.2. GLM's
+Public Qwen uses TensorFold 0.3.6.3; the local EXL3 test uses TensorFold 0.3.6.1. GLM's
 pinned prose figure is from September 8 with FP8 dense layers and a 14 GiB KV
 budget; our local recipe retains BF16 dense layers with 11 GiB KV. Its public
 structured/code figures are a separate August 28 workload.
