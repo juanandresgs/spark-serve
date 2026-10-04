@@ -302,7 +302,104 @@ Reasoning and coding correctness/latency use sampled thinking; concurrency for t
 
 </details>
 
-## GLM: adaptive drafting on two Sparks
+## GLM production evidence: retained prefixes on two Sparks · October 4
+
+At the October 4 final verification, the original site served GLM with
+TensorFold 0.6.0, twelve-layer interleaving and recompute-aware prefix
+retention. This **installed runtime is
+different from the portable adaptive DFlash2 recipe linked above**. The
+comparison below describes one original-site experiment; it does not qualify
+that portable package or provide a public build of the retention change.
+
+![GLM retention sequence, cold first-output, and cached follow-up comparison; numeric equivalent below](comparisons/charts/glm-retention-20261004.svg)
+
+| Observed measure | r4 + LRU control | r4 + retention candidate |
+| --- | ---: | ---: |
+| Ten-request sequence elapsed | 5,446.847 s | 3,131.098 s |
+| Sequence output tokens | 15,092 | 14,353 |
+| Sequence output tokens / full wall second | 2.771 tok/s | 4.584 tok/s |
+| Strict task passes | 7/10 | 8/10 |
+| Cold 841K first output; cached input | 1652.050 s; 0 | 1648.670 s; 0 |
+| Long follow-up complete; cached input | 1660.614 s; 0 / 841,670 | 5.047 s; 841,604 / 841,665 |
+
+The candidate took **42.515% less elapsed time** for this fixed-budget sequence,
+with one active request on each of two separate two-Spark pairs. It did **not**
+complete an equally successful workload: both arms failed strict bare-JSON
+formatting on the two long retrievals, and the LRU control exhausted its
+8,192-token output cap in reasoning on a code revisit without usable code.
+Candidate and control produced different output lengths and their actual long
+follow-up histories differed by five input tokens. The cold request had zero
+cached tokens on both arms and similar time to first output. The large follow-up
+difference reflects retained prefix reuse after eviction, **not faster cold
+prefill or decode**. Sequence output tok/s divides all output tokens by full
+sequence wall time, including prefill; it is not a per-request decode rate.
+
+<details>
+<summary>Method, qualification and source boundary</summary>
+
+Each arm ran the same ten user tasks in order: cold near-limit retrieval, four
+separate ~131K workspaces, a long conversation follow-up, then four workspace
+revisits. Both used the same GLM weights, 850K context, 8,192 output reserve,
+four configured streams and one active request at a time. The candidate used
+recompute-aware retention; the other pair used LRU. The pairs were not swapped,
+so this is a screening result rather than a replicated hardware crossover or a
+concurrent-throughput benchmark. The actual assistant responses enter follow-up
+prompts, so those prompts are not byte-identical. The cold input was 841,604
+tokens on both arms; the follow-up inputs were 841,665 and 841,670 tokens.
+
+The original-site candidate passed bounded non-format task checks, selective
+cancellation/retry, two fresh-parent near-limit branches, the final API suite
+(10/10), and an installed client tool roundtrip. An actual rollback to the prior
+V18 images/profile and client check passed before final promotion. A resource
+sample observed at least 5.321 GiB available on the production head without a
+new OOM or 5 GiB guard breach. These are bounded checks, not broad quality,
+four-client throughput, pending-snapshot-budget, or endurance qualification.
+
+The [sanitized numeric projection](comparisons/glm-production-20261004.json)
+includes all ten rows per arm, timing definitions, strict grades and SHA-256
+digests of the private original-site receipts. The raw captures and internal
+deployment details remain private. The graph and table are generated from that
+projection, and the comparison check rejects stale output. The
+[claim-to-receipt ledger](comparisons/GLM-20261004-REVIEW.md) records the
+scope of each conclusion.
+
+</details>
+
+### Earlier interleaving screen against V18
+
+Before retention was added, r4/interleave12 and V18 ran sequentially on the
+intended production pair with matched input hashes and prompt/cache token
+vectors. The cold C8 sent one near-limit request alongside seven ~131K tasks;
+warm C16 reused prefixes. This comparison does **not** isolate the later
+retention policy.
+
+| Production-pair screen | V18 baseline | r4 / interleave12 |
+| --- | ---: | ---: |
+| Cold C8 full cohort elapsed | 2,663.899 s | 2,779.720 s |
+| Cold C8 output / elapsed | 15,309 / 5.747 tok/s | 19,678 / 7.079 tok/s |
+| Cold C8 strict passes | 7/8 | 7/8 |
+| 841K code request first output / complete | 2,558.045 / 2,661.182 s | 2,687.649 / 2,776.915 s |
+| Warm C16 full cohort elapsed | 597.354 s | 809.629 s |
+| Warm C16 output / elapsed | 31,080 / 52.029 tok/s | 41,763 / 51.583 tok/s |
+| Warm C16 strict passes | 15/16 | 15/16 |
+
+All seven medium tasks in the initially cold C8 cohort passed; four reused
+exact prefixes within the cohort. C8 means eight clients, with four configured
+engine streams, rather than eight simultaneous execution streams. The r4
+cohorts produced more total output tokens. The 841K code request was the sole
+strict failure in each C8 and C16 cohort: generated code met the syntax and
+retrieval checks but failed the frozen sandbox behavior check.
+Its full cold cohort and 841K request took longer than V18. Warm aggregate
+output rates were close while r4 generated more tokens and used more wall time.
+These observations are workload-specific, not a general code-productivity,
+cold-prefill, near-limit, or warm-throughput gain. Full-group tok/s is total
+output tokens divided by the cohort wall time, including queue and prefill;
+per-request decode rates in the [numeric projection](comparisons/glm-production-20261004.json)
+use the first-to-last output-event interval and exclude queue/prefill. The
+separate same-budget retention sequence above has **one** active request per
+arm; C8 and C16 here are different concurrent tests.
+
+## GLM historical portable recipe: adaptive drafting on two Sparks
 
 DFlash2 drafts tokens ahead, then verifies them against the target model.
 The adaptive recipe varies the draft length while retaining BF16 dense layers
