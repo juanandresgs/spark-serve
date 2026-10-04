@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "title": "October 4, 2026 GLM same-budget retention screening",
+  "scope": "Original site, two separate two-Spark pairs. Candidate and control each run one active request at a time; four-stream engines remain configured. This is a cross-pair screening, not a hardware-swapped replication or concurrency benchmark.",
+  "configuration": {
+    "model": "GLM-5.3-Flash",
+    "runtime": "TensorFold 0.6.0",
+    "context_tokens": 850000,
+    "output_reserve_tokens_per_request": 8192,
+    "active_requests_per_arm": 1,
+    "configured_streams": 4,
+    "candidate": "r4 twelve-layer interleaving with recompute-aware prefix retention",
+    "control": "same r4 twelve-layer interleaving with LRU prefix retention"
+  },
+  "receipts": {
+    "a-sequence.json": {
+      "sha256": "18a9e9b17e8279ba59b5e6e9cac1533107321489809258455b6c519bcddc576c",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "b-sequence.json": {
+      "sha256": "2570a4403b7e858a967fc2f6964ea01b311b9e2e1aebe0bd7e35d1f9d057f512",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "comparison-reviewed.json": {
+      "sha256": "5585574443882c5a6f1d07c38715a11754410809ccc211b9119df7ffcf687151",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "promotion-decision.json": {
+      "sha256": "4dee92d24254a707a9a202bd6efc9b95563b9a080096622c764f0dd7d603a182",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "candidate-operational-reviewed.json": {
+      "sha256": "91174c935641b97b98360bcdc173e7f93bd6ce659139d79370dcd57c3ce13b8d",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "final-api.json": {
+      "sha256": "71312cb72dca0a7da7ccccec71e8ed0a6d6bcf946c158e43663b2bedda3a4aa8",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "final-client.json": {
+      "sha256": "47d751713bda8cd6d90a75821f3058b0a499784f0d06be4213559e2bcd0e6e26",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "final-stability-before-retirement.json": {
+      "sha256": "611f77a241f3acb6c6ba2690201409bd67b6ab3891cf28f9c9e0be5b72f6ecc4",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    },
+    "final-live-promoted-1791151798767695322.json": {
+      "sha256": "72638443742578c8fc9dbba039b7da3e2cc55f883893f663472a42634c39fc8a",
+      "availability": "private original-site receipt; this file is a sanitized numeric projection"
+    }
+  },
+  "arms": {
+    "candidate": {
+      "policy": "recompute",
+      "sequence_seconds": 3131.098,
+      "total_output_tokens": 14353,
+      "aggregate_output_tokens_per_second": 4.584015,
+      "strict_passes": 8,
+      "rows": [
+        {
+          "task": "long-prime",
+          "input_tokens": 841604,
+          "cached_tokens": 0,
+          "output_tokens": 285,
+          "reasoning_tokens": 250,
+          "ttft_seconds": 1648.67,
+          "complete_seconds": 1657.509,
+          "decode_tokens_per_second_after_first": 32.962,
+          "strict_pass": false,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-0",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 1409,
+          "reasoning_tokens": 1240,
+          "ttft_seconds": 223.427,
+          "complete_seconds": 260.22,
+          "decode_tokens_per_second_after_first": 38.428,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-1",
+          "input_tokens": 131082,
+          "cached_tokens": 0,
+          "output_tokens": 177,
+          "reasoning_tokens": 140,
+          "ttft_seconds": 223.663,
+          "complete_seconds": 228.72,
+          "decode_tokens_per_second_after_first": 34.803,
+          "strict_pass": true,
+          "finish_reason": "tool_calls"
+        },
+        {
+          "task": "medium-2",
+          "input_tokens": 130939,
+          "cached_tokens": 0,
+          "output_tokens": 4406,
+          "reasoning_tokens": 3078,
+          "ttft_seconds": 223.86,
+          "complete_seconds": 326.459,
+          "decode_tokens_per_second_after_first": 43.081,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-3",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 826,
+          "reasoning_tokens": 684,
+          "ttft_seconds": 223.357,
+          "complete_seconds": 244.829,
+          "decode_tokens_per_second_after_first": 38.889,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "long-continuation",
+          "input_tokens": 841665,
+          "cached_tokens": 841604,
+          "output_tokens": 101,
+          "reasoning_tokens": 66,
+          "ttft_seconds": 2.463,
+          "complete_seconds": 5.047,
+          "decode_tokens_per_second_after_first": 39.952,
+          "strict_pass": false,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-revisit-0",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 1736,
+          "reasoning_tokens": 1562,
+          "ttft_seconds": 222.694,
+          "complete_seconds": 268.467,
+          "decode_tokens_per_second_after_first": 38.051,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-revisit-1",
+          "input_tokens": 131082,
+          "cached_tokens": 131082,
+          "output_tokens": 177,
+          "reasoning_tokens": 140,
+          "ttft_seconds": 0.374,
+          "complete_seconds": 5.313,
+          "decode_tokens_per_second_after_first": 35.635,
+          "strict_pass": true,
+          "finish_reason": "tool_calls"
+        },
+        {
+          "task": "medium-revisit-2",
+          "input_tokens": 130939,
+          "cached_tokens": 130939,
+          "output_tokens": 4406,
+          "reasoning_tokens": 3078,
+          "ttft_seconds": 0.358,
+          "complete_seconds": 102.156,
+          "decode_tokens_per_second_after_first": 43.329,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-revisit-3",
+          "input_tokens": 130891,
+          "cached_tokens": 130891,
+          "output_tokens": 830,
+          "reasoning_tokens": 684,
+          "ttft_seconds": 0.411,
+          "complete_seconds": 21.799,
+          "decode_tokens_per_second_after_first": 38.82,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        }
+      ]
+    },
+    "control": {
+      "policy": "lru",
+      "sequence_seconds": 5446.847,
+      "total_output_tokens": 15092,
+      "aggregate_output_tokens_per_second": 2.770777,
+      "strict_passes": 7,
+      "rows": [
+        {
+          "task": "long-prime",
+          "input_tokens": 841604,
+          "cached_tokens": 0,
+          "output_tokens": 335,
+          "reasoning_tokens": 295,
+          "ttft_seconds": 1652.05,
+          "complete_seconds": 1660.632,
+          "decode_tokens_per_second_after_first": 39.885,
+          "strict_pass": false,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-0",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 1320,
+          "reasoning_tokens": 1197,
+          "ttft_seconds": 224.511,
+          "complete_seconds": 256.597,
+          "decode_tokens_per_second_after_first": 41.316,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-1",
+          "input_tokens": 131082,
+          "cached_tokens": 0,
+          "output_tokens": 195,
+          "reasoning_tokens": 158,
+          "ttft_seconds": 224.947,
+          "complete_seconds": 230.122,
+          "decode_tokens_per_second_after_first": 37.488,
+          "strict_pass": true,
+          "finish_reason": "tool_calls"
+        },
+        {
+          "task": "medium-2",
+          "input_tokens": 130939,
+          "cached_tokens": 0,
+          "output_tokens": 2966,
+          "reasoning_tokens": 1878,
+          "ttft_seconds": 224.932,
+          "complete_seconds": 299.954,
+          "decode_tokens_per_second_after_first": 39.614,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-3",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 839,
+          "reasoning_tokens": 690,
+          "ttft_seconds": 225.041,
+          "complete_seconds": 247.654,
+          "decode_tokens_per_second_after_first": 37.134,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "long-continuation",
+          "input_tokens": 841670,
+          "cached_tokens": 0,
+          "output_tokens": 106,
+          "reasoning_tokens": 66,
+          "ttft_seconds": 1657.537,
+          "complete_seconds": 1660.614,
+          "decode_tokens_per_second_after_first": 35.885,
+          "strict_pass": false,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-revisit-0",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 411,
+          "reasoning_tokens": 265,
+          "ttft_seconds": 225.232,
+          "complete_seconds": 237.804,
+          "decode_tokens_per_second_after_first": 32.839,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        },
+        {
+          "task": "medium-revisit-1",
+          "input_tokens": 131082,
+          "cached_tokens": 0,
+          "output_tokens": 261,
+          "reasoning_tokens": 224,
+          "ttft_seconds": 225.58,
+          "complete_seconds": 231.898,
+          "decode_tokens_per_second_after_first": 41.152,
+          "strict_pass": true,
+          "finish_reason": "tool_calls"
+        },
+        {
+          "task": "medium-revisit-2",
+          "input_tokens": 130939,
+          "cached_tokens": 0,
+          "output_tokens": 8192,
+          "reasoning_tokens": 8192,
+          "ttft_seconds": 225.498,
+          "complete_seconds": 374.941,
+          "decode_tokens_per_second_after_first": 54.837,
+          "strict_pass": false,
+          "finish_reason": "length"
+        },
+        {
+          "task": "medium-revisit-3",
+          "input_tokens": 130891,
+          "cached_tokens": 0,
+          "output_tokens": 467,
+          "reasoning_tokens": 335,
+          "ttft_seconds": 225.138,
+          "complete_seconds": 238.376,
+          "decode_tokens_per_second_after_first": 35.314,
+          "strict_pass": true,
+          "finish_reason": "stop"
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "observed_elapsed_reduction_percent": 42.515,
+    "equally_successful_completed_workloads": false,
+    "history_difference": "Long follow-up prompts include actual preceding assistant answers: candidate 841665, control 841670 input tokens. Both use the same fixed user workload, but assistant histories and output lengths differ.",
+    "failures": "Both arms fail strict bare-JSON formatting for the cold and follow-up retrieval. The control code revisit spends all 8192 output tokens in reasoning and produces no usable code; candidate passes that task.",
+    "interpretation": "Retention saves recomputation after prior prefixes have been evicted. It does not improve cold prefill in this comparison."
+  },
+  "prior_interleave_screen": {
+    "scope": "Separate October 4 production-pair sequential repeat: V18 then r4/interleave12. Mixed cold C8 has one 841665-token request plus seven medium requests; warm C16 follows. Same input hashes and prompt/cache token vectors per paired cohort, but output lengths differ. Retention policy was not in this earlier trial.",
+    "receipts": {
+      "a-mixed.json": {
+        "sha256": "ccc8e28a910af707de499fc37f1f64e9147a035b9de823d9f58e0448c007eb3a",
+        "availability": "private original-site receipt; summarized here without raw requests"
+      },
+      "a-warm.json": {
+        "sha256": "b305e57d7bd6432413ca03526f4b99b3e5ec5078057112f1418664796a07d4ff",
+        "availability": "private original-site receipt; summarized here without raw requests"
+      },
+      "c-mixed.json": {
+        "sha256": "ab22838083831cb117788e2068737a38745fb8692dfcbe5014366dd587421fc7",
+        "availability": "private original-site receipt; summarized here without raw requests"
+      },
+      "c-warm.json": {
+        "sha256": "10a5035657da8f61299561e1e683e93b5e93c68381c60e1b9eab59df21da59e5",
+        "availability": "private original-site receipt; summarized here without raw requests"
+      }
+    },
+    "arms": {
+      "v18": {
+        "cold_c8": {
+          "wall_seconds": 2663.899,
+          "output_tokens": 15309,
+          "aggregate_output_tokens_per_second": 5.747,
+          "strict_passes": 7,
+          "requests": 8,
+          "near_limit": {
+            "input_tokens": 841665,
+            "ttft_seconds": 2558.045,
+            "complete_seconds": 2661.182,
+            "output_tokens": 4190,
+            "decode_tokens_per_second": 40.722
+          }
+        },
+        "warm_c16": {
+          "wall_seconds": 597.354,
+          "output_tokens": 31080,
+          "aggregate_output_tokens_per_second": 52.029,
+          "strict_passes": 15,
+          "requests": 16
+        }
+      },
+      "interleave12": {
+        "cold_c8": {
+          "wall_seconds": 2779.72,
+          "output_tokens": 19678,
+          "aggregate_output_tokens_per_second": 7.079,
+          "strict_passes": 7,
+          "requests": 8,
+          "near_limit": {
+            "input_tokens": 841665,
+            "ttft_seconds": 2687.649,
+            "complete_seconds": 2776.915,
+            "output_tokens": 3071,
+            "decode_tokens_per_second": 34.512
+          }
+        },
+        "warm_c16": {
+          "wall_seconds": 809.629,
+          "output_tokens": 41763,
+          "aggregate_output_tokens_per_second": 51.583,
+          "strict_passes": 15,
+          "requests": 16
+        }
+      }
+    }
+  },
+  "metric_definitions": {
+    "sequence_seconds": "Controller ended minus controller started for the ten serial requests, including inter-request overhead. Request-completion times sum to 3120.519 seconds on the candidate and 5438.592 seconds on control; the remaining 10.579 and 8.255 seconds are included in sequence wall time.",
+    "aggregate_output_tokens_per_second": "Total output tokens divided by sequence wall seconds, including prefill and inter-request overhead. This is not per-request decode throughput.",
+    "ttft_seconds": "Client request start to first nonempty streamed output delta, including any prefill and queue wait.",
+    "complete_seconds": "Client request start to completed response.",
+    "decode_tokens_per_second_after_first": "Completion tokens after the first output event divided by first-to-last nonempty output-event time; excludes initial prefill and queue.",
+    "cached_tokens": "Prompt tokens reported as cached in response usage. Zero cached tokens does not imply cold boot.",
+    "strict_pass": "Frozen task-specific checker outcome; not a general quality score.",
+    "prior_group_rate": "For the earlier C8/C16 screen, total output tokens divided by whole-cohort wall time, including prefill and waiting."
+  }
+}

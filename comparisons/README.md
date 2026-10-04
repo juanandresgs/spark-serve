@@ -30,6 +30,13 @@ elsewhere. Discovery never starts, stops or migrates a model.
   measurements. `comparison_charts.py` generates accessible SVGs with each
   workload on a separate zero-based axis. Text labels distinguish both recipes;
   `<title>`/`<desc>`, Markdown alt text and nearby tables preserve numeric access.
+- `glm-production-20261004.json` is a dated, sanitized projection of the
+  original-site GLM retention screening. It retains all ten task measurements
+  and SHA-256 digests of private raw receipts without publishing raw prompts,
+  answers or deployment bindings. `spark_serve.glm_production` checks its totals
+  and generates its README table and accessible three-panel SVG. It does not
+  change the portable recipe recommendation or claim a public build of the
+  installed runtime.
 - `SOURCES.md` records the dated public-source recheck and newer upstream reports.
 - Recipe manifests retain their build settings and qualification status. The
   choices file refers to them; it does not replace or install those recipes.

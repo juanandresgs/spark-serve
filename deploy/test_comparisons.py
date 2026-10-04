@@ -10,6 +10,7 @@ import unittest
 from spark_serve.comparisons import cell, check_page, load, options, render
 from spark_serve.config import ConfigError
 from spark_serve.comparison_charts import chart_data, outputs as chart_outputs, svg
+from spark_serve import glm_production
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -94,7 +95,7 @@ class ComparisonChecks(unittest.TestCase):
             shutil.copy(ROOT / 'README.md', root / 'README.md')
             chart = root / 'comparisons/charts/qwen-throughput.svg'
             chart.write_text(chart.read_text().replace('92.64', '999.99'))
-            with self.assertRaisesRegex(ConfigError, 'Chart is stale'):
+            with self.assertRaisesRegex(ConfigError, 'stale'):
                 check_page(root)
             record = json.loads((root / 'evidence/runs/import-20260930-qwen-0-1-v1.json').read_text())
             path = root / record['measurements'][0]['source']['file']
@@ -121,6 +122,34 @@ class ComparisonChecks(unittest.TestCase):
             self.assertTrue(all(r.attrib['x'] == '24' for r in bars))
         tail = next(c for c in charts if c['file'].endswith('qwen-tails.svg'))
         self.assertEqual([round(v, 2) for v in tail['panels'][1]['values']], [25.06, 243.56])
+
+    def test_glm_production_projection_drives_chart_and_table(self):
+        data = glm_production.load(ROOT)
+        candidate = data['arms']['candidate']
+        control = data['arms']['control']
+        self.assertEqual(candidate['strict_passes'], 8)
+        self.assertEqual(control['strict_passes'], 7)
+        self.assertEqual(glm_production.row(candidate, 'long-prime')['cached_tokens'], 0)
+        self.assertEqual(glm_production.row(candidate, 'long-continuation')['cached_tokens'], 841604)
+        self.assertEqual(glm_production.row(control, 'long-continuation')['cached_tokens'], 0)
+        self.assertIn('5.047 s', glm_production.summary(data))
+        parsed = ET.fromstring(glm_production.chart_output(data))
+        ns = {'svg': 'http://www.w3.org/2000/svg'}
+        self.assertEqual(parsed.attrib['role'], 'img')
+        self.assertEqual(len([r for r in parsed.findall('.//svg:rect', ns)
+                              if r.attrib.get('height') == '25']), 6)
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for folder in ['comparisons', 'recipes', 'experiments', 'evidence']:
+                shutil.copytree(ROOT / folder, root / folder, ignore=shutil.ignore_patterns('__pycache__'))
+            shutil.copy(ROOT / 'README.md', root / 'README.md')
+            path = root / glm_production.DATA
+            projection = json.loads(path.read_text())
+            projection['arms']['candidate']['rows'][0]['ttft_seconds'] += 1
+            path.write_text(json.dumps(projection))
+            with self.assertRaisesRegex(ConfigError, 'stale'):
+                check_page(root)
 
     def test_four_arm_chart_and_explained_null_values(self):
         with tempfile.TemporaryDirectory() as temp:

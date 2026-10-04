@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1054" viewBox="0 0 600 1054" role="img" aria-labelledby="title desc">
+<title id="title">GLM retention: one ten-request sequence per pair</title>
+<desc id="desc">Observed cross-pair screening. Lower elapsed and first-output times are better. The arms differ in output length and task success; no cold-prefill gain is established. Full sequence elapsed: r4 + LRU control 5446.847 seconds, r4 + recompute retention 3131.098 seconds; Cold 841K request: first output: r4 + LRU control 1652.050 seconds, r4 + recompute retention 1648.670 seconds; Long follow-up: complete response: r4 + LRU control 1660.614 seconds, r4 + recompute retention 5.047 seconds</desc>
+<rect width="100%" height="100%" rx="12" fill="#ffffff"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#172c3d">
+<text x="24" y="36" font-size="26" font-weight="bold">GLM retention: one ten-request</text>
+<text x="24" y="64" font-size="26" font-weight="bold">sequence per pair</text>
+<text x="24" y="94" font-size="20" >October 4, 2026 · separate two-Spark pairs · one</text>
+<text x="24" y="118" font-size="20" >active request per arm</text>
+<text x="24" y="160" font-size="22" font-weight="bold">Full sequence elapsed</text>
+<text x="24" y="186" font-size="18" >Same 8192-token cap, unequal completed work</text>
+<text x="24" y="216" font-size="20" >r4 + LRU control</text>
+<rect x="24" y="224" width="426.670" height="25" rx="3" fill="#63778b"/>
+<text x="458.66968166666663" y="244" font-size="20" font-weight="bold">5446.85</text>
+<text x="24" y="278" font-size="20" >r4 + recompute retention</text>
+<rect x="24" y="286" width="245.269" height="25" rx="3" fill="#007f79"/>
+<text x="277.2693433333333" y="306" font-size="20" font-weight="bold">3131.10</text>
+<path d="M 24 348 H 494" stroke="#687c8c"/>
+<path d="M 24 348 v 5" stroke="#687c8c"/>
+<text x="24" y="374" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 348 v 5" stroke="#687c8c"/>
+<text x="259.0" y="374" font-size="20" text-anchor="middle">3000</text>
+<path d="M 494 348 v 5" stroke="#687c8c"/>
+<text x="494" y="374" font-size="20" text-anchor="middle">6000</text>
+<text x="259.0" y="397" font-size="18" text-anchor="middle">seconds</text>
+<text x="24" y="436" font-size="22" font-weight="bold">Cold 841K request: first output</text>
+<text x="24" y="462" font-size="18" >Zero cached tokens on both arms</text>
+<text x="24" y="492" font-size="20" >r4 + LRU control</text>
+<rect x="24" y="500" width="388.232" height="25" rx="3" fill="#63778b"/>
+<text x="420.23175" y="520" font-size="20" font-weight="bold">1652.05</text>
+<text x="24" y="554" font-size="20" >r4 + recompute retention</text>
+<rect x="24" y="562" width="387.437" height="25" rx="3" fill="#007f79"/>
+<text x="419.43745" y="582" font-size="20" font-weight="bold">1648.67</text>
+<path d="M 24 624 H 494" stroke="#687c8c"/>
+<path d="M 24 624 v 5" stroke="#687c8c"/>
+<text x="24" y="650" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 624 v 5" stroke="#687c8c"/>
+<text x="259.0" y="650" font-size="20" text-anchor="middle">1000</text>
+<path d="M 494 624 v 5" stroke="#687c8c"/>
+<text x="494" y="650" font-size="20" text-anchor="middle">2000</text>
+<text x="259.0" y="673" font-size="18" text-anchor="middle">seconds</text>
+<text x="24" y="712" font-size="22" font-weight="bold">Long follow-up: complete response</text>
+<text x="24" y="738" font-size="18" >Control cache miss; candidate retained prefix</text>
+<text x="24" y="768" font-size="20" >r4 + LRU control</text>
+<rect x="24" y="776" width="390.244" height="25" rx="3" fill="#63778b"/>
+<text x="422.24429000000003" y="796" font-size="20" font-weight="bold">1660.61</text>
+<text x="24" y="830" font-size="20" >r4 + recompute retention</text>
+<rect x="24" y="838" width="1.186" height="25" rx="3" fill="#007f79"/>
+<text x="33.186045" y="858" font-size="20" font-weight="bold">5.05</text>
+<path d="M 24 900 H 494" stroke="#687c8c"/>
+<path d="M 24 900 v 5" stroke="#687c8c"/>
+<text x="24" y="926" font-size="20" text-anchor="middle">0</text>
+<path d="M 259.0 900 v 5" stroke="#687c8c"/>
+<text x="259.0" y="926" font-size="20" text-anchor="middle">1000</text>
+<path d="M 494 900 v 5" stroke="#687c8c"/>
+<text x="494" y="926" font-size="20" text-anchor="middle">2000</text>
+<text x="259.0" y="949" font-size="18" text-anchor="middle">seconds</text>
+<text x="24" y="1010" font-size="18" >One screening sequence, no hardware swap. Each arm failed</text>
+<text x="24" y="1034" font-size="18" >both long strict-JSON checks.</text>
+</g></svg>

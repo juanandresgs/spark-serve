@@ -13,6 +13,7 @@ from spark_serve.config import ConfigError
 from spark_serve import evidence
 from spark_serve.recipes import asset, read_recipe, source_root
 from spark_serve.comparison_charts import outputs as chart_outputs
+from spark_serve import glm_production
 
 
 def value(root, reference, allow_null=False):
@@ -129,6 +130,13 @@ def render(root):
         hardware = f"{model['sparks']} Spark" + ('s' if model['sparks'] > 1 else '')
         choices.append([hardware, f"[**{model['name']} · {chosen['label']}**]({chosen['guide']})"])
     rendered = {'choices': table(['Your hardware', 'Recommended recipe · build and run'], choices)}
+    production = glm_production.load(root)
+    rendered['glm-production-chart'] = ('![GLM retention sequence, cold first-output, and cached '
+                                        'follow-up comparison; numeric equivalent below]('
+                                        + glm_production.CHART + ')')
+    rendered['glm-production-summary'] = glm_production.summary(production)
+    rendered['glm-production-reduction'] = f"{production['comparison']['observed_elapsed_reduction_percent']:.3f}%"
+    rendered['glm-prior-summary'] = glm_production.prior_summary(production)
     for name in ('qwen-final-v2-throughput', 'qwen-restored-throughput', 'qwen-throughput', 'glm-throughput', 'qwen-waiting', 'qwen-tails'):
         rendered[name] = f'![{name.replace("-", " ")} comparison; numeric equivalent in the table below](comparisons/charts/{name}.svg)'
     def row(table_id, metric):
@@ -178,6 +186,7 @@ def check_page(root):
     if (root / 'README.md').read_text() != render(root):
         raise ConfigError('README tables are stale: run PYTHONPATH=src python3 -m spark_serve.comparisons')
     expected = chart_outputs(root, load(root))
+    expected[glm_production.CHART] = glm_production.chart_output(glm_production.load(root))
     for rel, content in expected.items():
         path = root / rel
         if not path.is_file() or path.read_text() != content:
@@ -196,7 +205,8 @@ def main():
         check_page(root)
         print('Comparison data and generated page are consistent')
     else:
-        generated = {'README.md': render(root), **chart_outputs(root, load(root))}
+        generated = {'README.md': render(root), **chart_outputs(root, load(root)),
+                     glm_production.CHART: glm_production.chart_output(glm_production.load(root))}
         before = {rel: (root / rel).read_bytes() if (root / rel).exists() else None for rel in generated}
         for rel, content in generated.items():
             target = root / rel
