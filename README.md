@@ -377,7 +377,7 @@ retention policy.
 | Cold C8 full cohort elapsed | 2,663.899 s | 2,779.720 s |
 | Cold C8 output / elapsed | 15,309 / 5.747 tok/s | 19,678 / 7.079 tok/s |
 | Cold C8 strict passes | 7/8 | 7/8 |
-| 841K request first output / complete | 2,558.045 / 2,661.182 s | 2,687.649 / 2,776.915 s |
+| 841K code request first output / complete | 2,558.045 / 2,661.182 s | 2,687.649 / 2,776.915 s |
 | Warm C16 full cohort elapsed | 597.354 s | 809.629 s |
 | Warm C16 output / elapsed | 31,080 / 52.029 tok/s | 41,763 / 51.583 tok/s |
 | Warm C16 strict passes | 15/16 | 15/16 |
@@ -385,7 +385,9 @@ retention policy.
 All seven medium tasks in the initially cold C8 cohort passed; four reused
 exact prefixes within the cohort. C8 means eight clients, with four configured
 engine streams, rather than eight simultaneous execution streams. The r4
-answers were longer.
+cohorts produced more total output tokens. The 841K code request was the sole
+strict failure in each C8 and C16 cohort: generated code met the syntax and
+retrieval checks but failed the frozen sandbox behavior check.
 Its full cold cohort and 841K request took longer than V18. Warm aggregate
 output rates were close while r4 generated more tokens and used more wall time.
 These observations are workload-specific, not a general code-productivity,

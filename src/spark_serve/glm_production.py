@@ -109,7 +109,7 @@ def prior_summary(data):
         f"| Cold C8 full cohort elapsed | {cold_v['wall_seconds']:,.3f} s | {cold_r['wall_seconds']:,.3f} s |",
         f"| Cold C8 output / elapsed | {cold_v['output_tokens']:,} / {cold_v['aggregate_output_tokens_per_second']:.3f} tok/s | {cold_r['output_tokens']:,} / {cold_r['aggregate_output_tokens_per_second']:.3f} tok/s |",
         f"| Cold C8 strict passes | {cold_v['strict_passes']}/{cold_v['requests']} | {cold_r['strict_passes']}/{cold_r['requests']} |",
-        f"| 841K request first output / complete | {long_v['ttft_seconds']:,.3f} / {long_v['complete_seconds']:,.3f} s | {long_r['ttft_seconds']:,.3f} / {long_r['complete_seconds']:,.3f} s |",
+        f"| 841K code request first output / complete | {long_v['ttft_seconds']:,.3f} / {long_v['complete_seconds']:,.3f} s | {long_r['ttft_seconds']:,.3f} / {long_r['complete_seconds']:,.3f} s |",
         f"| Warm C16 full cohort elapsed | {warm_v['wall_seconds']:,.3f} s | {warm_r['wall_seconds']:,.3f} s |",
         f"| Warm C16 output / elapsed | {warm_v['output_tokens']:,} / {warm_v['aggregate_output_tokens_per_second']:.3f} tok/s | {warm_r['output_tokens']:,} / {warm_r['aggregate_output_tokens_per_second']:.3f} tok/s |",
         f"| Warm C16 strict passes | {warm_v['strict_passes']}/{warm_v['requests']} | {warm_r['strict_passes']}/{warm_r['requests']} |",

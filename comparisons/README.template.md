@@ -300,7 +300,9 @@ retention policy.
 All seven medium tasks in the initially cold C8 cohort passed; four reused
 exact prefixes within the cohort. C8 means eight clients, with four configured
 engine streams, rather than eight simultaneous execution streams. The r4
-answers were longer.
+cohorts produced more total output tokens. The 841K code request was the sole
+strict failure in each C8 and C16 cohort: generated code met the syntax and
+retrieval checks but failed the frozen sandbox behavior check.
 Its full cold cohort and 841K request took longer than V18. Warm aggregate
 output rates were close while r4 generated more tokens and used more wall time.
 These observations are workload-specific, not a general code-productivity,
