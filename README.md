@@ -304,8 +304,9 @@ Reasoning and coding correctness/latency use sampled thinking; concurrency for t
 
 ## GLM production evidence: retained prefixes on two Sparks · October 4
 
-The original site now serves GLM with TensorFold 0.6.0, twelve-layer
-interleaving and recompute-aware prefix retention. This **installed runtime is
+At the October 4 final verification, the original site served GLM with
+TensorFold 0.6.0, twelve-layer interleaving and recompute-aware prefix
+retention. This **installed runtime is
 different from the portable adaptive DFlash2 recipe linked above**. The
 comparison below describes one original-site experiment; it does not qualify
 that portable package or provide a public build of the retention change.
