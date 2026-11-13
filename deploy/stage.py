@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 
 from build_images import module, source_copy
-from prepare_runtime import normalize
+from prepare_runtime import inventory, normalize
 
 MODELS = {
     'glm-adaptive': [('Mia-AiLab/GLM-5.3-Flash-EXL3-TR3-4bpw', '25a44fdbf16862a46b7cc9921142c6c81350af2f'), ('incoai/GLM-5.3-Flash-DFlash2', 'dc77ff1c99eeb2df044ee3d4f0094eb033fee410')],
@@ -18,15 +18,16 @@ MODELS = {
 
 
 def runtime(root, sources, output, engine):
+    pins = json.loads((root / 'sources.json').read_text())
     if engine == 'glm-adaptive':
         rep = module(root / 'reproduce.py', 'stage_reproduce')
-        rep.prepare_e2(root, sources / 'glm-e2', output)
-        return normalize(output, engine)
+        prepared = rep.prepare_e2(root, sources / 'glm-e2', output)
+        return normalize(output, engine, prepared['source_revision'], inventory(output))
     if engine == 'qwen-single':
-        pins = json.loads((root / 'sources.json').read_text())
-        source_copy(sources / engine, output, pins['sources'][engine]['revision'])
+        revision = pins['sources'][engine]['revision']
+        source_copy(sources / engine, output, revision)
         subprocess.run(['patch', '--batch', '--fuzz=0', '-p1', '-i', str((root / 'cluster/agent-fleet/qwen-loopback.patch').absolute())], cwd=output, check=True)
-        return normalize(output, engine)
+        return normalize(output, engine, revision, inventory(output))
     from prepare_full import prepare
     return prepare(root, sources, output)
 
