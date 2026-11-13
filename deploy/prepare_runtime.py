@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Prepare portable launch source; never download weights or touch a running engine."""
 from __future__ import annotations
-import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import shutil
-import subprocess
 
 
 def replace_once(text, old, new):
@@ -15,25 +14,27 @@ def replace_once(text, old, new):
     return text.replace(old, new, 1)
 
 
-def prepare(source, output, engine):
-    source, output = source.resolve(), output.absolute()
-    if output.exists():
-        raise ValueError('Use a new output directory')
-    names = subprocess.check_output(['git', '-C', str(source), 'ls-files', '-z']).decode().split('\0')
-    if not any(names):
-        raise ValueError('Source checkout is empty')
-    for name in filter(None, names):
-        src = source / name
-        if src.is_symlink() or not src.resolve().is_relative_to(source):
-            raise ValueError('Unsafe source path')
-        dst = output / name
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(src, dst)
-        dst.chmod(src.stat().st_mode & 0o777)
-    return normalize(output, engine)
+def inventory(output):
+    root = output.resolve()
+    files = {}
+    for path in sorted(output.rglob('*')):
+        relative = path.relative_to(output)
+        if path.is_symlink() or '.git' in relative.parts:
+            raise ValueError('Unsafe prepared source path: ' + str(relative))
+        if path.is_dir():
+            continue
+        if not path.is_file() or not path.resolve().is_relative_to(root):
+            raise ValueError('Unsafe prepared source path: ' + str(relative))
+        files[str(relative)] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return files
 
 
-def normalize(output, engine):
+def normalize(output, engine, source_revision, source_files):
+    if not re.fullmatch(r'[0-9a-f]{40}', source_revision):
+        raise ValueError('Prepared source revision is not an immutable pin')
+    source_files = dict(source_files)
+    if not source_files or inventory(output) != source_files:
+        raise ValueError('Prepared source differs from the pinned staging inventory')
     path = output / 'start.sh'
     raw = path.read_bytes()
     text = raw.decode()
@@ -61,17 +62,13 @@ def normalize(output, engine):
         raise ValueError('Unsupported engine')
     path.write_text(text)
     path.chmod(0o755)
-    files = {str(p.relative_to(output)): hashlib.sha256(p.read_bytes()).hexdigest()
-             for p in sorted(output.rglob('*')) if p.is_file() and '.git' not in p.parts and p.name != 'runtime-source.json'}
-    receipt = {'engine': engine, 'files': files, 'hardware_qualified': False,
+    files = inventory(output)
+    transformed = {'start.sh'} | ({'.env'} if engine == 'qwen-single' else set())
+    if set(files) != set(source_files) | (transformed - {'start.sh'}) or any(
+            files[name] != digest for name, digest in source_files.items() if name not in transformed):
+        raise ValueError('Prepared source changed during normalization')
+    receipt = {'engine': engine, 'source_revision': source_revision,
+               'source_files': source_files, 'files': files, 'hardware_qualified': False,
                'changes': 'Site cache path and managed ownership only; serving geometry comes from the pinned profile.'}
     (output / 'runtime-source.json').write_text(json.dumps(receipt, indent=2) + '\n')
     return receipt
-
-
-if __name__ == '__main__':
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('engine', choices=['glm-adaptive', 'qwen-single'])
-    p.add_argument('--prepared-source', type=Path, required=True)
-    a = p.parse_args()
-    print(json.dumps(normalize(a.prepared_source, a.engine), indent=2))
